@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Lufga', sans-serif;
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+bdrd--24 {
+  border-radius: 24px;
+}
+
+bdrd--32 {
+  border-radius: 32px;
+}
