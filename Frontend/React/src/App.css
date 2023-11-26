@@ -222,9 +222,23 @@
   backdrop-filter: blur(7.5px);
 }
 
+.btn--like path {
+  transition: fill .3s ease-in-out, stroke .3s ease-in-out;
+}
+
 .btn--like.btn--hovered {
   border-color: #fff;
-  background: rgba(255, 255, 255, 0.50);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn--like.btn--hovered path {
+  transition: fill .3s ease-in-out, stroke .3s ease-in-out;
+  fill: inherit;
+  stroke: #fff;
+}
+
+.heart--filled {
+  fill: #d9d9d9;
 }
 
 .btn--round {
@@ -252,7 +266,7 @@
 }
 
 .hero {
-  background: url(../public/hero-bg.jpeg);
+  background: url(../public/hero-bg.jpg);
   background-size: cover;
   aspect-ratio: 1420 / 904;
   border-radius: 32px;
@@ -518,7 +532,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-image: url('/category-1.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -658,7 +671,6 @@
   background: #101010;
 }
 
-
 .swiper-pagination-bullet,
 .swiper-pagination-bullet.swiper-pagination-bullet-active,
 .swiper-pagination-bullet.swiper-pagination-bullet-active-next,
@@ -729,8 +741,6 @@
   display: flex;
   flex-direction: column;
 }
-
-
 
 .plant-card__title {
   color: #000;
@@ -1815,4 +1825,3 @@
     padding: 0 20px;
   }
 }
-

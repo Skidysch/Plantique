@@ -4,7 +4,7 @@ import SocialList from "./SocialList";
 
 export default function Footer() {
   return (
-    <div className="footer">
+    <footer className="footer">
       <img src={FooterLogo} alt="Footer logo" className="footer__logo" />
       <h3 className="footer__title">Join the Community!</h3>
       <p className="footer__description">
@@ -19,6 +19,6 @@ export default function Footer() {
           ©2023, All Right Reserved.
         </p>
       </div>
-    </div>
+    </footer>
   )
 }

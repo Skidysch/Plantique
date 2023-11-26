@@ -1,12 +1,12 @@
 import React from "react";
-import PlantLabelIcon from '/plant-label-icon.svg';
+import {PlantLabelIcon} from './SVG';
 
 export default function PlantLabel({title}) {
   return (
     <a href="#">
       <div className="plant-label">
         <div className="plant-label__icon">
-          <img src={PlantLabelIcon} alt="Plant label icon" />
+          <PlantLabelIcon />
         </div>
         <div className="plant-label__title">
           {title}

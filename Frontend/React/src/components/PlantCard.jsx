@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import Button from "./Button";
-import Heart from '/heart.svg';
-import HeartFilled from '/heart-filled.svg';
-import { ArrowRightPlant } from "./SVG";
+import { ArrowRightPlant, Heart, HeartFilled } from "./SVG";
 
 export default function PlantCard(props) {
   const [isLiked, setIsLiked] = useState(false);
@@ -11,9 +9,6 @@ export default function PlantCard(props) {
     setIsLiked(!isLiked);
   }
 
-  const heart = <img src={Heart} />
-  const heartFilled = <img src={HeartFilled} />
-
   return (
     <div className="plant-card">
       <div className="plant-card__cover">
@@ -21,7 +16,7 @@ export default function PlantCard(props) {
           <img className="plant-card__image" src={props.cover} alt="Plant card Image"/>
         </a>
         <div className="plant-card__like-button" onClick={toggleHeart}>
-          <Button content={!isLiked ? heart : heartFilled}
+          <Button content={<Heart liked={isLiked}/>}
                   btnLike={true}
                   btnRound={true}
                   size={60} />

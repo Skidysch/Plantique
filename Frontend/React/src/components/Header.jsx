@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 import Button from "./Button";
 import { Logo, Search } from "./SVG";
 
@@ -8,13 +10,13 @@ export default function Header({ scrollOpacity}) {
   }
   
   return (
-    <div className="header" style={headerStyle}>
+    <header className="header" style={headerStyle}>
       <ul className="header__list">
-        <a href="/">
+        <Link to="/">
           <li>
             <Button content={<Logo />} btnRound={true} size={60}/>
           </li>
-        </a>
+        </Link>
         <li>
           <Button content='Contact' btnHeader={true}/>
         </li>
@@ -30,11 +32,11 @@ export default function Header({ scrollOpacity}) {
           <Button content='Shop' btnHeader={true}/>
         </li>
         <li>
-          <a href="#">
+          <Link to={'/login'}>
             <Button content='Log in' btnHeader={true}/>
-          </a>
+          </Link>
         </li>
       </ul>
-    </div>
+    </header>
   )
 }
