@@ -18,10 +18,10 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
-    full_name = Column(String, index=True)
+    full_name = Column(String, index=True, nullable=True)
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
-    birth_date = Column(Date)
+    birth_date = Column(Date, nullable=True)
     role = Column(Enum('Admin', 'User', name='user_roles'))
     is_active = Column(Boolean, default=True)
 

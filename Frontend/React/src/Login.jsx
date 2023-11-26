@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { Form } from "react-router-dom";
+import { Form, redirect } from "react-router-dom";
 import Button from "./components/Button";
+
+import './styles/Login.css';
 
 export async function action() {
   alert("log in");
+  return redirect('/');
 }
 
 export function Login() {  

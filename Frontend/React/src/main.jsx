@@ -6,11 +6,11 @@ import {
 } from 'react-router-dom';
 
 import App from './App'
-import ErrorPage from './ErrorPage'
-import { Login, action as loginAction} from './Login';
-
-import './index.css'
 import Index from './Index';
+import { Login, action as loginAction} from './Login';
+import ErrorPage from './ErrorPage'
+
+import './styles/index.css'
 
 const router = createBrowserRouter([
   {

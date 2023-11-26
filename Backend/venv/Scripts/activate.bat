@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Projects\Plantique\Backend\venv
+set VIRTUAL_ENV=C:\Program Files (x86)\Projects\Plantique\Backend\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

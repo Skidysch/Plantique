@@ -6,8 +6,7 @@ import MobileHeaderBreakpoint from './components/responsive/MobileHeaderBreakpoi
 import MobileHeader from './components/MobileHeader';
 import HeaderBreakpoint from './components/responsive/HeaderBreakpoint';
 
-import './App.css';
-import './index.css';
+import './styles/App.css';
 import { Outlet } from 'react-router-dom';
 
 
