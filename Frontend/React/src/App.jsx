@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from './components/Header';
-import Hero from './components/Hero';
-import Purpose from './components/Purpose';
-import Collection from './components/Collection';
-import Offering from './components/Offering';
-import Questions from './components/Questions';
 import Footer from './components/Footer';
 import MobileHeaderBreakpoint from './components/responsive/MobileHeaderBreakpoint';
 import MobileHeader from './components/MobileHeader';
@@ -13,6 +8,8 @@ import HeaderBreakpoint from './components/responsive/HeaderBreakpoint';
 
 import './App.css';
 import './index.css';
+import { Outlet } from 'react-router-dom';
+
 
 function App() {
   const [scrollOpacity, setScrollOpacity] = useState(0);
@@ -47,11 +44,9 @@ function App() {
                 scrollOpacity={scrollOpacity}
         />
       </MobileHeaderBreakpoint>
-      <Hero />
-      <Purpose />
-      <Collection />
-      <Offering />
-      <Questions />
+      <main className="main">
+        <Outlet />
+      </main>
       <Footer />
     </div>
   )
