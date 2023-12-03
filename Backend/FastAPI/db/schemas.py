@@ -91,7 +91,6 @@ class Plant(PlantBase):
 
 class PlantCreate(PlantBase):
     categories: List[int] = []
-    # categories: List[Type["Category"]] = []
 
 
 class PlantUpdate(BaseModel):
@@ -104,7 +103,6 @@ class PlantUpdate(BaseModel):
     stock_available: Optional[bool] = None
     stock_quantity: Optional[int] = None
     categories: Optional[List[int]] = None
-    # categories: Optional[List[Type["Category"]]] = None
 
 
 # Categories
@@ -132,7 +130,6 @@ class Category(CategoryBase):
 class CategoryCreate(CategoryBase):
     collection_id: int
     plants: List[int]
-    # plants: List[Type["Plant"]] = []
 
 
 class CategoryUpdate(BaseModel):
@@ -165,8 +162,7 @@ class Collection(CollectionBase):
 
 
 class CollectionCreate(CollectionBase):
-    categories: List[int]
-    # categories: List[Type["Category"]] = []
+    pass
 
 
 class CollectionUpdate(BaseModel):
@@ -174,7 +170,6 @@ class CollectionUpdate(BaseModel):
     slug: Optional[str] = None
     link: Optional[str] = None
     description: Optional[str] = None
-    categories: Optional[List[int]] = None
 
 
 PlantCreate.model_rebuild()
