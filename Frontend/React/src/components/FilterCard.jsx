@@ -19,7 +19,7 @@ export default function FilterCard(props) {
   }
 
   return (
-    <div className={"filter-card " + hoverClass}
+    <li className={"filter-card " + hoverClass}
          style={styles}
          onMouseEnter={handleMouseEnter}
          onMouseLeave={handleMouseLeave}
@@ -38,6 +38,6 @@ export default function FilterCard(props) {
         <PlantLabel title="Piperaceae"/>
         <PlantLabel title="Araceae"/>
       </div>
-    </div>
+    </li>
   )
 }

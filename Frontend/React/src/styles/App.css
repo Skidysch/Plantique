@@ -266,7 +266,7 @@
 }
 
 .hero {
-  background: url('/hero-bg.jpg');
+  background: url('/hero-bg.jpeg');
   background-size: cover;
   aspect-ratio: 1420 / 904;
   border-radius: 32px;
@@ -519,13 +519,14 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
+
 }
 
 .filter-card {
   position: relative;
   overflow: hidden;
   min-width: 300px;
-  width: calc(100% / 3);
+  width: calc(100% / 4);
   min-height: 411px;
   padding: 10px;
   border-radius: 20px;
@@ -540,7 +541,7 @@
 }
 
 .filter-card.filter-card--hovered {
-  width: 730px;
+  width: 500px;
   filter: none;
 }
 
@@ -569,7 +570,7 @@
 }
 
 .filter-card.filter-card--hovered .filter-card__title {
-  max-width: 700px;
+  max-width: 450px;
 }
 
 .filter-card__description {
@@ -1065,6 +1066,7 @@
   
   .btn--large {
     padding: 25px 45px;
+    font-size: 24px;
     max-height: 75px;
   }
   
@@ -1174,13 +1176,22 @@
     font-size: 14px;
   }
 
+  .filter__list {
+    flex-wrap: wrap;
+  }
+
+  .filter-card,
+  .filter-card.filter-card--hovered {
+    width: calc((100% - 20px) / 2);
+  }
+  
   .filter-card {
-    min-height: 300px;
-    width: calc(100% / 2);
+    min-height: 300px;  
   }
 
   .filter-card__title {
     font-size: 40px;
+    max-width: 500px;
   }
 
   .filter-card__description {
@@ -1325,6 +1336,7 @@
   .btn--large {
     border-radius: 35px;
     padding: 20px 40px;
+    font-size: 20px;
     max-height: 65px;
   }
 
@@ -1379,9 +1391,9 @@
     gap: 40px;
   }
 
-  .filter-card:nth-child(3) {
+  /* .filter-card:nth-child(3) {
     display: none;
-  }
+  } */
 
   .plants__list {
     gap: 10px;
@@ -1428,6 +1440,7 @@
 
   .btn--large {
     padding: 15px 25px;
+    font-size: 18px;
     border-radius: 15px;
   }
 
@@ -1568,9 +1581,9 @@
     min-height: 250px;
   }
 
-  .filter-card:nth-child(3) {
+  /* .filter-card:nth-child(3) {
     display: flex;
-  }
+  } */
 
   .filter-card__title {
     margin-bottom: 20px;
@@ -1729,6 +1742,7 @@
 
   .btn--large {
     padding: 15px 25px;
+    font-size: 13px;
   }
 
   .btn--92 {

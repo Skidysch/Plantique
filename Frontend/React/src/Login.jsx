@@ -1,25 +1,36 @@
-import React, { useState } from "react";
-import { Form, redirect } from "react-router-dom";
+import React from "react";
+import { Form, Link, redirect } from "react-router-dom";
 import Button from "./components/Button";
 
-import './styles/Login.css';
+import './styles/Auth.css';
 
 export async function action() {
   alert("log in");
   return redirect('/');
 }
 
-export function Login() {  
+export function Login() {
   return (
     <div className="login">
-      <Form className="login__form" method="post">
-        <input type="text" className="login__input" placeholder="Username" />
-        <input type="email" className="login__input" placeholder="Email" />
-        <input type="password" className="login__input" placeholder="Password" />
-        <div className="login__btn" type="submit">
-          <Button content={'Log in'}
-                  btnDark={true}
-          />
+      <Form className="form" method="post">
+        <div className="form__data">
+          <input type="email" className="form__input" placeholder="Email" />
+          <input type="password" className="form__input" placeholder="Password" />
+          <div className="form__btn" type="submit">
+            <Button content={'Log in'}
+                    btnDark={true}
+            />
+          </div>
+        </div>
+        <div className="register-forgot">
+          <p>
+            Don't have an account?<br/>
+            <Link className="form__link" to={'/register'}>Register</Link>
+          </p>
+          <p>
+            Forgot your password?<br/>
+            <Link className="form__link" to={'/forgot'}>Restore</Link>
+          </p>
         </div>
       </Form>
     </div>

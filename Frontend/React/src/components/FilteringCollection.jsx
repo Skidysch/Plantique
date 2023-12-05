@@ -13,6 +13,9 @@ export default function FilteringCollection() {
     'cover': '/filter-card-2.png'},
     {'title': "Succulents",
     'description': "All Succulents are cacti, but not all cacti are succulents. Both make low maintence house pants.",
+    'cover': '/filter-card-3.png'},
+    {'title': "Succulents",
+    'description': "All Succulents are cacti, but not all cacti are succulents. Both make low maintence house pants.",
     'cover': '/filter-card-3.png'}
   ]
 
