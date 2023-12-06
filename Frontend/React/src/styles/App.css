@@ -37,6 +37,10 @@
   margin: 0 auto;
 }
 
+.header--mobile__logo {
+  z-index: 101;
+}
+
 .header--mobile__list {
   list-style: none;
   display: flex;
@@ -502,17 +506,24 @@
 .collection__filtering {
   display: flex;
   flex-direction: column;
-  gap: 80px;
+  gap: 70px;
 }
 
 .collection__filters {
   display: flex;
   justify-content: space-between;
+  gap: 5px;
+}
+
+.collection__filters button {
+  text-wrap: nowrap;
 }
 
 .collection__filters__list {
   display: flex;
   gap: 10px;
+  width: 80%;
+  overflow-x: scroll;
 }
 
 .filter__list {
@@ -525,7 +536,7 @@
 .filter-card {
   position: relative;
   overflow: hidden;
-  min-width: 300px;
+  min-width: 290px;
   width: calc(100% / 4);
   min-height: 411px;
   padding: 10px;
@@ -900,6 +911,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 
 .question-card__question {
@@ -907,7 +919,6 @@
   font-size: 46.1px;
   font-weight: 800;
   letter-spacing: -0.23px;
-  cursor: pointer;
 }
 
 .question-card__button {
@@ -1388,12 +1399,8 @@
   }
 
   .collection__filtering {
-    gap: 40px;
+    gap: 30px;
   }
-
-  /* .filter-card:nth-child(3) {
-    display: none;
-  } */
 
   .plants__list {
     gap: 10px;
@@ -1475,7 +1482,8 @@
     height: 40px;
   }
 
-  .hero {
+  .hero,
+  .footer {
     border-radius: 15px;
   }
   
@@ -1563,7 +1571,7 @@
   }
 
   .collection__filtering {
-    gap: 20px;
+    gap: 15px;
   }
 
   .collection__filters__list {
@@ -1579,11 +1587,9 @@
   .filter-card.filter-card--hovered {
     width: 100%;
     min-height: 250px;
+    max-width: 500px;
+    margin: 0 auto;
   }
-
-  /* .filter-card:nth-child(3) {
-    display: flex;
-  } */
 
   .filter-card__title {
     margin-bottom: 20px;
@@ -1641,11 +1647,11 @@
   }
 
   .category-card__title {
-    font-size: 23px;
+    font-size: 30px;
   }
 
   .category-card__description {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .category-card--hovered .category-card__description {
@@ -1756,6 +1762,10 @@
 
   .purpose__text {
     font-size: 12px;
+  }
+
+  .collection__filters button {
+    max-height: 30px;
   }
 
   .filter-card__title {

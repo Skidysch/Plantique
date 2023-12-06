@@ -1,9 +1,9 @@
 import React from "react";
 import Breakpoint from "./Breakpoint";
 
-export default function MobileHeaderBreakpoint(props) {
+export default function HeaderMobileBreakpoint(props) {
   return (
-    <Breakpoint name='mobileHeader'>
+    <Breakpoint name='headerMobile'>
       {props.children}
     </Breakpoint>
   )

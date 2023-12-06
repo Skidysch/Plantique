@@ -15,11 +15,11 @@ export default function QuestionCard(props) {
 
   return (
     <div className="question-card">
-      <div className="question-card__top">
-        <h4 className="question-card__question" onClick={toggleQuestion}>
+      <div className="question-card__top" onClick={toggleQuestion}>
+        <h4 className="question-card__question">
           {props.question}
         </h4>
-        <div className={"question-card__button " + buttonExplandedClass} onClick={toggleQuestion}>
+        <div className={"question-card__button " + buttonExplandedClass}>
           <Button content={ <ArrowRightDown />}
                   btnRound={true}
                   btnLight={true}
