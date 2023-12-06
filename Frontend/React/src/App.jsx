@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
-import MobileHeaderBreakpoint from './components/responsive/MobileHeaderBreakpoint';
-import MobileHeader from './components/MobileHeader';
+import HeaderMobileBreakpoint from './components/responsive/HeaderMobileBreakpoint';
 import HeaderBreakpoint from './components/responsive/HeaderBreakpoint';
 
 import './styles/App.css';
 import { Outlet } from 'react-router-dom';
+import HeaderMobile from './components/HeaderMobile';
+import ScrollToTop from './components/Scroll';
 
 
 function App() {
@@ -33,16 +34,17 @@ function App() {
 
   return (
     <div className='wrapper'>
+      <ScrollToTop />
       <HeaderBreakpoint>
         <Header handleScroll={handleScroll}
                 scrollOpacity={scrollOpacity}
         />
       </HeaderBreakpoint>
-      <MobileHeaderBreakpoint>
-        <MobileHeader handleScroll={handleScroll}
+      <HeaderMobileBreakpoint>
+        <HeaderMobile handleScroll={handleScroll}
                 scrollOpacity={scrollOpacity}
         />
-      </MobileHeaderBreakpoint>
+      </HeaderMobileBreakpoint>
       <main className="main">
         <Outlet />
       </main>

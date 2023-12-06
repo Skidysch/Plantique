@@ -2,6 +2,7 @@ from sqlalchemy import Boolean, Column, Date, DateTime, Enum, ForeignKey, \
                        Integer, String, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+import passlib.hash as hash
 
 from .database import Base
 
@@ -36,6 +37,9 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     cart = relationship('Cart', uselist=False, back_populates='user')
     orders = relationship('Order', back_populates='user')
+
+    def verify_password(self, password: str):
+        return hash.bcrypt.verify(password, self.hashed_password)
 
 
 class Plant(Base):

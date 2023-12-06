@@ -2,3 +2,4 @@
 /Backend/venv/
 /Backend/FastAPI/**/__pycache__/
 /Backend/FastAPI/__pycache__/
+.env

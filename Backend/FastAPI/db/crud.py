@@ -1,47 +1,66 @@
-from fastapi import HTTPException
+import fastapi
+import jwt
+import passlib.hash as hash
 from sqlalchemy.orm import Session
 
 from . import models, schemas
+from services import get_db, oauth2schema, JWT_SECRET
 
-# TODO: make CRUD asynchronous
+# TODO: consider changing crud to interface
+
 
 # Users
-def get_users(db: Session, skip: int = 0, limit: int = 100) -> list[models.User] | None:
+async def get_users(db: Session, skip: int = 0, limit: int = 100) -> list[models.User] | None:
     return db.query(models.User) \
              .offset(skip) \
              .limit(limit) \
              .all()
 
 
-def get_user_by_id(db: Session, user_id: int) -> models.User | None:
+async def get_current_user(db: Session = fastapi.Depends(get_db), token: str = fastapi.Depends(oauth2schema)) -> schemas.User:
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=['HS256'])
+        user = db.query(models.User).get(payload['id'])
+    except:
+        raise fastapi.HTTPException(
+            status_code=401, detail="Invalid Email or Password"
+        )
+
+    return schemas.User.model_validate(user)
+
+
+async def get_user_by_id(db: Session, user_id: int) -> models.User | None:
     return db.query(models.User) \
              .filter(models.User.id == user_id) \
              .first()
 
 
-def get_user_by_email(db: Session, email: str) -> models.User | None:
+async def get_user_by_email(db: Session, email: str) -> models.User | None:
     return db.query(models.User) \
              .filter(models.User.email == email) \
              .first()
 
 
-def get_user_by_username(db: Session, username: str) -> models.User | None:
+async def get_user_by_username(db: Session, username: str) -> models.User | None:
     return db.query(models.User) \
              .filter(models.User.username == username) \
              .first()
 
 
-def create_user(db: Session, user: schemas.UserCreate) -> models.User:
-    # TODO: Create password hashing
-    db_user = models.User(**user.model_dump())
+async def create_user(db: Session, user: schemas.UserCreate) -> models.User:
+    password = user.model_dump().pop('password')
+    del user.password
+    hashed_password = hash.bcrypt.hash(password)
+
+    db_user = models.User(**user.model_dump(), hashed_password=hashed_password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return db_user
 
 
-def update_user(db: Session, user_id: int, updated_user: schemas.UserUpdate) -> models.User | None:
-    db_user = get_user_by_id(db, user_id)
+async def update_user(db: Session, user_id: int, updated_user: schemas.UserUpdate) -> models.User | None:
+    db_user = await get_user_by_id(db, user_id)
 
     if db_user:
         for key, value in updated_user.model_dump().items():
@@ -55,8 +74,8 @@ def update_user(db: Session, user_id: int, updated_user: schemas.UserUpdate) -> 
     return None
 
 
-def delete_user(db: Session, user_id: int) -> models.User | None:
-    db_user = get_user_by_id(db, user_id)
+async def delete_user(db: Session, user_id: int) -> models.User | None:
+    db_user = await get_user_by_id(db, user_id)
     if db_user:
         db.delete(db_user)
         db.commit()
@@ -66,26 +85,26 @@ def delete_user(db: Session, user_id: int) -> models.User | None:
 
 
 # Plants
-def get_plants(db: Session, skip: int = 0, limit: int = 100) -> list[models.Plant] | None:
+async def get_plants(db: Session, skip: int = 0, limit: int = 100) -> list[models.Plant] | None:
     return db.query(models.Plant) \
             .offset(skip) \
             .limit(limit) \
             .all()
 
 
-def get_plant_by_id(db: Session, plant_id: int) -> models.Plant | None:
+async def get_plant_by_id(db: Session, plant_id: int) -> models.Plant | None:
     return db.query(models.Plant) \
            .filter(models.Plant.id == plant_id) \
            .first()
 
 
-def get_plant_by_slug(db: Session, plant_slug: str) -> models.Plant | None:
+async def get_plant_by_slug(db: Session, plant_slug: str) -> models.Plant | None:
     return db.query(models.Plant) \
            .filter(models.Plant.slug == plant_slug) \
            .first()
 
 
-def create_plant(db: Session, plant: schemas.PlantCreate):
+async def create_plant(db: Session, plant: schemas.PlantCreate):
     category_ids = plant.categories
     del plant.categories
 
@@ -103,8 +122,8 @@ def create_plant(db: Session, plant: schemas.PlantCreate):
     return db_plant
 
 
-def update_plant(db: Session, plant_id: int, updated_plant: schemas.PlantUpdate) -> models.Plant | None:
-    db_plant = get_plant_by_id(db, plant_id)
+async def update_plant(db: Session, plant_id: int, updated_plant: schemas.PlantUpdate) -> models.Plant | None:
+    db_plant = await get_plant_by_id(db, plant_id)
 
     if db_plant:
         category_ids = db_plant.category
@@ -124,8 +143,8 @@ def update_plant(db: Session, plant_id: int, updated_plant: schemas.PlantUpdate)
     return None
 
 
-def delete_plant(db: Session, plant_id: int) -> models.Plant | None:
-    db_plant = get_plant_by_id(db, plant_id)
+async def delete_plant(db: Session, plant_id: int) -> models.Plant | None:
+    db_plant = await get_plant_by_id(db, plant_id)
     if db_plant:
         db.delete(db_plant)
         db.commit()
@@ -135,26 +154,26 @@ def delete_plant(db: Session, plant_id: int) -> models.Plant | None:
 
 
 # Category
-def get_categories(db: Session, skip: int = 0, limit: int = 100) -> list[models.Category] | None:
+async def get_categories(db: Session, skip: int = 0, limit: int = 100) -> list[models.Category] | None:
     return db.query(models.Category) \
              .offset(skip) \
              .limit(limit) \
              .all()
 
 
-def get_category_by_id(db: Session, category_id: int) -> models.Category | None:
+async def get_category_by_id(db: Session, category_id: int) -> models.Category | None:
     return db.query(models.Category) \
              .filter(models.Category.id == category_id) \
              .first()
 
 
-def get_category_by_slug(db: Session, category_slug: str) -> models.Category | None:
+async def get_category_by_slug(db: Session, category_slug: str) -> models.Category | None:
     return db.query(models.Category) \
              .filter(models.Category.slug == category_slug) \
              .first()
 
 
-def create_category(db: Session, category: schemas.CategoryCreate):
+async def create_category(db: Session, category: schemas.CategoryCreate):
     plant_ids = category.plants
     del category.plants
 
@@ -172,8 +191,8 @@ def create_category(db: Session, category: schemas.CategoryCreate):
     return db_category
 
 
-def update_category(db: Session, category_id: int, updated_category: schemas.CategoryUpdate) -> models.Category | None:
-    db_category = get_category_by_id(db, category_id)
+async def update_category(db: Session, category_id: int, updated_category: schemas.CategoryUpdate) -> models.Category | None:
+    db_category = await get_category_by_id(db, category_id)
 
     if db_category:
         plant_ids = updated_category.plants
@@ -193,8 +212,8 @@ def update_category(db: Session, category_id: int, updated_category: schemas.Cat
     return None
 
 
-def delete_category(db: Session, category_id: int) -> models.Category | None:
-    db_category = get_category_by_id(db, category_id)
+async def delete_category(db: Session, category_id: int) -> models.Category | None:
+    db_category = await get_category_by_id(db, category_id)
     if db_category:
         db.delete(db_category)
         db.commit()
@@ -204,26 +223,26 @@ def delete_category(db: Session, category_id: int) -> models.Category | None:
 
 
 # Collection
-def get_collections(db: Session, skip: int = 0, limit: int = 100) -> list[models.Collection] | None:
+async def get_collections(db: Session, skip: int = 0, limit: int = 100) -> list[models.Collection] | None:
     return db.query(models.Collection) \
             .offset(skip) \
             .limit(limit) \
             .all()
 
 
-def get_collection_by_id(db: Session, collection_id: int) -> models.Collection | None:
+async def get_collection_by_id(db: Session, collection_id: int) -> models.Collection | None:
     return db.query(models.Collection) \
            .filter(models.Collection.id == collection_id) \
            .first()
 
 
-def get_collection_by_slug(db: Session, collection_slug: str) -> models.Collection | None:
+async def get_collection_by_slug(db: Session, collection_slug: str) -> models.Collection | None:
     return db.query(models.Collection) \
            .filter(models.Collection.slug == collection_slug) \
            .first()
 
 
-def create_collection(db: Session, collection: schemas.CollectionCreate):
+async def create_collection(db: Session, collection: schemas.CollectionCreate):
     db_collection = models.Collection(**collection.model_dump())
     db.add(db_collection)
     db.commit()
@@ -232,8 +251,8 @@ def create_collection(db: Session, collection: schemas.CollectionCreate):
     return db_collection
 
 
-def update_collection(db: Session, collection_id: int, updated_collection: schemas.CollectionUpdate) -> models.Collection | None:
-    db_collection = get_collection_by_id(db, collection_id)
+async def update_collection(db: Session, collection_id: int, updated_collection: schemas.CollectionUpdate) -> models.Collection | None:
+    db_collection = await get_collection_by_id(db, collection_id)
 
     if db_collection:
         for key, value in updated_collection.model_dump().items():
@@ -248,8 +267,8 @@ def update_collection(db: Session, collection_id: int, updated_collection: schem
     return None
 
 
-def delete_collection(db: Session, collection_id: int) -> models.Collection | None:
-    db_collection = get_collection_by_id(db, collection_id)
+async def delete_collection(db: Session, collection_id: int) -> models.Collection | None:
+    db_collection = await get_collection_by_id(db, collection_id)
     if db_collection:
         db.delete(db_collection)
         db.commit()

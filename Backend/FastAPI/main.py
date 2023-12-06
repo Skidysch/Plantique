@@ -1,27 +1,32 @@
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, security
 from sqlalchemy.orm import Session
 
-from db import crud, models, schemas
-from db.database import SessionLocal, engine
+from db import crud, schemas
+import services
 
-models.Base.metadata.create_all(bind=engine)
+services.create_database()
 
 app = FastAPI()
 
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+# Token
+@app.post('/token/')
+async def generate_token(
+    form_data: security.OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(services.get_db),
+):
+    user = await services.authenticate_user(email=form_data.username, password=form_data.password, db=db)
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    return await services.create_token(user)
 
 
 # Users
 @app.get("/users/", response_model=list[schemas.User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = crud.get_users(db, skip=skip, limit=limit)
+async def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(services.get_db)):
+    users = await crud.get_users(db, skip=skip, limit=limit)
 
     if not users:
         raise HTTPException(status_code=404, detail="No users exist yet, you can be the first one")
@@ -29,9 +34,14 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return users
 
 
+@app.get("/users/current/", response_model=schemas.User)
+async def get_current_user(user: schemas.User = Depends(crud.get_current_user)):
+    return user
+
+
 @app.get("/users/{user_id}", response_model=schemas.User)
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_id(db, user_id=user_id)
+async def read_user(user_id: int, db: Session = Depends(services.get_db)):
+    db_user = await crud.get_user_by_id(db, user_id=user_id)
 
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -39,52 +49,54 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
-@app.post("/users/", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+@app.post("/users/")
+async def create_user(user: schemas.UserCreate, db: Session = Depends(services.get_db)):
     allowed_genders = {'Male', 'Female'}
 
-    if crud.get_user_by_email(db, email=user.email):
+    if await crud.get_user_by_email(db, email=user.email):
         raise HTTPException(status_code=400, detail="Email already registered")
-    if crud.get_user_by_username(db, username=user.username):
+    if await crud.get_user_by_username(db, username=user.username):
         raise HTTPException(status_code=400, detail="Username has been taken, please, create another one")
 
     if user.gender.capitalize() not in allowed_genders:
         raise HTTPException(status_code=400, detail="Invalid gender")
 
-    return crud.create_user(db=db, user=user)
+    user = await crud.create_user(db=db, user=user)
+
+    return await services.create_token(user=user)
 
 
 @app.patch("/users/{user_id}", response_model=schemas.User)
-def edit_user(user_id: int, updated_user: schemas.UserUpdate, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_id(db, user_id=user_id)
+async def edit_user(user_id: int, updated_user: schemas.UserUpdate, db: Session = Depends(services.get_db)):
+    db_user = await crud.get_user_by_id(db, user_id=user_id)
     allowed_genders = {'Male', 'Female'}
 
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
 
-    if updated_user.email and crud.get_user_by_email(db, email=updated_user.email):
+    if updated_user.email and await crud.get_user_by_email(db, email=updated_user.email):
         raise HTTPException(status_code=400, detail="User with this email already exists")
-    if updated_user.username and crud.get_user_by_username(db, username=updated_user.username):
+    if updated_user.username and await crud.get_user_by_username(db, username=updated_user.username):
         raise HTTPException(status_code=400, detail="Username has been already taken, please, create another one")
 
     if updated_user.gender and updated_user.gender.capitalize() not in allowed_genders:
         raise HTTPException(status_code=400, detail="Invalid gender")
 
-    return crud.update_user(db=db, user_id=user_id, updated_user=updated_user)
+    return await crud.update_user(db=db, user_id=user_id, updated_user=updated_user)
 
 
 @app.delete("/users/{user_id}", response_model=schemas.User)
-def delete_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_id(db, user_id=user_id)
+async def delete_user(user_id: int, db: Session = Depends(services.get_db)):
+    db_user = await crud.get_user_by_id(db, user_id=user_id)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    return crud.delete_user(db=db, user_id=user_id)
+    return await crud.delete_user(db=db, user_id=user_id)
 
 
 # Plants
 @app.get("/plants/", response_model=list[schemas.Plant])
-def read_plants(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    plants = crud.get_plants(db, skip=skip, limit=limit)
+async def read_plants(skip: int = 0, limit: int = 100, db: Session = Depends(services.get_db)):
+    plants = await crud.get_plants(db, skip=skip, limit=limit)
 
     if not plants:
         raise HTTPException(status_code=404, detail="No plants exist yet, come back in a while")
@@ -93,8 +105,8 @@ def read_plants(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 
 
 @app.get("/plants/{plant_id}", response_model=schemas.Plant)
-def read_plant(plant_id: int, db: Session = Depends(get_db)):
-    plant = crud.get_plant_by_id(db, plant_id)
+async def read_plant(plant_id: int, db: Session = Depends(services.get_db)):
+    plant = await crud.get_plant_by_id(db, plant_id)
 
     if plant is None:
         raise HTTPException(status_code=400, detail="Plant not found")
@@ -103,37 +115,37 @@ def read_plant(plant_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/plants/", response_model=schemas.Plant)
-def create_plant(plant: schemas.PlantCreate, db: Session = Depends(get_db)):
-    if crud.get_plant_by_slug(db, plant_slug=plant.slug):
+async def create_plant(plant: schemas.PlantCreate, db: Session = Depends(services.get_db)):
+    if await crud.get_plant_by_slug(db, plant_slug=plant.slug):
         raise HTTPException(status_code=400, detail="Plant with this slug already exists")
 
-    return crud.create_plant(db=db, plant=plant)
+    return await crud.create_plant(db=db, plant=plant)
 
 
 @app.patch("/plants/{plant_id}", response_model=schemas.Plant)
-def edit_plant(plant_id: int, updated_plant: schemas.PlantUpdate, db: Session = Depends(get_db)):
-    db_plant = crud.get_plant_by_id(db, plant_id=plant_id)
+async def edit_plant(plant_id: int, updated_plant: schemas.PlantUpdate, db: Session = Depends(services.get_db)):
+    db_plant = await crud.get_plant_by_id(db, plant_id=plant_id)
 
     if db_plant is None:
         raise HTTPException(status_code=404, detail="Plant not found")
-    if updated_plant.slug and crud.get_plant_by_slug(db, plant_slug=updated_plant.slug):
+    if updated_plant.slug and await crud.get_plant_by_slug(db, plant_slug=updated_plant.slug):
         raise HTTPException(status_code=400, detail="Plant with this slug already exists")
 
-    return crud.update_plant(db=db, plant_id=plant_id, updated_plant=updated_plant)
+    return await crud.update_plant(db=db, plant_id=plant_id, updated_plant=updated_plant)
 
 
 @app.delete("/plants/{plant_id}", response_model=schemas.Plant)
-def delete_plant(plant_id: int, db: Session = Depends(get_db)):
-    db_plant = crud.get_plant_by_id(db, plant_id=plant_id)
+async def delete_plant(plant_id: int, db: Session = Depends(services.get_db)):
+    db_plant = await crud.get_plant_by_id(db, plant_id=plant_id)
     if db_plant is None:
         raise HTTPException(status_code=404, detail="Plant not found")
-    return crud.delete_plant(db=db, plant_id=plant_id)
+    return await crud.delete_plant(db=db, plant_id=plant_id)
 
 
 # Categories
 @app.get("/categories/", response_model=list[schemas.Category])
-def read_categories(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    categories = crud.get_categories(db, skip=skip, limit=limit)
+async def read_categories(skip: int = 0, limit: int = 100, db: Session = Depends(services.get_db)):
+    categories = await crud.get_categories(db, skip=skip, limit=limit)
 
     if not categories:
         raise HTTPException(status_code=404, detail="No categories exist yet, come back in a while")
@@ -142,8 +154,8 @@ def read_categories(skip: int = 0, limit: int = 100, db: Session = Depends(get_d
 
 
 @app.get("/categories/{category_id}", response_model=schemas.Category)
-def read_category(category_id: int, db: Session = Depends(get_db)):
-    category = crud.get_category_by_id(db, category_id)
+async def read_category(category_id: int, db: Session = Depends(services.get_db)):
+    category = await crud.get_category_by_id(db, category_id)
 
     if category is None:
         raise HTTPException(status_code=400, detail="category not found")
@@ -152,37 +164,37 @@ def read_category(category_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/categories/", response_model=schemas.Category)
-def create_category(category: schemas.CategoryCreate, db: Session = Depends(get_db)):
-    if crud.get_category_by_slug(db, category_slug=category.slug):
+async def create_category(category: schemas.CategoryCreate, db: Session = Depends(services.get_db)):
+    if await crud.get_category_by_slug(db, category_slug=category.slug):
         raise HTTPException(status_code=400, detail="Category with this slug already exists")
 
-    return crud.create_category(db=db, category=category)
+    return await crud.create_category(db=db, category=category)
 
 
 @app.patch("/categories/{category_id}", response_model=schemas.Category)
-def edit_category(category_id: int, updated_category: schemas.CategoryUpdate, db: Session = Depends(get_db)):
-    db_category = crud.get_category_by_id(db, category_id=category_id)
+async def edit_category(category_id: int, updated_category: schemas.CategoryUpdate, db: Session = Depends(services.get_db)):
+    db_category = await crud.get_category_by_id(db, category_id=category_id)
 
     if db_category is None:
         raise HTTPException(status_code=404, detail="Category not found")
-    if updated_category.slug and crud.get_category_by_slug(db, category_slug=updated_category.slug):
+    if updated_category.slug and await crud.get_category_by_slug(db, category_slug=updated_category.slug):
         raise HTTPException(status_code=400, detail="Category with this slug already exists")
 
-    return crud.update_category(db=db, category_id=category_id, updated_category=updated_category)
+    return await crud.update_category(db=db, category_id=category_id, updated_category=updated_category)
 
 
 @app.delete("/categories/{category_id}", response_model=schemas.Category)
-def delete_category(category_id: int, db: Session = Depends(get_db)):
-    db_category = crud.get_category_by_id(db, category_id=category_id)
+async def delete_category(category_id: int, db: Session = Depends(services.get_db)):
+    db_category = await crud.get_category_by_id(db, category_id=category_id)
     if db_category is None:
         raise HTTPException(status_code=404, detail="Category not found")
-    return crud.delete_category(db=db, category_id=category_id)
+    return await crud.delete_category(db=db, category_id=category_id)
 
 
 # Collections
 @app.get("/collections/", response_model=list[schemas.Collection])
-def read_collections(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    collections = crud.get_collections(db, skip=skip, limit=limit)
+async def read_collections(skip: int = 0, limit: int = 100, db: Session = Depends(services.get_db)):
+    collections = await crud.get_collections(db, skip=skip, limit=limit)
 
     if not collections:
         raise HTTPException(status_code=404, detail="No collections exist yet, come back in a while")
@@ -191,8 +203,8 @@ def read_collections(skip: int = 0, limit: int = 100, db: Session = Depends(get_
 
 
 @app.get("/collections/{collection_id}", response_model=schemas.Collection)
-def read_collection(collection_id: int, db: Session = Depends(get_db)):
-    collection = crud.get_collection_by_id(db, collection_id)
+async def read_collection(collection_id: int, db: Session = Depends(services.get_db)):
+    collection = await crud.get_collection_by_id(db, collection_id)
 
     if collection is None:
         raise HTTPException(status_code=400, detail="Collection not found")
@@ -201,28 +213,28 @@ def read_collection(collection_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/collections/", response_model=schemas.Collection)
-def create_collection(collection: schemas.CollectionCreate, db: Session = Depends(get_db)):
-    if crud.get_collection_by_slug(db, collection_slug=collection.slug):
+async def create_collection(collection: schemas.CollectionCreate, db: Session = Depends(services.get_db)):
+    if await crud.get_collection_by_slug(db, collection_slug=collection.slug):
         raise HTTPException(status_code=400, detail="Collection with this slug already exists")
 
-    return crud.create_collection(db=db, collection=collection)
+    return await crud.create_collection(db=db, collection=collection)
 
 
 @app.patch("/collections/{collection_id}", response_model=schemas.Collection)
-def edit_collection(collection_id: int, updated_collection: schemas.CollectionUpdate, db: Session = Depends(get_db)):
-    db_collection = crud.get_collection_by_id(db, collection_id=collection_id)
+async def edit_collection(collection_id: int, updated_collection: schemas.CollectionUpdate, db: Session = Depends(services.get_db)):
+    db_collection = await crud.get_collection_by_id(db, collection_id=collection_id)
 
     if db_collection is None:
         raise HTTPException(status_code=404, detail="Collection not found")
-    if updated_collection.slug and crud.get_collection_by_slug(db, collection_slug=updated_collection.slug):
+    if updated_collection.slug and await crud.get_collection_by_slug(db, collection_slug=updated_collection.slug):
         raise HTTPException(status_code=400, detail="Collection with this slug already exists")
 
-    return crud.update_collection(db=db, collection_id=collection_id, updated_collection=updated_collection)
+    return await crud.update_collection(db=db, collection_id=collection_id, updated_collection=updated_collection)
 
 
 @app.delete("/collections/{collection_id}", response_model=schemas.Collection)
-def delete_collection(collection_id: int, db: Session = Depends(get_db)):
-    db_collection = crud.get_collection_by_id(db, collection_id=collection_id)
+async def delete_collection(collection_id: int, db: Session = Depends(services.get_db)):
+    db_collection = await crud.get_collection_by_id(db, collection_id=collection_id)
     if db_collection is None:
         raise HTTPException(status_code=404, detail="Collection not found")
-    return crud.delete_collection(db=db, collection_id=collection_id)
+    return await crud.delete_collection(db=db, collection_id=collection_id)
