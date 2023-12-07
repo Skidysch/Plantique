@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Form, Link, redirect, useActionData } from "react-router-dom";
+import { Form, Link, redirect, useActionData, useNavigate } from "react-router-dom";
 import Button from "./components/Button";
 
 import "./styles/Auth.css";
@@ -14,7 +14,7 @@ const submitLogin = async (data) => {
     ),
   };
 
-  const response = await fetch("/api/token/", requestOptions);
+  const response = await fetch("/api/token", requestOptions);
   const responseData = await response.json();
 
   if (!response.ok) {
@@ -34,14 +34,17 @@ export async function action({ request }) {
   return await submitLogin(loginData);
 }
 
-
 export default function Login() {
   const data = useActionData();
   const [, setToken] = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (data?.successMessage) {
       setToken(data.token);
+      setTimeout(() => {
+        navigate("/profile");
+      }, 1000);
     }
   }, [data]);
 
@@ -89,7 +92,7 @@ export default function Login() {
           <p>
             Forgot your password?
             <br />
-            <Link className="form__link" to={"/forgot"}>
+            <Link className="form__link" to={"/restore"}>
               Restore
             </Link>
           </p>

@@ -10,13 +10,14 @@ import ErrorPage from "./ErrorPage";
 import { UserProvider } from "./context/UserContext";
 
 import "./styles/index.css";
-import Profile from "./Profile";
+import Profile, { loader as profileLoader } from "./Profile";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
+    loader: profileLoader,
     children: [
       {
         index: true,
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <Profile />,
+        loader: profileLoader,
       }
     ],
   },

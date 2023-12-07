@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 
 import Button from "./Button";
 import { Logo, Search } from "./SVG";
@@ -9,11 +9,16 @@ export default function Header({ scrollOpacity }) {
   const headerStyle = {
     backgroundColor: `rgba(0, 50, 0, ${scrollOpacity})`,
   };
-  
+
+  const user = useLoaderData();
+
+  const [username, setUsername] = useState(user.username);
   const [token, setToken] = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     setToken(null);
+    navigate("/login");
   };
 
   return (
@@ -40,8 +45,8 @@ export default function Header({ scrollOpacity }) {
         </li>
         {token && (
           <li>
-            <Link to={'/profile'}>
-              <Button content="Profile" btnHeader={true} />
+            <Link to={"/profile"}>
+              <Button content={username} btnHeader={true} />
             </Link>
           </li>
         )}
