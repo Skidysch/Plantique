@@ -10,7 +10,7 @@ app = FastAPI()
 
 
 # Token
-@app.post('/token/')
+@app.post('/token')
 async def generate_token(
     form_data: security.OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(services.get_db),
@@ -24,7 +24,7 @@ async def generate_token(
 
 
 # Users
-@app.get("/users/", response_model=list[schemas.User])
+@app.get("/users", response_model=list[schemas.User])
 async def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(services.get_db)):
     users = await crud.get_users(db, skip=skip, limit=limit)
 
@@ -34,7 +34,7 @@ async def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(serv
     return users
 
 
-@app.get("/users/current/", response_model=schemas.User)
+@app.get("/users/current", response_model=schemas.User)
 async def get_current_user(user: schemas.User = Depends(crud.get_current_user)):
     return user
 
@@ -49,7 +49,7 @@ async def read_user(user_id: int, db: Session = Depends(services.get_db)):
     return db_user
 
 
-@app.post("/users/")
+@app.post("/users")
 async def create_user(user: schemas.UserCreate, db: Session = Depends(services.get_db)):
     allowed_genders = {'Male', 'Female'}
 
@@ -94,7 +94,7 @@ async def delete_user(user_id: int, db: Session = Depends(services.get_db)):
 
 
 # Plants
-@app.get("/plants/", response_model=list[schemas.Plant])
+@app.get("/plants", response_model=list[schemas.Plant])
 async def read_plants(skip: int = 0, limit: int = 100, db: Session = Depends(services.get_db)):
     plants = await crud.get_plants(db, skip=skip, limit=limit)
 
@@ -114,7 +114,7 @@ async def read_plant(plant_id: int, db: Session = Depends(services.get_db)):
     return plant
 
 
-@app.post("/plants/", response_model=schemas.Plant)
+@app.post("/plants", response_model=schemas.Plant)
 async def create_plant(plant: schemas.PlantCreate, db: Session = Depends(services.get_db)):
     if await crud.get_plant_by_slug(db, plant_slug=plant.slug):
         raise HTTPException(status_code=400, detail="Plant with this slug already exists")
@@ -143,7 +143,7 @@ async def delete_plant(plant_id: int, db: Session = Depends(services.get_db)):
 
 
 # Categories
-@app.get("/categories/", response_model=list[schemas.Category])
+@app.get("/categories", response_model=list[schemas.Category])
 async def read_categories(skip: int = 0, limit: int = 100, db: Session = Depends(services.get_db)):
     categories = await crud.get_categories(db, skip=skip, limit=limit)
 
@@ -163,7 +163,7 @@ async def read_category(category_id: int, db: Session = Depends(services.get_db)
     return category
 
 
-@app.post("/categories/", response_model=schemas.Category)
+@app.post("/categories", response_model=schemas.Category)
 async def create_category(category: schemas.CategoryCreate, db: Session = Depends(services.get_db)):
     if await crud.get_category_by_slug(db, category_slug=category.slug):
         raise HTTPException(status_code=400, detail="Category with this slug already exists")
@@ -192,7 +192,7 @@ async def delete_category(category_id: int, db: Session = Depends(services.get_d
 
 
 # Collections
-@app.get("/collections/", response_model=list[schemas.Collection])
+@app.get("/collections", response_model=list[schemas.Collection])
 async def read_collections(skip: int = 0, limit: int = 100, db: Session = Depends(services.get_db)):
     collections = await crud.get_collections(db, skip=skip, limit=limit)
 
@@ -212,7 +212,7 @@ async def read_collection(collection_id: int, db: Session = Depends(services.get
     return collection
 
 
-@app.post("/collections/", response_model=schemas.Collection)
+@app.post("/collections", response_model=schemas.Collection)
 async def create_collection(collection: schemas.CollectionCreate, db: Session = Depends(services.get_db)):
     if await crud.get_collection_by_slug(db, collection_slug=collection.slug):
         raise HTTPException(status_code=400, detail="Collection with this slug already exists")
