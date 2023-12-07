@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Form, Link, redirect, useActionData, useNavigate } from "react-router-dom";
+import {
+  Form,
+  Link,
+  redirect,
+  useActionData,
+  useNavigate,
+} from "react-router-dom";
 import Button from "./components/Button";
 
 import "./styles/Auth.css";

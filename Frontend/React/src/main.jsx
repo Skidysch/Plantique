@@ -34,10 +34,10 @@ const router = createBrowserRouter([
         action: registerAction,
       },
       {
-        path: '/profile',
+        path: "/profile",
         element: <Profile />,
         loader: profileLoader,
-      }
+      },
     ],
   },
 ]);

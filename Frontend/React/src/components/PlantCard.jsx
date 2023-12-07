@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "./Button";
-import { ArrowRightPlant, Heart, HeartFilled } from "./SVG";
+import { ArrowRightPlant, Heart} from "./SVG";
 
 export default function PlantCard(props) {
   const [isLiked, setIsLiked] = useState(false);

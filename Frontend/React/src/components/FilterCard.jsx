@@ -6,38 +6,35 @@ export default function FilterCard(props) {
 
   const handleMouseEnter = () => {
     setIsHovered(true);
-  }
+  };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-  }
+  };
 
-  const hoverClass = isHovered ? 'filter-card--hovered ' : '';
-  
+  const hoverClass = isHovered ? "filter-card--hovered " : "";
+
   const styles = {
     backgroundImage: `url(${props.cover})`,
-  }
+  };
 
   return (
-    <li className={"filter-card " + hoverClass}
-         style={styles}
-         onMouseEnter={handleMouseEnter}
-         onMouseLeave={handleMouseLeave}
+    <li
+      className={"filter-card " + hoverClass}
+      style={styles}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="filter-card__info">
         <a href="#">
-          <h4 className="filter-card__title">
-            {props.title}
-          </h4>
+          <h4 className="filter-card__title">{props.title}</h4>
         </a>
-        <p className="filter-card__description">
-          {props.description}
-        </p>
+        <p className="filter-card__description">{props.description}</p>
       </div>
       <div className="filter-card__goods">
-        <PlantLabel title="Piperaceae"/>
-        <PlantLabel title="Araceae"/>
+        <PlantLabel title="Piperaceae" />
+        <PlantLabel title="Araceae" />
       </div>
     </li>
-  )
+  );
 }

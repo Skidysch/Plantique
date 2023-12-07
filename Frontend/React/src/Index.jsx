@@ -6,7 +6,6 @@ import Collection from "./components/Collection";
 import Offering from "./components/Offering";
 import Questions from "./components/Questions";
 
-
 export default function Index() {
   return (
     <div>
@@ -16,5 +15,5 @@ export default function Index() {
       <Offering />
       <Questions />
     </div>
-  )
+  );
 }

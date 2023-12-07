@@ -6,5 +6,5 @@ export default function Questions() {
     <div className="questions">
       <Accordion />
     </div>
-  )
+  );
 }

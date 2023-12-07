@@ -22,7 +22,7 @@ export default function Profile() {
               src={
                 currentUser.profile_picture
                   ? currentUser.profile_picture
-                  : '/profile-placeholder-image.png'
+                  : "/profile-placeholder-image.png"
               }
               alt="Profile picture"
             />
@@ -30,16 +30,18 @@ export default function Profile() {
         </div>
         <div className="profile__card__right">
           <div className="profile__card__header">
-            <h1 className="profile__card__name">
-              Your profile
-            </h1>
+            <h1 className="profile__card__name">Your profile</h1>
           </div>
           <div className="profile__card__info">
             <p className="profile__card__email">{`Username: ${currentUser.username}`}</p>
-            <p className="profile__card__email">{`Full name: ${currentUser.full_name ? currentUser.full_name : 'Not set'}`}</p>
+            <p className="profile__card__email">{`Full name: ${
+              currentUser.full_name ? currentUser.full_name : "Not set"
+            }`}</p>
             <p className="profile__card__email">{`Email: ${currentUser.email}`}</p>
             <p className="profile__card__gender">{`Gender: ${currentUser.gender}`}</p>
-            <p className="profile__card__birth-date">{`Birth date: ${currentUser.birth_date ? currentUser.birth_date : 'Not set'}`}</p>
+            <p className="profile__card__birth-date">{`Birth date: ${
+              currentUser.birth_date ? currentUser.birth_date : "Not set"
+            }`}</p>
           </div>
           <div className="profile__card__action-buttons">
             <div className="profile__card__btn">
