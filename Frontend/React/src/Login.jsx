@@ -10,6 +10,7 @@ import Button from "./components/Button";
 
 import "./styles/Auth.css";
 import { UserContext } from "./context/UserContext";
+import { getCurrentUser } from "./api/users";
 
 const submitLogin = async (data) => {
   const requestOptions = {
@@ -29,6 +30,7 @@ const submitLogin = async (data) => {
     return {
       successMessage: "Successfuly logged in",
       token: responseData.access_token,
+      user: await getCurrentUser(responseData.access_token),
     };
   }
 };
@@ -42,12 +44,13 @@ export async function action({ request }) {
 
 export default function Login() {
   const data = useActionData();
-  const [, setToken] = useContext(UserContext);
+  const { setToken, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (data?.successMessage) {
       setToken(data.token);
+      setUser(data.user);
       setTimeout(() => {
         navigate("/profile");
       }, 1000);

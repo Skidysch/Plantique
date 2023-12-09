@@ -1,9 +1,11 @@
-export async function getCurrentUser() {
+export async function getCurrentUser(
+  token = localStorage.getItem("authToken")
+) {
   const requestOptions = {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      Authorization: `Bearer ${token}`,
     },
   };
   const response = await fetch("/api/users/current", requestOptions);

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "./Button";
-import { Logo } from "./SVG";
-import { Link } from "react-router-dom";
+import { Logo, Search } from "./SVG";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import { getCurrentUser } from "../api/users";
 
 export default function HeaderMobile({ scrollOpacity }) {
   const [isActive, setIsActive] = useState(false);
@@ -21,36 +23,62 @@ export default function HeaderMobile({ scrollOpacity }) {
 
   const activeClass = isActive ? "active" : "";
 
-  const menuItems = [
-    { name: "Contact", link: "/contact" },
-    { name: "Blog", link: "/blog" },
-    { name: "Shop", link: "/shop" },
-    { name: "Log in", link: "/login" },
-  ];
+  const { token, setToken, user, setUser } = useContext(UserContext);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const currentUser = await getCurrentUser();
+      setUser(currentUser);
+    }
+    fetchUser();
+  }, []);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setToken(null);
+    navigate("/login");
+  };
 
   return (
     <div className="header--mobile" style={headerStyle}>
       <ul className="header--mobile__list">
-        <li className="header--mobile__logo" onClick={isActive ?? toggleActive}>
+        <li className="header--mobile__logo" onClick={isActive ? toggleActive : undefined}>
           <Link to={"/"}>
             <Button content={<Logo />} btnRound={true} size={60} />
           </Link>
         </li>
         <nav className={"header--mobile__nav " + activeClass}>
           <ul className="header--mobile__nav__list">
-            {menuItems.map((item, index) => {
-              return (
-                <li
-                  key={index}
-                  className="header--mobile__nav__item"
-                  onClick={toggleActive}
-                >
-                  <Link to={item.link} className="header__mobile__nav__link">
-                    <Button content={item.name} btnHeader={true} />
-                  </Link>
-                </li>
-              );
-            })}
+            <li className="header--mobile__nav__item">
+              <Button content="Contact" btnHeader={true} onClick={toggleActive}/>
+            </li>
+            <li className="header--mobile__nav__item">
+              <Button content="Blog" btnHeader={true} onClick={toggleActive}/>
+            </li>
+            <li className="header--mobile__nav__item">
+              <Button content="Shop" btnHeader={true} onClick={toggleActive}/>
+            </li>
+            {token && (
+              <li className="header--mobile__nav__item">
+                <Link to={"/profile"} className="header--mobile__nav__link">
+                  <Button content={user.username} btnHeader={true} onClick={toggleActive}/>
+                </Link>
+              </li>
+            )}
+            <li className="header--mobile__nav__item" onClick={toggleActive}>
+              {token === null ? (
+                <Link to={"/login"} className="header--mobile__nav__link">
+                  <Button content={"Log in"} btnHeader={true} />
+                </Link>
+              ) : (
+                <Button
+                  content="Logout"
+                  onClick={handleLogout}
+                  btnHeader={true}
+                />
+              )}
+            </li>
           </ul>
         </nav>
         <div className={"burger " + activeClass} onClick={toggleActive}>

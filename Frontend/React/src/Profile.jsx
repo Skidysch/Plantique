@@ -1,20 +1,21 @@
 import React from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, Outlet, useLoaderData} from "react-router-dom";
 
 import { getCurrentUser } from "./api/users";
 import "./styles/Profile.css";
 import Button from "./components/Button";
 
-export async function loader() {
+export async function loaderCurrentUser() {
   const user = await getCurrentUser();
   return user;
 }
 
 export default function Profile() {
   const currentUser = useLoaderData();
-  console.log(currentUser);
+
   return (
     <div className="profile">
+      <Outlet />
       <div className="profile__card">
         <div className="profile__card__left">
           <div className="profile__card__image">
@@ -50,7 +51,7 @@ export default function Profile() {
               </Link>
             </div>
             <div className="profile__card__btn">
-              <Link className="profile__card__btn__link" to={"/profile/delete"}>
+              <Link className="profile__card__btn__link" to={`/profile/delete/${currentUser.id}`}>
                 <Button content={"Delete profile"} />
               </Link>
             </div>

@@ -10,6 +10,7 @@ import Button from "./components/Button";
 import { UserContext } from "./context/UserContext";
 
 import "./styles/Auth.css";
+import { getCurrentUser } from "./api/users";
 
 const submitRegistration = async (data) => {
   const requestOptions = {
@@ -32,6 +33,7 @@ const submitRegistration = async (data) => {
     return {
       successMessage: "Registration successful",
       token: responseData.access_token,
+      user: await getCurrentUser(responseData.access_token),
     };
   }
 };
@@ -60,12 +62,13 @@ export async function action({ request }) {
 
 export default function Register() {
   const data = useActionData();
-  const [, setToken] = useContext(UserContext);
+  const { setToken, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (data?.token) {
       setToken(data.token);
+      setUser(data.user);
       setTimeout(() => {
         navigate("/profile");
       }, 1000);

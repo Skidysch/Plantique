@@ -10,14 +10,14 @@ import ErrorPage from "./ErrorPage";
 import { UserProvider } from "./context/UserContext";
 
 import "./styles/index.css";
-import Profile, { loader as profileLoader } from "./Profile";
+import Profile, { loaderCurrentUser } from "./Profile";
+import ProfileDelete, { profileDeleteAction } from "./components/ProfileDelete";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    loader: profileLoader,
     children: [
       {
         index: true,
@@ -36,7 +36,14 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
-        loader: profileLoader,
+        loader: loaderCurrentUser,
+        children: [
+          {
+            path: "/profile/delete/:userId",
+            element: <ProfileDelete />,
+            action: profileDeleteAction,
+          }
+        ],
       },
     ],
   },

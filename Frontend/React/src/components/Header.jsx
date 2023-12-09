@@ -1,19 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import Button from "./Button";
 import { Logo, Search } from "./SVG";
 import { UserContext } from "../context/UserContext";
+import { getCurrentUser } from "../api/users";
 
 export default function Header({ scrollOpacity }) {
   const headerStyle = {
     backgroundColor: `rgba(0, 50, 0, ${scrollOpacity})`,
   };
 
-  const user = useLoaderData();
-
-  const [username, setUsername] = useState(user.username);
-  const [token, setToken] = useContext(UserContext);
+  const { token, setToken, user, setUser } = useContext(UserContext);
+  useEffect(() => {
+    async function fetchUser() {
+      const currentUser = await getCurrentUser();
+      setUser(currentUser);
+    }
+    fetchUser();
+  }, [])
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -46,7 +51,7 @@ export default function Header({ scrollOpacity }) {
         {token && (
           <li>
             <Link to={"/profile"}>
-              <Button content={username} btnHeader={true} />
+              <Button content={user.username} btnHeader={true} />
             </Link>
           </li>
         )}

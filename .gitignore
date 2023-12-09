@@ -1,6 +1,6 @@
-/Frontend/React/public/
-/Backend/venv/
-/Backend/FastAPI/**/__pycache__/
-/Backend/FastAPI/__pycache__/
+Frontend/React/public
+Backend/venv
+Backend/FastAPI/**/__pycache__
+Backend/FastAPI/__pycache__
 .env
-/Backend/db/plantique_app_test.db/
+Backend/FastAPI/db/plantique_app_test.db
