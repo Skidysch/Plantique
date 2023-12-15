@@ -12,6 +12,7 @@ import { UserProvider } from "./context/UserContext";
 import "./styles/index.css";
 import Profile, { loaderCurrentUser } from "./Profile";
 import ProfileDelete, { profileDeleteAction } from "./components/ProfileDelete";
+import ProfileEdit, { profileEditAction } from "./components/ProfileEdit";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,11 @@ const router = createBrowserRouter([
             path: "/profile/delete/:userId",
             element: <ProfileDelete />,
             action: profileDeleteAction,
+          },
+          {
+            path: "/profile/edit/:userId",
+            element: <ProfileEdit />,
+            action: profileEditAction,
           }
         ],
       },

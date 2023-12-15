@@ -32,6 +32,7 @@ export default function Button(props) {
               : "btn--172")
           : "")
       }
+      type={props.type}
       onClick={props.onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

@@ -71,12 +71,11 @@ bdrd--32 {
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 }
 
 .modal__box {
   width: 50%;
-  height: 50%;
+  min-height: 50%;
   padding: 50px 20px;
   display: flex;
   flex-direction: column;
@@ -99,6 +98,7 @@ bdrd--32 {
 .modal__title {
   height: 50%;
   font-size: 50px;
+  flex-grow: 1;
 }
 
 .modal__text {
@@ -108,10 +108,31 @@ bdrd--32 {
 .modal__buttons {
   display: flex;
   justify-content: space-evenly;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .modal__title {
+    font-size: 40px;
+  }
+
+  .modal__text {
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 600px) {
   .modal__box {
     width: 80%;
+  }
+}
+
+@media (max-width: 425px) {
+  .modal__title {
+    font-size: 32px;
+  }
+
+  .modal__text {
+    font-size: 16px;
   }
 }

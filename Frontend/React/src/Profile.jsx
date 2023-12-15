@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet, useLoaderData} from "react-router-dom";
+import { Link, Outlet, useLoaderData } from "react-router-dom";
 
 import { getCurrentUser } from "./api/users";
 import "./styles/Profile.css";
@@ -18,16 +18,15 @@ export default function Profile() {
       <Outlet />
       <div className="profile__card">
         <div className="profile__card__left">
-          <div className="profile__card__image">
-            <img
-              src={
-                currentUser.profile_picture
-                  ? currentUser.profile_picture
-                  : "/profile-placeholder-image.png"
-              }
-              alt="Profile picture"
-            />
-          </div>
+          <img
+            className="profile__card__image"
+            src={
+              currentUser.profile_picture
+                ? currentUser.profile_picture
+                : "/logo.svg"
+            }
+            alt="Profile picture"
+          />
         </div>
         <div className="profile__card__right">
           <div className="profile__card__header">
@@ -46,12 +45,18 @@ export default function Profile() {
           </div>
           <div className="profile__card__action-buttons">
             <div className="profile__card__btn">
-              <Link className="profile__card__btn__link" to={"/profile/edit"}>
+              <Link
+                className="profile__card__btn__link"
+                to={`/profile/edit/${currentUser.id}`}
+              >
                 <Button content={"Edit profile"} />
               </Link>
             </div>
             <div className="profile__card__btn">
-              <Link className="profile__card__btn__link" to={`/profile/delete/${currentUser.id}`}>
+              <Link
+                className="profile__card__btn__link"
+                to={`/profile/delete/${currentUser.id}`}
+              >
                 <Button content={"Delete profile"} />
               </Link>
             </div>
