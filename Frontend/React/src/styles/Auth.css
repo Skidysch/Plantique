@@ -2,7 +2,7 @@
 .login,
 .register {
   min-height: 100vh;
-  background-image: url("/hero-bg.jpeg");
+  background-image: url("/auth-bg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 32px;

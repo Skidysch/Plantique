@@ -63,6 +63,11 @@ async def update_user(db: Session, user_id: int, updated_user: schemas.UserUpdat
     db_user = await get_user_by_id(db, user_id)
 
     if db_user:
+        password = updated_user.model_dump().pop('password')
+        if password is not None:
+            del updated_user.password
+            hashed_password = hash.bcrypt.hash(password)
+            setattr(db_user, 'hashed_password', hashed_password)
         for key, value in updated_user.model_dump().items():
             if value is not None:
                 setattr(db_user, key, value)

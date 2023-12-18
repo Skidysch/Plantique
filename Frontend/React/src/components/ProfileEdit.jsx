@@ -2,10 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import Button from "./Button";
 import { Form, useActionData, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import { getCurrentUser } from "../api/users";
 
 async function submitProfileEdit({ params, formData }) {
-  console.log(formData);
   const requestOptions = {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -22,7 +20,6 @@ async function submitProfileEdit({ params, formData }) {
 
   const response = await fetch(`/api/users/${params.userId}`, requestOptions);
   const data = await response.json();
-  console.log(data);
 
   if (!response.ok) {
     return { errorMessage: data.detail };
@@ -33,7 +30,6 @@ async function submitProfileEdit({ params, formData }) {
 
 export async function profileEditAction({ params, request }) {
   const formData = Object.fromEntries(await request.formData());
-  console.log(request)
 
   let dataEntries = Object.entries(formData);
 
@@ -45,7 +41,11 @@ export async function profileEditAction({ params, request }) {
 
   if (formData.password && formData.password.length > 5) {
     return await submitProfileEdit({ params, formData });
-  } else if (formData.password && formData.password.length > 0 && formData.password.length <= 5) {
+  } else if (
+    formData.password &&
+    formData.password.length > 0 &&
+    formData.password.length <= 5
+  ) {
     return {
       passwordError:
         "Make sure that passwords match and greater than 5 symbols",
@@ -56,20 +56,19 @@ export async function profileEditAction({ params, request }) {
 }
 
 export default function ProfileEdit() {
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const { userId } = useParams();
   const data = useActionData();
   const navigate = useNavigate();
   const [profilePicture, setProfilePicture] = useState("Profile picture");
 
-  const cancelDelete = async () => {
-    navigate("/profile");
+  const cancelEdit = async () => {
+    navigate(-1);
   };
 
   useEffect(() => {
     if (data?.successMessage) {
       setUser(data.user);
-      navigate("/profile");
       setTimeout(() => {
         navigate("/profile");
       }, 1000);
@@ -127,9 +126,11 @@ export default function ProfileEdit() {
                     className="form__input"
                     id="gender"
                     name="gender"
-                    defaultValue={''}
+                    defaultValue={""}
                   >
-                    <option value="" disabled>Gender</option>
+                    <option value="" disabled>
+                      Gender
+                    </option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                   </select>
@@ -149,6 +150,7 @@ export default function ProfileEdit() {
                     id="birth-date"
                     name="birthDate"
                     className="form__input"
+                    placeholder="Birth date"
                   />
                 </label>
                 <label
@@ -178,7 +180,7 @@ export default function ProfileEdit() {
               </div>
               <div className="modal__buttons">
                 <Button type={"submit"} content={"Save"} />
-                <Button content={"Cancel"} onClick={cancelDelete} />
+                <Button content={"Cancel"} onClick={cancelEdit} />
               </div>
             </Form>
           </div>

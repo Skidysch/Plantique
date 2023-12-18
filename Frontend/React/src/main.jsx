@@ -14,6 +14,8 @@ import Profile, { loaderCurrentUser } from "./Profile";
 import ProfileDelete, { profileDeleteAction } from "./components/ProfileDelete";
 import ProfileEdit, { profileEditAction } from "./components/ProfileEdit";
 
+// TODO: learn to manage state with Redux, so I'll be able to optimise forms with redirect on actions.
+
 const router = createBrowserRouter([
   {
     path: "/",

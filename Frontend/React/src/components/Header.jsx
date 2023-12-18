@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 
 import Button from "./Button";
 import { Logo, Search } from "./SVG";
@@ -34,12 +34,16 @@ export default function Header({ scrollOpacity }) {
             <Button content={<Logo />} btnRound={true} size={60} />
           </li>
         </Link>
-        <li>
-          <Button content="Contact" btnHeader={true} />
-        </li>
-        <li>
-          <Button content="Blog" btnHeader={true} />
-        </li>
+        <Link to='/contact'>
+          <li>
+            <Button content="Contact" btnHeader={true} />
+          </li>
+        </Link>
+        <Link to='/blog'>
+          <li>
+            <Button content="Blog" btnHeader={true} />
+          </li>
+        </Link>
       </ul>
       <ul className="header__list">
         <li>
