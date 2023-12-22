@@ -73,7 +73,7 @@ class PlantBase(BaseModel):
     description: str
     soil_type: str
     image_url: str
-    price: int
+    price: float
     stock_available: bool = False
     stock_quantity: int = 0
 
@@ -99,7 +99,7 @@ class PlantUpdate(BaseModel):
     description: Optional[str] = None
     soil_type: Optional[str] = None
     image_url: Optional[str] = None
-    price: Optional[int] = None
+    price: Optional[float] = None
     stock_available: Optional[bool] = None
     stock_quantity: Optional[int] = None
     categories: Optional[List[int]] = None

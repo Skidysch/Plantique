@@ -131,8 +131,8 @@ async def update_plant(db: Session, plant_id: int, updated_plant: schemas.PlantU
     db_plant = await get_plant_by_id(db, plant_id)
 
     if db_plant:
-        category_ids = db_plant.category
-        del db_plant.category
+        category_ids = updated_plant.categories
+        del updated_plant.categories
         if category_ids is not None:
             categories = db.query(models.Category).filter(models.Category.id.in_(category_ids)).all()
             setattr(db_plant, 'categories', categories)

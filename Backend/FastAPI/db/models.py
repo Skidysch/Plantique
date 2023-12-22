@@ -1,5 +1,5 @@
 from sqlalchemy import Boolean, Column, Date, DateTime, Enum, ForeignKey, \
-                       Integer, String, Table
+                       Integer, String, Table, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import passlib.hash as hash
@@ -52,7 +52,7 @@ class Plant(Base):
     description = Column(String, index=True)
     soil_type = Column(String)
     image_url = Column(String)
-    price = Column(Integer)
+    price = Column(Float)
     stock_available = Column(Boolean)
     stock_quantity = Column(Integer)
     created_at = Column(DateTime, default=func.now())
