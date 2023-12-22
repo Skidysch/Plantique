@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "./Button";
 import { ArrowRight } from "./SVG";
+import { Link } from "react-router-dom";
 
 export default function CategoryCard(props) {
   const [isHovered, setIsHovered] = useState(false);
@@ -16,7 +17,7 @@ export default function CategoryCard(props) {
   const hoverClass = isHovered ? "category-card--hovered " : "";
 
   const cardStyles = {
-    backgroundImage: `url(${props.cover})`,
+    backgroundImage: `url(${props.image_url})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -35,9 +36,9 @@ export default function CategoryCard(props) {
       onMouseLeave={handleMouseLeave}
     >
       <div className="category-card__button">
-        <a href="#">
+        <Link to={props.link}>
           <Button content={<ArrowRight />} btnRound={true} size={60} />
-        </a>
+        </Link>
       </div>
       <div
         className="category-card__info"
@@ -47,9 +48,9 @@ export default function CategoryCard(props) {
             : { background: "transparent", backdropFilter: "none" }
         }
       >
-        <a href="#">
-          <h3 className="category-card__title">{props.title}</h3>
-        </a>
+        <Link to={props.link}>
+          <h3 className="category-card__title">{props.name}</h3>
+        </Link>
         <p className="category-card__description">{props.description}</p>
       </div>
     </div>

@@ -6,7 +6,7 @@ import PlantCard from "../PlantCard";
 import "swiper/css";
 import "swiper/css/pagination";
 
-export default function SwiperPlants() {
+export default function SwiperPlants({ plants }) {
   return (
     <Swiper
       className="plants__slider"
@@ -27,46 +27,11 @@ export default function SwiperPlants() {
         },
       }}
     >
-      <SwiperSlide>
-        <PlantCard
-          title="Peperomia Plants"
-          cover="/plant-card-1.png"
-          soil="Moist but well-drained"
-          price="₹122,056"
-        />
-      </SwiperSlide>
-      <SwiperSlide>
-        <PlantCard
-          title="Fiddle-Leaf Fig"
-          cover="/plant-card-2.png"
-          soil="Moist but well-drained"
-          price="₹162,056"
-        />
-      </SwiperSlide>
-      <SwiperSlide>
-        <PlantCard
-          title="Calathea Orbifolia"
-          cover="/plant-card-3.png"
-          soil="Moist but well-drained"
-          price="₹102,056"
-        />
-      </SwiperSlide>
-      <SwiperSlide>
-        <PlantCard
-          title="Fiddle-Leaf Fig"
-          cover="/plant-card-2.png"
-          soil="Moist but well-drained"
-          price="₹162,056"
-        />
-      </SwiperSlide>
-      <SwiperSlide>
-        <PlantCard
-          title="Calathea Orbifolia"
-          cover="/plant-card-3.png"
-          soil="Moist but well-drained"
-          price="₹102,056"
-        />
-      </SwiperSlide>
+      {plants.map((item, index) => (
+        <SwiperSlide key={index}>
+          <PlantCard {...item} />
+        </SwiperSlide>
+      ))}
     </Swiper>
   );
 }

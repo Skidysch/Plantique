@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from "./App";
-import Index from "./Index";
+import Index, { plantsLoader } from "./Index";
 import Login, { action as loginAction } from "./Login";
 import Register, { action as registerAction } from "./Register";
 import ErrorPage from "./ErrorPage";
@@ -25,6 +25,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Index />,
+        loader: plantsLoader,
       },
       {
         path: "/login",

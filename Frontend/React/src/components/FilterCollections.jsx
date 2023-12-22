@@ -4,6 +4,8 @@ import FiltersList from "./FiltersList";
 import FilterCategoryCard from "./FilterCategoryCard";
 
 export default function FilterCollections({ collections, categories }) {
+  categories = categories.slice(0, 4)
+
   return (
     <div className="collection__filters">
       <div className="collection__filters__header">

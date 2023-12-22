@@ -1,7 +1,9 @@
 import React from "react";
 import CategoryCard from "./CategoryCard";
 
-export default function IndoorCollection() {
+export default function IndoorCollection({ categories }) {
+  categories = categories.slice(0, 4);
+
   return (
     <div className="collection__category">
       <div className="collection__header">
@@ -10,26 +12,14 @@ export default function IndoorCollection() {
         </div>
       </div>
       <ul className="category__list">
-        <CategoryCard
-          cover="/category-card-1.png"
-          title="Philodendron"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis orci elementum egestas lobortis."
-        />
-        <CategoryCard
-          cover="/category-card-2.png"
-          title="Calathea"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis orci elementum egestas lobortis."
-        />
-        <CategoryCard
-          cover="/category-card-3.png"
-          title="Air Purifying"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis orci elementum egestas lobortis."
-        />
-        <CategoryCard
-          cover="/category-card-4.png"
-          title="Low Light Tolerant"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis orci elementum egestas lobortis."
-        />
+        {categories.map((item, index) => {
+          return (
+            <CategoryCard
+              key={index}
+              {...item}
+            />
+          );
+        })}
       </ul>
     </div>
   );

@@ -1,18 +1,12 @@
 import React from "react";
 import Button from "./Button";
 
-export default function FiltersList() {
-  const buttonsList = [
-    "Outdoor Plant",
-    "Indoor Plant",
-    "Flower Pot",
-    "Potted Plant",
-  ];
+export default function FiltersList({ collections }) {
 
   return (
     <ul className="collection__filters__list">
-      {buttonsList.map((item, index) => (
-        <Button key={index} content={item} btnLight={true} />
+      {collections.map((item, index) => (
+        <Button key={index} content={item.name} btnLight={true} />
       ))}
     </ul>
   );

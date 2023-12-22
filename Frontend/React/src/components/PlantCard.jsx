@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Button from "./Button";
 import { ArrowRightPlant, Heart} from "./SVG";
+import { Link } from "react-router-dom";
 
 export default function PlantCard(props) {
+  console.log(props.name)
   const [isLiked, setIsLiked] = useState(false);
 
   const toggleHeart = () => {
@@ -12,9 +14,9 @@ export default function PlantCard(props) {
   return (
     <div className="plant-card">
       <div className="plant-card__cover">
-        <a className="plant-card__link" href="#">
-          <img className="plant-card__image" src={props.cover} alt="Plant card Image"/>
-        </a>
+        <Link className="plant-card__link" to={props.link}>
+          <img className="plant-card__image" src={props.image_url} alt="Plant card Image"/>
+        </Link>
         <div className="plant-card__like-button" onClick={toggleHeart}>
           <Button content={<Heart liked={isLiked}/>}
                   btnLike={true}
@@ -24,19 +26,19 @@ export default function PlantCard(props) {
       </div>
       <div className="plant-card__bottom">
         <div className="plant-card__info">
-          <a className="plant-card__title" href="#">
-            <h4>{props.title}</h4>
-          </a>
-          <p className="plant-card__soil">{props.soil}</p>
-          <p className="plant-card__price">{props.price}</p>
+          <Link className="plant-card__title" to={props.link}>
+            <h4>{props.name}</h4>
+          </Link>
+          <p className="plant-card__soil">Soil type: {props.soil_type}</p>
+          <p className="plant-card__price">$ {props.price}</p>
         </div>
         <div className="plant-card__button">
-          <a href="#">
+          <Link to={props.link}>
             <Button content={<ArrowRightPlant />}
                     btnDark={true}
                     btnRound={true}
                     size={60}/>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
