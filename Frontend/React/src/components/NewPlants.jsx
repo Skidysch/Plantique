@@ -1,7 +1,8 @@
 import React from "react";
 import SwiperPlants from "./swiper/SwiperPlants";
 
-export default function NewCollection() {
+export default function NewPlants({ plants }) {
+  console.log(plants)
   return (
     <div className="collection__new">
       <div className="collection__header">
@@ -14,7 +15,7 @@ export default function NewCollection() {
           </p>
         </div>
       </div>
-      <SwiperPlants />
+      <SwiperPlants plants={plants} />
     </div>
   );
 }

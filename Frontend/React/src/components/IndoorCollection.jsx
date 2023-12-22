@@ -1,7 +1,7 @@
 import React from "react";
 import CategoryCard from "./CategoryCard";
 
-export default function CategoryCollection() {
+export default function IndoorCollection() {
   return (
     <div className="collection__category">
       <div className="collection__header">
