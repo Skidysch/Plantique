@@ -96,6 +96,7 @@ class PlantCreate(PlantBase):
 class PlantUpdate(BaseModel):
     name: Optional[str] = None
     slug: Optional[str] = None
+    link: Optional[str] = None
     description: Optional[str] = None
     soil_type: Optional[str] = None
     image_url: Optional[str] = None

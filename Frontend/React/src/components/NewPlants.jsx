@@ -2,7 +2,6 @@ import React from "react";
 import SwiperPlants from "./swiper/SwiperPlants";
 
 export default function NewPlants({ plants }) {
-  console.log(plants)
   return (
     <div className="collection__new">
       <div className="collection__header">

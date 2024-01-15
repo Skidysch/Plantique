@@ -767,12 +767,13 @@
   letter-spacing: -0.8px;
   flex-grow: 1;
   transition: opacity 0.3s ease-in-out;
-  text-wrap: nowrap;
-  text-overflow: ellipsis;
-  max-width: 300px;
 }
 
 .plant-card__title h4 {
+  text-overflow: ellipsis;
+  max-width: 300px;
+  text-wrap: nowrap;
+  overflow: hidden;
 }
 
 .plant-card__title:hover {

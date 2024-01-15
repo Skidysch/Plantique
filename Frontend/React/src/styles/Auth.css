@@ -69,9 +69,12 @@
   border-radius: 20px;
   border: 1px solid #fff;
   color: #040;
-  font-size: 18px;
   font-family: inherit;
   display: block;
+}
+
+.form__input--inline {
+  width: 30%;
 }
 
 .form__input:-webkit-autofill,
@@ -96,6 +99,13 @@
   max-width: 400px;
   width: 80%;
   text-align: left;
+}
+
+.form__buttons {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 20px;
 }
 
 .form__btn {

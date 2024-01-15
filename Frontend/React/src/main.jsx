@@ -13,6 +13,7 @@ import "./styles/index.css";
 import Profile, { loaderCurrentUser } from "./Profile";
 import ProfileDelete, { profileDeleteAction } from "./components/ProfileDelete";
 import ProfileEdit, { profileEditAction } from "./components/ProfileEdit";
+import PlantPage, { plantLoader } from "./PlantPage";
 
 // TODO: learn to manage state with Redux, so I'll be able to optimise forms with redirect on actions.
 
@@ -54,6 +55,11 @@ const router = createBrowserRouter([
           }
         ],
       },
+      {
+        path: "/plants/:plantSlug",
+        element: <PlantPage />,
+        loader: plantLoader,
+      }
     ],
   },
 ]);

@@ -4,7 +4,6 @@ import { ArrowRightPlant, Heart} from "./SVG";
 import { Link } from "react-router-dom";
 
 export default function PlantCard(props) {
-  console.log(props.name)
   const [isLiked, setIsLiked] = useState(false);
 
   const toggleHeart = () => {

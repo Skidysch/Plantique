@@ -7,5 +7,5 @@ export async function getCollections() {
   };
   const response = await fetch("/api/collections", requestOptions);
   const data = response.json();
-  return data;
+  return await data;
 }
