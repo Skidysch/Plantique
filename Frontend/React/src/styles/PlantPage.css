@@ -1,0 +1,67 @@
+.plant {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  border-radius: 32px;
+  position: relative;
+}
+
+.plant__content {
+  display: flex;
+  justify-content: space-between;
+  padding: 114px 40px 60px;
+  gap: 40px;
+  z-index: 1;
+}
+
+.plant__left {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plant__right {
+  width: 60%;
+  color: #fff;
+  font-weight: 700;
+}
+
+.plant__image {
+  display: block;
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.plant__image img {
+  display: block;
+  width: 100%;
+}
+
+.plant__title {
+  font-size: 60px;
+  margin-bottom: 40px;
+}
+
+.plant__price {
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+.plant__soil-type {
+  margin: 10px 0;
+  font-size: 20px;
+}
+
+.plant__categories {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.plant__description {
+  text-align: justify;
+}

@@ -105,8 +105,11 @@ async def read_plants(skip: int = 0, limit: int = 100, db: Session = Depends(ser
 
 
 @app.get("/plants/{plant_id}", response_model=schemas.Plant)
-async def read_plant(plant_id: int, db: Session = Depends(services.get_db)):
-    plant = await crud.get_plant_by_id(db, plant_id)
+async def read_plant(plant_id: str, db: Session = Depends(services.get_db)):
+    if plant_id.isdigit():
+        plant = await crud.get_plant_by_id(db, int(plant_id))
+    else:
+        plant = await crud.get_plant_by_slug(db, plant_id)
 
     if plant is None:
         raise HTTPException(status_code=400, detail="Plant not found")
