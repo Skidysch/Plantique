@@ -1,18 +1,12 @@
 import React from "react";
 import { Form, useLoaderData } from "react-router-dom";
-import { getPlant } from "./api/plants";
 import Button from "./components/Button";
 
 import "./styles/PlantPage.css";
 
-export async function plantLoader({ params }) {
-  const plant = await getPlant(params.plantSlug);
-  return { plant };
-}
-
 export default function PlantPage() {
-  const { plant } = useLoaderData();
-  console.log(plant);
+  const plant = useLoaderData();
+
 
   const styles = {
     backgroundImage: `url(${plant.image_url})`,
@@ -51,7 +45,7 @@ export default function PlantPage() {
           <p className="plant__soil-type">Soil: {plant.soil_type}</p>
           <p className="plant__categories">
             Categories:{" "}
-            {plant.categories.map((item, index) => {
+            {plant.categories.map((item) => {
               return `${item.name} `;
             })}
           </p>

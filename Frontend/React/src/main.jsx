@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from "./App";
-import Index, { plantsLoader } from "./Index";
+import Index from "./Index";
 import Login, { action as loginAction } from "./Login";
 import Register, { action as registerAction } from "./Register";
 import ErrorPage from "./ErrorPage";
@@ -13,7 +13,8 @@ import "./styles/index.css";
 import Profile, { loaderCurrentUser } from "./Profile";
 import ProfileDelete, { profileDeleteAction } from "./components/ProfileDelete";
 import ProfileEdit, { profileEditAction } from "./components/ProfileEdit";
-import PlantPage, { plantLoader } from "./PlantPage";
+import PlantPage from "./PlantPage";
+import { plantLoader, plantsLoader } from "./loaders/plants";
 
 // TODO: learn to manage state with Redux, so I'll be able to optimise forms with redirect on actions.
 
