@@ -852,6 +852,7 @@
   gap: 25px;
   border-radius: 24px;
   transition: background 0.3s ease-in-out, height 0.3s ease-in-out;
+  text-shadow: 3px 3px 5px #222;
 }
 
 .category-card__title {

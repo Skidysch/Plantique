@@ -28,6 +28,7 @@
   width: 60%;
   color: #fff;
   font-weight: 700;
+  text-shadow: 2px 2px 5px #222;
 }
 
 .plant__image {

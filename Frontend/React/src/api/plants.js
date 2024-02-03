@@ -7,8 +7,8 @@ export async function getPlants() {
   };
   
   const response = await fetch("/api/plants", requestOptions);
-  const data = response.json();
-  return await data;
+  const data = await response.json();
+  return data;
 }
 
 export async function getPlant(identifier) {
@@ -19,7 +19,7 @@ export async function getPlant(identifier) {
     },
   };
 
-  const response = await fetch(`api/plants/${identifier}`, requestOptions)
-  const data = await response.json();
+  const response = await fetch(`/api/plants/${identifier}`, requestOptions)
+  const data = response.json();
   return data;
 }
