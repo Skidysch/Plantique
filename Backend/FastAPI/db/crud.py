@@ -109,6 +109,15 @@ async def get_plant_by_slug(db: Session, plant_slug: str) -> models.Plant | None
            .first()
 
 
+async def filter_plants_by_category(db: Session, category_id: int) -> list[models.Plant] | None:
+    category = db.query(models.Category).filter(models.Category.id == category_id).first()
+
+    if category is None:
+        return None
+
+    return category.plants
+
+
 async def create_plant(db: Session, plant: schemas.PlantCreate):
     category_ids = plant.categories
     del plant.categories
@@ -176,6 +185,12 @@ async def get_category_by_slug(db: Session, category_slug: str) -> models.Catego
     return db.query(models.Category) \
              .filter(models.Category.slug == category_slug) \
              .first()
+
+
+async def filter_categories_by_collection(db: Session, collection_id: int) -> list[models.Category] | None:
+    return db.query(models.Category) \
+            .filter(models.Category.collection_id == collection_id) \
+            .all()
 
 
 async def create_category(db: Session, category: schemas.CategoryCreate):
