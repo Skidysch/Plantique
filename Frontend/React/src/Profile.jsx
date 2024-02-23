@@ -1,14 +1,10 @@
 import React from "react";
 import { Link, Outlet, useLoaderData } from "react-router-dom";
 
-import { getCurrentUser } from "./api/users";
 import "./styles/Profile.css";
 import Button from "./components/Button";
 
-export async function loaderCurrentUser() {
-  const user = await getCurrentUser();
-  return { user };
-}
+
 
 export default function Profile() {
   const { user } = useLoaderData();

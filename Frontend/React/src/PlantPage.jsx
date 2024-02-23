@@ -7,7 +7,6 @@ import "./styles/PlantPage.css";
 export default function PlantPage() {
   const plant = useLoaderData();
 
-
   const styles = {
     backgroundImage: `url(${plant.image_url})`,
   };
@@ -45,8 +44,8 @@ export default function PlantPage() {
           <p className="plant__soil-type">Soil: {plant.soil_type}</p>
           <p className="plant__categories">
             Categories:{" "}
-            {plant.categories.map((item) => {
-              return `${item.name} `;
+            {plant.categories.map((category) => {
+              return `${category.name} `;
             })}
           </p>
           <p className="plant__description">{plant.description}</p>

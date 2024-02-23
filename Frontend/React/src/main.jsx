@@ -10,11 +10,17 @@ import ErrorPage from "./ErrorPage";
 import { UserProvider } from "./context/UserContext";
 
 import "./styles/index.css";
-import Profile, { loaderCurrentUser } from "./Profile";
+import Profile from "./Profile";
 import ProfileDelete, { profileDeleteAction } from "./components/ProfileDelete";
 import ProfileEdit, { profileEditAction } from "./components/ProfileEdit";
 import PlantPage from "./PlantPage";
-import { plantLoader, plantsLoader } from "./loaders/plants";
+import CategoryPage from "./CategoryPage";
+import { rootLoader } from "./loaders/root";
+import { plantLoader } from "./loaders/plants";
+import { categoryLoader } from "./loaders/categories";
+import { loaderCurrentUser } from "./loaders/user";
+import { collectionsLoader } from "./loaders/collections";
+import CollectionsPage from "./CollectionsPage";
 
 // TODO: learn to manage state with Redux, so I'll be able to optimise forms with redirect on actions.
 
@@ -27,7 +33,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Index />,
-        loader: plantsLoader,
+        loader: rootLoader,
       },
       {
         path: "/login",
