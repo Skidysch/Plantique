@@ -59,13 +59,23 @@ const router = createBrowserRouter([
             path: "/profile/edit/:userId",
             element: <ProfileEdit />,
             action: profileEditAction,
-          }
+          },
         ],
+      },
+      {
+        path: "/categories/:categorySlug",
+        element: <CategoryPage />,
+        loader: categoryLoader,
       },
       {
         path: "/plants/:plantSlug",
         element: <PlantPage />,
         loader: plantLoader,
+      },
+      {
+        path: '/collections',
+        element: <CollectionsPage />,
+        loader: collectionsLoader,
       }
     ],
   },

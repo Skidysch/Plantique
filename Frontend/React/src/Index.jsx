@@ -9,15 +9,14 @@ import { useLoaderData } from "react-router-dom";
 
 export default function Index() {
   const { collections, categories, plants } = useLoaderData();
-  // categories = categories.slice(0, 4);
 
   return (
     <div>
-      <Hero />
+      <Hero plantsCounter={plants.length} />
       <Purpose />
       <Collection
         collections={collections}
-        categories={categories}
+        categories={categories.filter(c => c.collection_id === collections[0].id)}
         plants={plants}
       />
       <Offering />
