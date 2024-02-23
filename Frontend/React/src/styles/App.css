@@ -537,41 +537,40 @@
   overflow: hidden;
   min-width: 290px;
   width: calc(100% / 4);
-  min-height: 411px;
   padding: 10px;
   border-radius: 20px;
   display: flex;
+  min-height: 470px;
   flex-direction: column;
   justify-content: space-between;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: grayscale(50%);
   transition: width 0.5s ease-in-out, filter 0.3s ease-in-out;
   will-change: width;
 }
 
 .filter-category-card.filter-category-card--hovered {
-  width: 450px;
-  filter: none;
+  width: 470px;
+  filter: grayscale(50%);
 }
 
 .filter-category-card__info {
   position: relative;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  backdrop-filter: blur(10px);
+  transition: background 0.3s ease-in-out, height 0.3s ease-in-out;
+  text-shadow: 3px 3px 2px #000;
 }
 
 .filter-category-card__title {
-  margin-bottom: 46px;
+  margin-bottom: 30px;
   padding: 30px 0 0 20px;
   color: #fff;
   font-size: 53px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.795px;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 350px;
@@ -582,7 +581,8 @@
   opacity: 0.6;
 }
 
-.filter-category-card.filter-category-card--hovered .filter-category-card__title {
+.filter-category-card.filter-category-card--hovered
+  .filter-category-card__title {
   max-width: 450px;
 }
 
@@ -593,6 +593,15 @@
   font-size: 16px;
   font-weight: 400;
   letter-spacing: -0.24px;
+  opacity: 0;
+  max-height: 0;
+  transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.filter-category-card:hover .filter-category-card__description {
+  opacity: 1;
+  max-height: 125px;
 }
 
 .filter-category-card__goods {
@@ -635,6 +644,7 @@
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.055px;
+  text-shadow: 1px 1px 2px #000;
 }
 
 .collection__new {
@@ -663,6 +673,12 @@
   font-weight: 800;
   letter-spacing: -6.263px;
   white-space: nowrap;
+
+}
+
+.collection__title--dark {
+  color: #fff;
+  text-shadow: 5px 5px 3px #000;
 }
 
 .collection__description {
@@ -817,11 +833,6 @@
   overflow: hidden;
 }
 
-.category-card--hovered .category-card__description {
-  opacity: 1;
-  max-height: 60px;
-}
-
 .category-card:nth-child(1),
 .category-card:nth-child(4) {
   grid-column: span 3;
@@ -857,7 +868,7 @@
 
 .category-card__title {
   color: #fff;
-  font-size: 70px;
+  font-size: 55px;
   font-weight: 700;
   letter-spacing: -1.05px;
   transition: opacity 0.3s ease-in-out;
@@ -876,6 +887,11 @@
   max-height: 0;
   transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out;
   overflow: hidden;
+}
+
+.category-card--hovered .category-card__description {
+  opacity: 1;
+  max-height: 60px;
 }
 
 .offering {
@@ -1225,7 +1241,7 @@
   }
 
   .filter-category-card {
-    min-height: 300px;
+    min-height: 390px;
   }
 
   .filter-category-card__title {
@@ -1262,12 +1278,17 @@
     min-height: 300px;
   }
 
+  .category-card:nth-child(2) .category-card__title,
+  .category-card:nth-child(3) .category-card__title {
+    max-width: 310px;
+  }
+
   .category-card__info {
     gap: 15px;
   }
 
   .category-card__title {
-    font-size: 50px;
+    font-size: 45px;
   }
 
   .category-card__description {
@@ -1451,6 +1472,11 @@
     min-height: 250px;
   }
 
+  .category-card:nth-child(2) .category-card__title,
+  .category-card:nth-child(3) .category-card__title {
+    max-width: 225px;
+  }
+
   .category-card__title {
     font-size: 38px;
   }
@@ -1614,7 +1640,7 @@
   .filter-category-card,
   .filter-category-card.filter-category-card--hovered {
     width: 100%;
-    min-height: 250px;
+    min-height: 310px;
     max-width: 500px;
     margin: 0 auto;
   }
@@ -1666,6 +1692,11 @@
 
   .category-card {
     min-height: 180px;
+  }
+
+  .category-card:nth-child(2) .category-card__title,
+  .category-card:nth-child(3) .category-card__title {
+    max-width: 200px;
   }
 
   .category-card__info {
@@ -1793,7 +1824,7 @@
   }
 
   .collection__filters__header button {
-    max-height: 30px;
+    max-height: 40px;
   }
 
   .filter-category-card__title {
@@ -1804,8 +1835,28 @@
     font-size: 12px;
   }
 
+  .filter-category-card__goods {
+    padding: 10px 0 0;
+  }
+
   .plant-card {
     margin: 0 auto;
+  }
+
+  .category__list {
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: 1fr;
+  }
+
+  .category-card {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .category-card:nth-child(1),
+  .category-card:nth-child(2),
+  .category-card:nth-child(3),
+  .category-card:nth-child(4) {
+    grid-column: span 1;
   }
 
   .collection__title,
@@ -1854,18 +1905,6 @@
 
   .plants__list {
     grid-template-columns: 1fr;
-  }
-
-  .category__list {
-    grid-template-rows: repeat(4, 1fr);
-    grid-template-columns: 1fr;
-  }
-
-  .category-card:nth-child(1),
-  .category-card:nth-child(2),
-  .category-card:nth-child(3),
-  .category-card:nth-child(4) {
-    grid-column: span 1;
   }
 
   .offering__title {
