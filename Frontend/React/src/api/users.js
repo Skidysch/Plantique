@@ -9,6 +9,6 @@ export async function getCurrentUser(
     },
   };
   const response = await fetch("/api/users/current", requestOptions);
-  const data = response.json();
+  const data = await response.json();
   return data;
 }

@@ -6,6 +6,6 @@ export async function getCollections() {
     },
   };
   const response = await fetch("/api/collections", requestOptions);
-  const data = response.json();
+  const data = await response.json();
   return await data;
 }
