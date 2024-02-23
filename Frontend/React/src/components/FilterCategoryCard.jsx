@@ -19,6 +19,11 @@ export default function FilterCard(props) {
     backgroundImage: `url(${props.image_url})`,
   };
 
+  const glassStyles = {
+    background: "rgba(255, 255, 255, 0.10)",
+    backdropFilter: "blur(12.5px)",
+  };
+
   return (
     <li
       className={"filter-category-card " + hoverClass}
@@ -26,7 +31,7 @@ export default function FilterCard(props) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="filter-category-card__info">
+      <div className="filter-category-card__info" style={isHovered ? glassStyles : { background: "transparent", backdropFilter: "none" }}>
         <Link to={props.link}>
           <h4 className="filter-category-card__title">{props.name}</h4>
         </Link>

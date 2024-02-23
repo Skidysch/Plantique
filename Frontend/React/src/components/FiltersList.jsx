@@ -1,13 +1,22 @@
 import React from "react";
 import Button from "./Button";
+import { filterCategoriesByCollection } from "../api/categories";
 
-export default function FiltersList({ collections }) {
-
+export default function FiltersList({ collections, setCategories }) {
   return (
-    <ul className="collection__filters__list">
-      {collections.map((item, index) => (
-        <Button key={index} content={item.name} btnLight={true} />
+    <select
+      className="dropdown"
+      onChange={(e) => {
+        filterCategoriesByCollection(e.target.value).then((result) => {
+          setCategories(result);
+        });
+      }}
+    >
+      {collections.map((collection) => (
+        <option key={collection.slug} value={collection.id} className="dropdown__option">
+          {collection.name}
+        </option>
       ))}
-    </ul>
+    </select>
   );
 }

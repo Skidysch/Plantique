@@ -6,10 +6,10 @@ import secondLeaf from "/hero-leaves-2.png";
 import thirdLeaf from "/hero-leaves-3.png";
 import { ArrowDown } from "./SVG";
 
-export default function Hero() {
+export default function Hero({ plantsCounter }) {
   const glassText = (
     <>
-      <h3 className="hero__shopping__title">100+ Plants</h3>
+      <h3 className="hero__shopping__title">{Math.floor(plantsCounter / 10) * 10}+ Plants</h3>
       <p className="hero__shopping__text">
         We want our visitors to be inspire to get their hands dirty
       </p>

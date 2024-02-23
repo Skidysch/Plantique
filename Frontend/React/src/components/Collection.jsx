@@ -6,9 +6,9 @@ import IndoorCollection from "./IndoorCollection";
 export default function Collection({ collections, categories, plants }) {
   return (
     <div className="collection">
-      <FilterCollections collections={collections} categories={categories} />
+      <FilterCollections collections={collections} />
       <NewPlants plants={plants} />
-      <IndoorCollection categories={categories} />
+      <IndoorCollection categories={categories} title='Indoor Collection'/>
     </div>
   );
 }

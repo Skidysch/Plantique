@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Button from "./Button";
 import { Logo, Search } from "./SVG";
@@ -18,7 +18,7 @@ export default function Header({ scrollOpacity }) {
       setUser(currentUser);
     }
     fetchUser();
-  }, [])
+  }, []);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -34,12 +34,12 @@ export default function Header({ scrollOpacity }) {
             <Button content={<Logo />} btnRound={true} size={60} />
           </li>
         </Link>
-        <Link to='/contact'>
+        <Link to="/contact">
           <li>
             <Button content="Contact" btnHeader={true} />
           </li>
         </Link>
-        <Link to='/blog'>
+        <Link to="/blog">
           <li>
             <Button content="Blog" btnHeader={true} />
           </li>
