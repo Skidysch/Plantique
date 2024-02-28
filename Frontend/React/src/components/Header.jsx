@@ -67,23 +67,52 @@ export default function Header({ scrollOpacity }) {
         <li>
           <Button content="Shop" btnHeader={true} />
         </li>
-        {token && (
-          <li>
-            <Link to={"/profile"}>
-              <Button content={user.username} btnHeader={true} />
-            </Link>
-          </li>
-        )}
         <li>
           {token === null ? (
             <Link to={"/login"}>
               <Button content={"Log in"} btnHeader={true} />
             </Link>
           ) : (
-            <Button content="Logout" onClick={handleLogout} btnHeader={true} />
+            <Button
+              content={user.username}
+              btnHeader={true}
+              onClick={toggleProfileButton}
+            />
           )}
         </li>
       </ul>
+      <div className="header__profile__sublist">
+        <Link to={"/profile"}>
+          <Button
+            content="Profile"
+            btnHeader={true}
+            btnDark={true}
+            onClick={toggleProfileButton}
+          />
+        </Link>
+        <Link to={"/user/cart"}>
+          <Button
+            content="Cart"
+            btnHeader={true}
+            btnDark={true}
+            onClick={toggleProfileButton}
+          />
+        </Link>
+        <Link to={"/user/favorite"}>
+          <Button
+            content="Favorite"
+            btnHeader={true}
+            btnDark={true}
+            onClick={toggleProfileButton}
+          />
+        </Link>
+        <Button
+          content="Logout"
+          btnHeader={true}
+          btnDark={true}
+          onClick={handleLogout}
+        />
+      </div>
     </header>
   );
 }

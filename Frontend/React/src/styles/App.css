@@ -48,6 +48,37 @@
   align-items: center;
 }
 
+.header__profile__sublist,
+.header__profile__sublist--mobile {
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+}
+
+.header__profile__sublist {
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 32px;
+  right: 5px;
+  top: 100%;
+  transition: opacity .1s ease-in-out;
+  z-index: 20000;
+}
+
+.header__profile__sublist--mobile {
+  top: 105%;
+  align-items: center;
+}
+
+.header__profile__sublist--active {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+}
+
 .burger {
   height: 22px;
   width: 22px;
