@@ -11,6 +11,7 @@ export default function Profile() {
 
   return (
     <div className="profile">
+      <div className="glass-bg"></div>
       <Outlet />
       <div className="profile__card">
         <div className="profile__card__left">
@@ -18,7 +19,7 @@ export default function Profile() {
             className="profile__card__image"
             src={
               user.profile_picture
-                ? user.profile_picture
+                ? `/${user.profile_picture}`
                 : "/logo.svg"
             }
             alt="Profile picture"

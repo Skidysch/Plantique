@@ -77,6 +77,7 @@ export default function Register() {
 
   return (
     <div className="register">
+      <div className="glass-bg"></div>
       <Form className="form" method="post" action="/register">
         <h1 className="form__title">Registration</h1>
         <div className="form__data">

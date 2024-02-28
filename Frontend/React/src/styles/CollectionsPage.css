@@ -11,12 +11,13 @@
 }
 
 .collections__content {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 40px;
   color: #fff;
   z-index: 1;
-  padding: 114px 40px 60px;
+  padding: 114px 0px 60px;
 }
 
 .collections__collection {

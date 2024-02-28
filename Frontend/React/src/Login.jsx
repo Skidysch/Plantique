@@ -59,6 +59,7 @@ export default function Login() {
 
   return (
     <div className="login">
+      <div className="glass-bg"></div>
       <Form className="form" method="post" action="/login">
         <h1 className="form__title">Authorization</h1>
         <div className="form__data">

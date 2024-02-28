@@ -103,6 +103,8 @@
   transition: transform 0.3s ease-in-out;
   transition-delay: 0.3s;
   transform: translateY(-100%);
+  display: grid;
+  place-items: center;
 }
 
 .header--mobile__nav.active {
@@ -117,12 +119,13 @@
 
 .header--mobile__nav__list {
   list-style: none;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 20px;
+  position: relative;
+
 }
 
 .header--mobile__nav__item {
@@ -499,7 +502,8 @@
   vertical-align: text-bottom;
 }
 
-.collection {
+.collection,
+.collections {
   padding: 0 55px;
 }
 
@@ -1211,7 +1215,8 @@
     height: 48px;
   }
 
-  .collection {
+  .collection,
+  .collections {
     padding: 0 25px;
   }
 
@@ -1620,7 +1625,8 @@
     aspect-ratio: 400 / 230;
   }
 
-  .collection {
+  .collection,
+  .collections {
     padding: 0 15px;
   }
 

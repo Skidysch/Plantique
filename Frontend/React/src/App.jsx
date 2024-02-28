@@ -36,7 +36,10 @@ function App() {
     <div className="wrapper">
       <ScrollToTop />
       <HeaderBreakpoint>
-        <Header handleScroll={handleScroll} scrollOpacity={scrollOpacity} />
+        <Header
+          handleScroll={handleScroll}
+          scrollOpacity={scrollOpacity}
+        />
       </HeaderBreakpoint>
       <HeaderMobileBreakpoint>
         <HeaderMobile
