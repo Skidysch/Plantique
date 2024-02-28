@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Button from "./Button";
 import { Logo, Search } from "./SVG";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { getCurrentUser } from "../api/users";
 
@@ -33,6 +33,7 @@ export default function HeaderMobile({ scrollOpacity }) {
     fetchUser();
   }, []);
 
+  const pathname = useLocation().pathname;
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -41,12 +42,25 @@ export default function HeaderMobile({ scrollOpacity }) {
   };
 
   return (
-    <div className="header--mobile" style={headerStyle}>
+    <div id="header" className="header--mobile" style={headerStyle}>
       <ul className="header--mobile__list">
-        <li className="header--mobile__logo" onClick={isActive ? toggleActive : undefined}>
-          <Link to={"/"}>
-            <Button content={<Logo />} btnRound={true} size={60} />
-          </Link>
+        <li
+          className="header--mobile__logo"
+          onClick={isActive ? toggleActive : undefined}
+        >
+          {pathname === "/" ? (
+            <div
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              <Button content={<Logo />} btnRound={true} size={60} />
+            </div>
+          ) : (
+            <Link to="/">
+              <Button content={<Logo />} btnRound={true} size={60} />
+            </Link>
+          )}
         </li>
         <nav className={"header--mobile__nav " + activeClass}>
           <ul className="header--mobile__nav__list">

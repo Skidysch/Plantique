@@ -6,10 +6,12 @@ import secondLeaf from "/hero-leaves-2.png";
 import thirdLeaf from "/hero-leaves-3.png";
 import { ArrowDown } from "./SVG";
 
-export default function Hero({ plantsCounter }) {
+export default function Hero({ plantsCounter, scrollToCollection }) {
   const glassText = (
     <>
-      <h3 className="hero__shopping__title">{Math.floor(plantsCounter / 10) * 10}+ Plants</h3>
+      <h3 className="hero__shopping__title">
+        {Math.floor(plantsCounter / 10) * 10}+ Plants
+      </h3>
       <p className="hero__shopping__text">
         We want our visitors to be inspire to get their hands dirty
       </p>
@@ -50,7 +52,12 @@ export default function Hero({ plantsCounter }) {
             hasBorder={true}
           />
         </div>
-        <Button content={<ArrowDown />} btnRound={true} size={92} />
+        <Button
+          content={<ArrowDown />}
+          btnRound={true}
+          size={92}
+          onClick={scrollToCollection}
+        />
         <div className="hero__shopping__button">
           <Button
             content="Shop Tropical Plants"

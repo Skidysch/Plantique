@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import Button from "./Button";
 import { Logo, Search } from "./SVG";
@@ -11,7 +11,11 @@ export default function Header({ scrollOpacity }) {
     backgroundColor: `rgba(0, 50, 0, ${scrollOpacity})`,
   };
 
+  const pathname = useLocation().pathname;
+  const navigate = useNavigate();
+
   const { token, setToken, user, setUser } = useContext(UserContext);
+
   useEffect(() => {
     async function fetchUser() {
       const currentUser = await getCurrentUser();
@@ -19,31 +23,42 @@ export default function Header({ scrollOpacity }) {
     }
     fetchUser();
   }, []);
-  const navigate = useNavigate();
 
   const handleLogout = () => {
+    toggleProfileButton();
     setToken(null);
     navigate("/login");
   };
 
+  const toggleProfileButton = () => {
+    const subList = document.querySelector(".header__profile__sublist");
+    subList.classList.toggle("header__profile__sublist--active");
+  };
+
   return (
-    <header className="header" style={headerStyle}>
+    <header id="header" className="header" style={headerStyle}>
       <ul className="header__list">
-        <Link to="/">
-          <li>
-            <Button content={<Logo />} btnRound={true} size={60} />
-          </li>
-        </Link>
-        <Link to="/contact">
-          <li>
+        <li>
+          {pathname === "/" ? (
+            <div onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })}}>
+              <Button content={<Logo />} btnRound={true} size={60} />
+            </div>
+          ) : (
+            <Link to="/">
+              <Button content={<Logo />} btnRound={true} size={60} />
+            </Link>
+          )}
+        </li>
+        <li>
+          <Link to="/contact">
             <Button content="Contact" btnHeader={true} />
-          </li>
-        </Link>
-        <Link to="/blog">
-          <li>
+          </Link>
+        </li>
+        <li>
+          <Link to="/blog">
             <Button content="Blog" btnHeader={true} />
-          </li>
-        </Link>
+          </Link>
+        </li>
       </ul>
       <ul className="header__list">
         <li>
