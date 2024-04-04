@@ -1,16 +1,29 @@
-from fastapi import Depends, FastAPI, HTTPException, security
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
 
-from db import crud, schemas
-import services
+from api_v1 import router as router_v1
+from core.settings import settings
+from users.views import router as users_router
 
-services.create_database()
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Here comes actions that could be used
+    # during app initialization.
+
+    yield
+    # Here would come actions after app is done its work,
+    # e.g. here we can close database and release resources.
+
+
+app = FastAPI(lifespan=lifespan)
+app.include_router(users_router)
+app.include_router(router_v1, prefix=settings.api_v1_prefix)
 
 origins = [
-    'http://localhost:5173',
+    "http://localhost:5173",
 ]
 
 app.add_middleware(
