@@ -12,7 +12,11 @@ from ..settings import settings
 
 
 class DatabaseHelper:
-    def __init__(self, url: str, echo: bool = False) -> None:
+    def __init__(
+        self,
+        url: str,
+        echo: bool = False,
+    ) -> None:
         self.engine = create_async_engine(
             url=url,
             echo=echo,
@@ -24,7 +28,9 @@ class DatabaseHelper:
             expire_on_commit=False,
         )
 
-    def get_scoped_session(self):
+    def get_scoped_session(
+        self,
+    ):
         session = async_scoped_session(
             session_factory=self.session_factory,
             scopefunc=current_task,
@@ -33,13 +39,17 @@ class DatabaseHelper:
 
     # Session creates at every request
     # Session made with session factory
-    async def session_dependency(self) -> AsyncGenerator[AsyncSession, Any]:
+    async def session_dependency(
+        self,
+    ) -> AsyncGenerator[AsyncSession, Any]:
         async with self.session_factory() as session:
             yield session
             await session.close()
 
     # Session made with scoped session
-    async def scoped_session_dependency(self) -> AsyncGenerator[async_scoped_session[AsyncSession], Any]:
+    async def scoped_session_dependency(
+        self,
+    ) -> AsyncGenerator[async_scoped_session[AsyncSession], Any]:
         session = self.get_scoped_session()
         yield session
         await session.close()

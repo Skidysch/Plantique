@@ -1,7 +1,11 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .schemas import CollectionCreate, CollectionUpdate, CollectionUpdatePartial
+from .schemas import (
+    CollectionCreate,
+    CollectionUpdate,
+    CollectionUpdatePartial,
+)
 from core.models import Collection
 
 
@@ -40,7 +44,11 @@ async def update_collection(
     collection_update: CollectionUpdate | CollectionUpdatePartial,
     partial: bool = False,
 ) -> Collection:
-    for key, value in collection_update.model_dump(exclude_unset=partial).items():
+    for key, value in (
+        collection_update
+        .model_dump(exclude_unset=partial)
+        .items()
+    ):
         setattr(collection, key, value)
 
     await session.commit()
