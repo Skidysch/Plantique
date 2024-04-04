@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .schemas import PlantCreate, PlantUpdate, PlantUpdatePartial
-from core.models.plant import Plant
+from core.models import Plant
 
 
 async def get_plants(
