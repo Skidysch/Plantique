@@ -30,7 +30,7 @@ class Plant(Base):
     updated_at: Mapped[datetime] = mapped_column(
         default=datetime.now,
         server_default=func.now(),
-        onupdate=func.now(),
+        onupdate=datetime.now,
     )
 
     # categories: Mapped[list[Category]] = relationship('Category', secondary=PlantCategoryAssociation, back_populates="plants",)
