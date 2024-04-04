@@ -5,7 +5,9 @@ from .schemas import PlantCreate, PlantUpdate, PlantUpdatePartial
 from core.models.plant import Plant
 
 
-async def get_plants(session: AsyncSession) -> list[Plant]:
+async def get_plants(
+    session: AsyncSession,
+) -> list[Plant]:
     query = select(Plant).order_by(Plant.id)
     result = await session.execute(query)
     plants = result.scalars().all()
@@ -13,11 +15,17 @@ async def get_plants(session: AsyncSession) -> list[Plant]:
     return list(plants)
 
 
-async def get_plant(session: AsyncSession, plant_id: int) -> Plant | None:
+async def get_plant(
+    session: AsyncSession,
+    plant_id: int,
+) -> Plant | None:
     return await session.get(Plant, plant_id)
 
 
-async def create_plant(session: AsyncSession, plant_in: PlantCreate) -> Plant:
+async def create_plant(
+    session: AsyncSession,
+    plant_in: PlantCreate,
+) -> Plant:
     plant = Plant(**plant_in.model_dump())
     session.add(plant)
     await session.commit()
