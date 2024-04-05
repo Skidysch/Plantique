@@ -7,6 +7,7 @@ __all__ = (
     "Category",
     "Collection",
     "Profile",
+    "Cart",
 )
 
 
@@ -17,3 +18,4 @@ from .plant import Plant
 from .category import Category
 from .collection import Collection
 from .profile import Profile
+from .cart import Cart
