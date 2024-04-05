@@ -7,6 +7,7 @@ from .base import Base
 
 if TYPE_CHECKING:
     from .cart import Cart
+    from .order import Order
 
 
 class User(Base):
@@ -20,5 +21,5 @@ class User(Base):
     cart_id: Mapped[int] = mapped_column(
         ForeignKey("carts.id"),
     )
-    cart: Mapped["Cart"] = relationship("Cart", back_populates="user")
-    # orders: list[Order] = relationship("Order", back_populates="user")
+    cart: Mapped["Cart"] = relationship(back_populates="user")
+    orders: Mapped[list["Order"]] = relationship(back_populates="user")
