@@ -32,7 +32,3 @@ class Category(Base):
     #                       secondary=plant_category_association,
     #                       back_populates='categories'
     #                       )
-
-    # categories: Mapped[list[Category]] = relationship('Category', secondary=PlantCategoryAssociation, back_populates="plants",)
-    # carts: Mapped[list[Cart]] = relationship('Cart', secondary=PlantCartAssociation, back_populates="plants",)
-    # orders: Mapped[list[Order]] = relationship('Order', secondary=PlantOrderAssociation, back_populates="plants",)
