@@ -1,7 +1,12 @@
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
+from typing import TYPE_CHECKING
+
+from sqlalchemy import ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
+
+# if TYPE_CHECKING:
+#     from .cart import Cart
 
 
 class User(Base):
@@ -12,7 +17,10 @@ class User(Base):
         default=True,
         server_default="true",
     )
-    # cart: Cart = relationship("Cart", back_populates="user")
+    # cart_id: Mapped[int] = mapped_column(
+    #     ForeignKey("carts.id"),
+    # )
+    # cart: Mapped["Cart"] = relationship("Cart", back_populates="user")
     # orders: list[Order] = relationship("Order", back_populates="user")
 
     # Move to profile

@@ -6,6 +6,7 @@ __all__ = (
     "Plant",
     "Category",
     "Collection",
+    "Profile",
 )
 
 
@@ -15,3 +16,4 @@ from .user import User
 from .plant import Plant
 from .category import Category
 from .collection import Collection
+from .profile import Profile
