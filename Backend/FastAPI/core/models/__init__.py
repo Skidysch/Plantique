@@ -8,6 +8,7 @@ __all__ = (
     "Collection",
     "Profile",
     "Cart",
+    "Order",
 )
 
 
@@ -19,3 +20,4 @@ from .category import Category
 from .collection import Collection
 from .profile import Profile
 from .cart import Cart
+from .order import Order
