@@ -22,11 +22,3 @@ class PlantCategoryAssociation(Base):
 
     plant_id: Mapped[int] = mapped_column(ForeignKey("plants.id"))
     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))
-    # Association between PlantCategoryAssociation -> Plant
-    plant: Mapped["Plant"] = relationship(
-        back_populates="categories_details",
-    )
-    # Association between PlantCategoryAssociation -> Category
-    category: Mapped["Category"] = relationship(
-        back_populates="plants_details",
-    )
