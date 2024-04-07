@@ -8,6 +8,8 @@ from .base import Base
 
 if TYPE_CHECKING:
     from .category import Category
+    from .cart_plant_association import CartPlantAssociation
+    from .order_plant_association import OrderPlantAssociation
 
 
 class Plant(Base):
@@ -40,11 +42,9 @@ class Plant(Base):
         secondary="plant_category_association",
         back_populates="plants",
     )
-    # # Association between Plant -> PlantCategoryAssociation -> Category
-    # # Unneccessary here, because our association does not have other fields.
-    # # We will use similar approach with our Cart Plant association.
-    # categories_details: Mapped[list["PlantCategoryAssociation"]] = relationship(
-    #     back_populates="plant",
-    # )
-    # carts: Mapped[list[Cart]] = relationship('Cart', secondary=CartPlantAssociation, back_populates="plants",)
-    # orders: Mapped[list[Order]] = relationship('Order', secondary=OrderPlantAssociation, back_populates="plants",)
+    carts_details: Mapped[list["CartPlantAssociation"]] = relationship(
+        back_populates="plant",
+    )
+    orders_details: Mapped[list["OrderPlantAssociation"]] = relationship(
+        back_populates="plant",
+    )

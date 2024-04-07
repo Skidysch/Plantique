@@ -1,20 +1,18 @@
-# from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING
 
-# from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy.orm import Mapped, relationship
 
 from .base import Base
 from .mixins import UserRelationMixin
 
-# if TYPE_CHECKING:
-#     from .plant import Plant
+if TYPE_CHECKING:
+    from .cart_plant_association import CartPlantAssociation
 
 
 class Cart(Base, UserRelationMixin):
     _user_id_unique = True
     _user_back_populates = "cart"
 
-    # plants: Mapped[list["Plant"]] = relationship(
-    #     "Plant",
-    #     secondary=PlantCartAssociation,
-    #     back_populates="carts",
-    # )
+    plants_details: Mapped[list["CartPlantAssociation"]] = relationship(
+        back_populates="cart",
+    )
