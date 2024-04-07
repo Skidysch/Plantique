@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .base import Base
 
 if TYPE_CHECKING:
+    from .profile import Profile
     from .cart import Cart
     from .order import Order
 
@@ -18,8 +19,6 @@ class User(Base):
         default=True,
         server_default="true",
     )
-    cart_id: Mapped[int] = mapped_column(
-        ForeignKey("carts.id"),
-    )
+    profile: Mapped["Profile"] = relationship(back_populates="user")
     cart: Mapped["Cart"] = relationship(back_populates="user")
     orders: Mapped[list["Order"]] = relationship(back_populates="user")
