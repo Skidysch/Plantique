@@ -1,9 +1,13 @@
+from typing import TYPE_CHECKING
 from datetime import datetime
 
 from sqlalchemy import func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
+
+if TYPE_CHECKING:
+    from .category import Category
 
 
 class Collection(Base):
@@ -20,4 +24,6 @@ class Collection(Base):
         server_default=func.now(),
         onupdate=datetime.now,
     )
-    # categories = relationship('Category', back_populates='collection')
+    categories: Mapped[list["Category"]] = relationship(
+        back_populates="collection",
+    )

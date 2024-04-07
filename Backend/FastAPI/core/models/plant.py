@@ -1,9 +1,13 @@
+from typing import TYPE_CHECKING
 from datetime import datetime
 
 from sqlalchemy import func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
+
+if TYPE_CHECKING:
+    from .category import Category
 
 
 class Plant(Base):
@@ -32,7 +36,15 @@ class Plant(Base):
         server_default=func.now(),
         onupdate=datetime.now,
     )
-
-    # categories: Mapped[list[Category]] = relationship('Category', secondary=PlantCategoryAssociation, back_populates="plants",)
-    # carts: Mapped[list[Cart]] = relationship('Cart', secondary=PlantCartAssociation, back_populates="plants",)
-    # orders: Mapped[list[Order]] = relationship('Order', secondary=PlantOrderAssociation, back_populates="plants",)
+    categories: Mapped[list["Category"]] = relationship(
+        secondary="plant_category_association",
+        back_populates="plants",
+    )
+    # # Association between Plant -> PlantCategoryAssociation -> Category
+    # # Unneccessary here, because our association does not have other fields.
+    # # We will use similar approach with our Cart Plant association.
+    # categories_details: Mapped[list["PlantCategoryAssociation"]] = relationship(
+    #     back_populates="plant",
+    # )
+    # carts: Mapped[list[Cart]] = relationship('Cart', secondary=CartPlantAssociation, back_populates="plants",)
+    # orders: Mapped[list[Order]] = relationship('Order', secondary=OrderPlantAssociation, back_populates="plants",)
