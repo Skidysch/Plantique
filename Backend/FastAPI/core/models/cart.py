@@ -14,5 +14,6 @@ class Cart(Base, UserRelationMixin):
     _user_back_populates = "cart"
 
     plants_details: Mapped[list["CartPlantAssociation"]] = relationship(
+        cascade="all,delete",
         back_populates="cart",
     )

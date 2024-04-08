@@ -21,9 +21,11 @@ class CartPlantAssociation(Base):
     )
 
     cart_id: Mapped[int] = mapped_column(
-        ForeignKey("carts.id"),
+        ForeignKey("carts.id", ondelete="CASCADE"),
     )
-    plant_id: Mapped[int] = mapped_column(ForeignKey("plants.id"))
+    plant_id: Mapped[int] = mapped_column(
+        ForeignKey("plants.id", ondelete="CASCADE"),
+    )
     # Association between PlantCategoryAssociation -> Cart
     cart: Mapped["Cart"] = relationship(
         back_populates="plants_details",

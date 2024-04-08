@@ -21,9 +21,11 @@ class OrderPlantAssociation(Base):
     )
 
     order_id: Mapped[int] = mapped_column(
-        ForeignKey("orders.id"),
+        ForeignKey("orders.id", ondelete="CASCADE"),
     )
-    plant_id: Mapped[int] = mapped_column(ForeignKey("plants.id"))
+    plant_id: Mapped[int] = mapped_column(
+        ForeignKey("plants.id", ondelete="CASCADE"),
+    )
     # Association between PlantCategoryAssociation -> Order
     order: Mapped["Order"] = relationship(
         back_populates="plants_details",

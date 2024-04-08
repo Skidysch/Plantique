@@ -14,5 +14,6 @@ class Order(Base, UserRelationMixin):
     _user_back_populates = "orders"
 
     plants_details: Mapped[list["OrderPlantAssociation"]] = relationship(
+        cascade="all,delete",
         back_populates="order",
     )

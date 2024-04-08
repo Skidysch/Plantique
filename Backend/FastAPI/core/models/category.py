@@ -37,11 +37,6 @@ class Category(Base):
     )
     plants: Mapped[list["Plant"]] = relationship(
         secondary="plant_category_association",
+        cascade="all,delete",
         back_populates="categories",
     )
-    # # Association between Category -> PlantCategoryAssociation -> Plant
-    # # Unneccessary here, because our association does not have other fields.
-    # # This one we will use with our Cart Plant association.
-    # plants_details: Mapped[list["PlantCategoryAssociation"]] = relationship(
-    #     back_populates="category"
-    # )

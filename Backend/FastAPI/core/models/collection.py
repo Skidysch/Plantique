@@ -25,5 +25,6 @@ class Collection(Base):
         onupdate=datetime.now,
     )
     categories: Mapped[list["Category"]] = relationship(
+        cascade="all,delete",
         back_populates="collection",
     )

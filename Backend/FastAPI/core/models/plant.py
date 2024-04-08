@@ -40,11 +40,14 @@ class Plant(Base):
     )
     categories: Mapped[list["Category"]] = relationship(
         secondary="plant_category_association",
+        cascade="all,delete",
         back_populates="plants",
     )
     carts_details: Mapped[list["CartPlantAssociation"]] = relationship(
+        cascade="all,delete",
         back_populates="plant",
     )
     orders_details: Mapped[list["OrderPlantAssociation"]] = relationship(
+        cascade="all,delete",
         back_populates="plant",
     )
