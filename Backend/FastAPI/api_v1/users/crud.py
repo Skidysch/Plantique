@@ -7,6 +7,7 @@ from .schemas import UserCreate, UserUpdate, UserUpdatePartial
 from api_v1.carts.crud import create_user_cart
 from api_v1.profiles.crud import create_user_profile
 from api_v1.profiles.schemas import ProfileCreate
+from auth.utils import hash_password
 from core.models import User
 
 
@@ -24,36 +25,24 @@ async def get_users(
 
 async def get_user(
     session: AsyncSession,
-    user_id: int,
+    search_field: str,
+    search_value: str | int,
 ) -> User | None:
+    match search_field:
+        case "username":
+            query_field = User.username
+        case "email":
+            query_field = User.email
+        case _:
+            query_field = User.id
 
     query = (
         select(User)
         .options(joinedload(User.profile), joinedload(User.cart))
-        .where(User.id == user_id)
+        .where(query_field == search_value)
     )
     user: User | None = await session.scalar(query)
     return user
-
-
-# async def get_current_user(
-#     db: AsyncSession,
-#     token: str = Depends(services.oauth2schema),
-# ) -> User:
-#     try:
-#         payload = jwt.decode(
-#             token,
-#             services.JWT_SECRET,
-#             algorithms=["HS256"],
-#         )
-#         user = db.query(models.User).get(payload["id"])
-#     except:
-#         raise HTTPException(
-#             status_code=401,
-#             detail="Invalid Email or Password",
-#         )
-
-#     return schemas.User.model_validate(user)
 
 
 async def create_user(
@@ -61,8 +50,10 @@ async def create_user(
     user_in: UserCreate,
 ) -> User:
 
+    hashed_password = hash_password(user_in.password)
+    del user_in.password
     # TODO: Find a way to unite everything in transaction
-    user = User(**user_in.model_dump())
+    user = User(**user_in.model_dump(), hashed_password=hashed_password)
     session.add(user)
     await session.commit()
     await session.refresh(user)
@@ -89,6 +80,10 @@ async def update_user(
     user_update: UserUpdate | UserUpdatePartial,
     partial: bool = False,
 ) -> User:
+    if user_update.password is not None:
+        hashed_password = hash_password(user_update.password)
+        setattr(user, 'hashed_password', hashed_password)
+        del user_update.password
     for key, value in user_update.model_dump(exclude_unset=partial).items():
         setattr(user, key, value)
 

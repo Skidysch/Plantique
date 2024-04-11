@@ -13,7 +13,8 @@ async def user_by_id(
 ) -> User:
     user = await crud.get_user(
         session=session,
-        user_id=user_id,
+        search_field="id",
+        search_value=user_id,
     )
     if user is not None:
         return user
