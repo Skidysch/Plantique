@@ -20,7 +20,7 @@ class PlantBase(BaseModel):
     # orders: list[Order]
 
 
-class Plant(PlantBase):
+class PlantSchema(PlantBase):
     model_config = ConfigDict(from_attributes=True)
 
     created_at: datetime

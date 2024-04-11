@@ -2,16 +2,21 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import crud
-from core.models import db_helper, Collection as collection_model
+from core.models import db_helper, Collection
 from .dependencies import collection_by_id
-from .schemas import Collection, CollectionCreate, CollectionUpdate, CollectionUpdatePartial
+from .schemas import (
+    CollectionSchema,
+    CollectionCreate,
+    CollectionUpdate,
+    CollectionUpdatePartial,
+)
 
 router = APIRouter(prefix="/collections", tags=["Collections"])
 
 
 @router.get(
     "",
-    response_model=list[Collection],
+    response_model=list[CollectionSchema],
 )
 async def get_collections(
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
@@ -23,7 +28,7 @@ async def get_collections(
 
 @router.post(
     "",
-    response_model=Collection,
+    response_model=CollectionSchema,
     status_code=status.HTTP_201_CREATED,
 )
 async def create_collection(
@@ -38,21 +43,21 @@ async def create_collection(
 
 @router.get(
     "/{collection_id}",
-    response_model=Collection,
+    response_model=CollectionSchema,
 )
 async def get_collection(
-    collection: collection_model = Depends(collection_by_id),
+    collection: Collection = Depends(collection_by_id),
 ):
     return collection
 
 
 @router.put(
     "/{collection_id}",
-    response_model=Collection,
+    response_model=CollectionSchema,
 )
 async def update_collection(
     collection_update: CollectionUpdate,
-    collection: collection_model = Depends(collection_by_id),
+    collection: Collection = Depends(collection_by_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
     return await crud.update_collection(
@@ -64,11 +69,11 @@ async def update_collection(
 
 @router.patch(
     "/{collection_id}",
-    response_model=Collection,
+    response_model=CollectionSchema,
 )
 async def update_collection_partial(
     collection_update: CollectionUpdatePartial,
-    collection: collection_model = Depends(collection_by_id),
+    collection: Collection = Depends(collection_by_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
     return await crud.update_collection(
@@ -84,7 +89,7 @@ async def update_collection_partial(
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def delete_collection(
-    collection: collection_model = Depends(collection_by_id),
+    collection: Collection = Depends(collection_by_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ) -> None:
     await crud.delete_collection(session=session, collection=collection)

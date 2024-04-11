@@ -10,7 +10,7 @@ class ProfileBase(BaseModel):
     profile_picture: str | None = None
 
 
-class Profile(ProfileBase):
+class ProfileSchema(ProfileBase):
     # ORM mode
     model_config = ConfigDict(from_attributes=True)
 

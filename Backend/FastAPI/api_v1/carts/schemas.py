@@ -11,7 +11,7 @@ class CartUser(CartBase):
     id: int
 
 
-class Cart(CartBase):
+class CartSchema(CartBase):
     # ORM mode
     model_config = ConfigDict(from_attributes=True)
 

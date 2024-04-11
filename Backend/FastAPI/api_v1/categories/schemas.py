@@ -16,7 +16,7 @@ class CategoryBase(BaseModel):
     # plants: list[Plant]
 
 
-class Category(CategoryBase):
+class CategorySchema(CategoryBase):
     model_config = ConfigDict(from_attributes=True)
 
     created_at: datetime

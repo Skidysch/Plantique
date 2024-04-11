@@ -2,16 +2,16 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import crud
-from core.models import db_helper, User as user_model
+from core.models import db_helper, User
 from .dependencies import user_by_id
-from .schemas import User, UserCreate, UserUpdate, UserUpdatePartial
+from .schemas import UserSchema, UserCreate, UserUpdate, UserUpdatePartial
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
 @router.get(
     "",
-    response_model=list[User],
+    response_model=list[UserSchema],
 )
 async def get_users(
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
@@ -23,7 +23,7 @@ async def get_users(
 
 @router.post(
     "",
-    response_model=User,
+    response_model=UserSchema,
     status_code=status.HTTP_201_CREATED,
 )
 async def create_user(
@@ -38,21 +38,21 @@ async def create_user(
 
 @router.get(
     "/{user_id}",
-    response_model=User,
+    response_model=UserSchema,
 )
 async def get_user(
-    user: user_model = Depends(user_by_id),
+    user: User = Depends(user_by_id),
 ):
     return user
 
 
 @router.put(
     "/{user_id}",
-    response_model=User,
+    response_model=UserSchema,
 )
 async def update_user(
     user_update: UserUpdate,
-    user: user_model = Depends(user_by_id),
+    user: User = Depends(user_by_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
     return await crud.update_user(
@@ -64,11 +64,11 @@ async def update_user(
 
 @router.patch(
     "/{user_id}",
-    response_model=User,
+    response_model=UserSchema,
 )
 async def update_user_partial(
     user_update: UserUpdatePartial,
-    user: user_model = Depends(user_by_id),
+    user: User = Depends(user_by_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
     return await crud.update_user(
@@ -84,7 +84,7 @@ async def update_user_partial(
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def delete_user(
-    user: user_model = Depends(user_by_id),
+    user: User = Depends(user_by_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ) -> None:
     await crud.delete_user(session=session, user=user)

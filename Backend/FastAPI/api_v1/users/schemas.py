@@ -4,7 +4,7 @@ from annotated_types import MaxLen, MinLen
 from pydantic import BaseModel, ConfigDict, EmailStr
 
 from api_v1.carts.schemas import CartUser
-from api_v1.profiles.schemas import Profile
+from api_v1.profiles.schemas import ProfileSchema
 
 
 class UserBase(BaseModel):
@@ -12,11 +12,11 @@ class UserBase(BaseModel):
     email: EmailStr
 
 
-class User(UserBase):
+class UserSchema(UserBase):
     # ORM mode
     model_config = ConfigDict(from_attributes=True)
 
-    profile: Profile
+    profile: ProfileSchema
     cart: CartUser
 
     is_active: bool
@@ -24,7 +24,7 @@ class User(UserBase):
 
 
 class UserCreate(UserBase):
-    hashed_password: str
+    password: str
 
 
 class UserUpdate(UserCreate):

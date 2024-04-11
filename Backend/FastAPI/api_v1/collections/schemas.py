@@ -10,7 +10,7 @@ class CollectionBase(BaseModel):
     description: str
 
 
-class Collection(CollectionBase):
+class CollectionSchema(CollectionBase):
     model_config = ConfigDict(from_attributes=True)
 
     created_at: datetime
