@@ -2,6 +2,7 @@ __all__ = (
     "Base",
     "DatabaseHelper",
     "db_helper",
+    "db_helper_sqlite",
     "User",
     "Plant",
     "Category",
@@ -16,7 +17,7 @@ __all__ = (
 
 
 from .base import Base
-from .db_helper import DatabaseHelper, db_helper
+from .db_helper import DatabaseHelper, db_helper, db_helper_sqlite
 from .user import User
 from .plant import Plant
 from .category import Category

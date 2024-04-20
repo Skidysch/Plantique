@@ -59,3 +59,7 @@ db_helper = DatabaseHelper(
     url=settings.db.url,
     echo=settings.db.echo,
 )
+
+db_helper_sqlite = DatabaseHelper(
+    url="sqlite+aiosqlite:///C:\\MySheat\\Coding\\Projects\\Plantique\\Backend\\FastAPI\\api_v1\\db_migration\\plantique.db",
+)
