@@ -5,7 +5,7 @@ export async function getCollections() {
       "Content-Type": "application/json",
     },
   };
-  const response = await fetch("/api/collections", requestOptions);
+  const response = await fetch("/api/v1/collections", requestOptions);
   const data = await response.json();
   return await data;
 }

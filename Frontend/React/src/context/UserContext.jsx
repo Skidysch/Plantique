@@ -16,7 +16,7 @@ export const UserProvider = (props) => {
         },
       };
 
-      const response = await fetch("/api/users/current", requestOptions);
+      const response = await fetch("/api/v1/jwt/users/current", requestOptions);
 
       if (!response.ok) {
         setToken(null);

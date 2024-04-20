@@ -6,7 +6,7 @@ export async function getPlants() {
     },
   };
   
-  const response = await fetch("/api/plants", requestOptions);
+  const response = await fetch("/api/v1/plants", requestOptions);
   const data = await response.json();
   return data;
 }
@@ -19,7 +19,7 @@ export async function getPlant(plantSlug) {
     },
   };
 
-  const response = await fetch(`/api/plants/${plantSlug}`, requestOptions)
+  const response = await fetch(`/api/v1/plants/slug/${plantSlug}`, requestOptions)
   const data = await response.json();
   return data;
 }
@@ -31,7 +31,7 @@ export async function filterPlantsByCategory(categoryId) {
       "Content-Type": "application/json",
     },
   };
-  const response = await fetch(`/api/plants/filter/${categoryId}`, requestOptions);
+  const response = await fetch(`/api/v1/plants/filter/${categoryId}`, requestOptions);
   const data = await response.json();
   return data;
 }

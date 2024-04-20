@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Form,
   Link,
-  redirect,
   useActionData,
   useNavigate,
 } from "react-router-dom";
@@ -17,11 +16,11 @@ const submitLogin = async (data) => {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: JSON.stringify(
-      `grant_type=&username=${data.email}&password=${data.password}&scope=&client_id=&client_secret=`
+      `grant_type=&username=${data.username}&password=${data.password}&scope=&client_id=&client_secret=`
     ),
   };
 
-  const response = await fetch("/api/token", requestOptions);
+  const response = await fetch("/api/v1/jwt/login", requestOptions);
   const responseData = await response.json();
 
   if (!response.ok) {
@@ -63,13 +62,13 @@ export default function Login() {
       <Form className="form" method="post" action="/login">
         <h1 className="form__title">Authorization</h1>
         <div className="form__data">
-          <label htmlFor="email" className="form__label">
+          <label htmlFor="username" className="form__label">
             <input
-              type="email"
-              id="email"
-              name="email"
+              type="username"
+              id="username"
+              name="username"
               className="form__input"
-              placeholder="Email"
+              placeholder="Username"
             />
           </label>
           <label htmlFor="password" className="form__label">

@@ -1,5 +1,5 @@
 export async function getCurrentUser(
-  token = localStorage.getItem("authToken")
+  token = localStorage.getItem("authToken"),
 ) {
   const requestOptions = {
     method: "GET",
@@ -8,7 +8,7 @@ export async function getCurrentUser(
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await fetch("/api/users/current", requestOptions);
+  const response = await fetch("/api/v1/jwt/users/current", requestOptions);
   const data = await response.json();
   return data;
 }
