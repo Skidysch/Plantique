@@ -23,3 +23,7 @@ class ProfileCreate(ProfileBase):
 
 class ProfileUpdate(ProfileBase):
     pass
+
+
+class ProfileUpdatePartial(ProfileBase):
+    pass
