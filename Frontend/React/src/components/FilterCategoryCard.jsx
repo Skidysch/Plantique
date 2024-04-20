@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 export default function FilterCard(props) {
   const [isHovered, setIsHovered] = useState(false);
 
+
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -38,8 +39,8 @@ export default function FilterCard(props) {
         <p className="filter-category-card__description">{props.description}</p>
       </div>
       <div className="filter-category-card__goods">
-        <PlantLabel title={props.plants[0].name} link={props.plants[0].link} />
-        <PlantLabel title={props.plants[1].name} link={props.plants[1].link} />
+        <PlantLabel title={props.plants[0]?.name} link={props.plants[0]?.link} />
+        <PlantLabel title={props.plants[1]?.name} link={props.plants[1]?.link} />
       </div>
     </li>
   );

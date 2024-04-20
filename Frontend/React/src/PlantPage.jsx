@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, useLoaderData } from "react-router-dom";
+import { Form, Link, useLoaderData } from "react-router-dom";
 import Button from "./components/Button";
 
 import "./styles/PlantPage.css";
@@ -44,9 +44,11 @@ export default function PlantPage() {
           <p className="plant__soil-type">Soil: {plant.soil_type}</p>
           <p className="plant__categories">
             Categories:{" "}
-            {plant.categories.map((category) => {
-              return `${category.name} `;
-            })}
+            {plant.categories.map((category) => (
+              <Link className="plant__categories__link" key={category.id} to={category.link}>
+                {category.name}
+              </Link>
+            ))}
           </p>
           <p className="plant__description">{plant.description}</p>
         </div>
