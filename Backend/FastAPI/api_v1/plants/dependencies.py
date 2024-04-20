@@ -13,7 +13,25 @@ async def plant_by_id(
 ) -> Plant:
     plant = await crud.get_plant(
         session=session,
-        plant_id=plant_id,
+        search_field="id",
+        search_value=plant_id,
+    )
+    if plant is not None:
+        return plant
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Plant not found!",
+    )
+
+
+async def plant_by_slug(
+    plant_slug: Annotated[str, Path],
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+) -> Plant:
+    plant = await crud.get_plant(
+        session=session,
+        search_field="slug",
+        search_value=plant_slug,
     )
     if plant is not None:
         return plant

@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import crud
 from core.models import db_helper, Plant
-from .dependencies import plant_by_id
+from .dependencies import plant_by_id, plant_by_slug
 from .schemas import PlantSchema, PlantCreate, PlantUpdate, PlantUpdatePartial
 
 router = APIRouter(prefix="/plants", tags=["Plants"])
@@ -37,11 +37,21 @@ async def create_plant(
 
 
 @router.get(
-    "/{plant_id}",
+    "/id/{plant_id}",
     response_model=PlantSchema,
 )
-async def get_plant(
+async def get_plant_by_id(
     plant: Plant = Depends(plant_by_id),
+):
+    return plant
+
+
+@router.get(
+    "/slug/{plant_slug}",
+    response_model=PlantSchema,
+)
+async def get_plant_by_slug(
+    plant: Plant = Depends(plant_by_slug),
 ):
     return plant
 
@@ -88,3 +98,17 @@ async def delete_plant(
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ) -> None:
     await crud.delete_plant(session=session, plant=plant)
+
+
+@router.get(
+    "/filter/{category_id}",
+    response_model=list[PlantSchema],
+)
+async def filter_plants_by_category(
+    category_id: int,
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+) -> list[Plant]:
+    return await crud.get_plants_by_category_id(
+        session=session,
+        category_id=category_id,
+    )

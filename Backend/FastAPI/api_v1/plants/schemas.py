@@ -3,6 +3,15 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict
 
 
+class CategoryInPlant(BaseModel):
+    id: int
+    name: str
+    slug: str
+    link: str
+    description: str
+    image_url: str
+
+
 class PlantBase(BaseModel):
     name: str
     slug: str
@@ -15,22 +24,18 @@ class PlantBase(BaseModel):
     stock_available: bool = False
     stock_quantity: int = 0
 
-    # categories: list[Category]
-    # carts: list[Cart]
-    # orders: list[Order]
-
 
 class PlantSchema(PlantBase):
     model_config = ConfigDict(from_attributes=True)
 
     created_at: datetime
     updated_at: datetime
-    # categories: list["Category"]
+    categories: list[CategoryInPlant]
     id: int
 
 
 class PlantCreate(PlantBase):
-    # categories: list[int] = []
+    categories: list[int] = []
     pass
 
 
@@ -48,3 +53,4 @@ class PlantUpdatePartial(BaseModel):
     price: float | None = None
     stock_available: bool | None = None
     stock_quantity: int | None = None
+    categories: list[int] | None = None

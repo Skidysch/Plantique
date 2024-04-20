@@ -3,6 +3,15 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict
 
 
+class CategoryInCollection(BaseModel):
+    id: int
+    name: str
+    slug: str
+    link: str
+    description: str
+    image_url: str
+
+
 class CollectionBase(BaseModel):
     name: str
     slug: str
@@ -15,6 +24,7 @@ class CollectionSchema(CollectionBase):
 
     created_at: datetime
     updated_at: datetime
+    categories: list[CategoryInCollection] = []
     id: int
 
 

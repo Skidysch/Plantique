@@ -1,5 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from .schemas import (
     CollectionCreate,
@@ -12,28 +13,46 @@ from core.models import Collection
 async def get_collections(
     session: AsyncSession,
 ) -> list[Collection]:
-    query = select(Collection).order_by(Collection.id)
-    result = await session.execute(query)
-    collections = result.scalars().all()
+    query = (
+        select(Collection)
+        .options(selectinload(Collection.categories))
+        .order_by(Collection.id)
+    )
+    collections = await session.scalars(query)
 
     return list(collections)
 
 
 async def get_collection(
     session: AsyncSession,
-    collection_id: int,
+    search_field: str,
+    search_value: str | int,
 ) -> Collection | None:
-    return await session.get(Collection, collection_id)
+    match search_field:
+        case "slug":
+            query_field = Collection.slug
+            query_value = str(search_value)
+        case _:
+            query_field = Collection.id
+            query_value = int(search_value)
+
+    query = (
+        select(Collection)
+        .options(selectinload(Collection.categories))
+        .where(query_field == query_value)
+    )
+    collection: Collection | None = await session.scalar(query)
+    return collection
 
 
 async def create_collection(
     session: AsyncSession,
     collection_in: CollectionCreate,
 ) -> Collection:
-    collection = Collection(**collection_in.model_dump())
+    collection = Collection(**collection_in.model_dump(), categories=[],)
     session.add(collection)
     await session.commit()
-    await session.refresh(collection)
+    await session.refresh(collection, ['categories'])
 
     return collection
 
@@ -44,11 +63,7 @@ async def update_collection(
     collection_update: CollectionUpdate | CollectionUpdatePartial,
     partial: bool = False,
 ) -> Collection:
-    for key, value in (
-        collection_update
-        .model_dump(exclude_unset=partial)
-        .items()
-    ):
+    for key, value in collection_update.model_dump(exclude_unset=partial).items():
         setattr(collection, key, value)
 
     await session.commit()

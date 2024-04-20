@@ -13,7 +13,25 @@ async def category_by_id(
 ) -> Category:
     category = await crud.get_category(
         session=session,
-        category_id=category_id,
+        search_field="id",
+        search_value=category_id,
+    )
+    if category is not None:
+        return category
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Category not found!",
+    )
+
+
+async def category_by_slug(
+    category_slug: Annotated[str, Path],
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+) -> Category:
+    category = await crud.get_category(
+        session=session,
+        search_field="slug",
+        search_value=category_slug,
     )
     if category is not None:
         return category

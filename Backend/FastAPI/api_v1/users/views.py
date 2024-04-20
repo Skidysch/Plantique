@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import crud
 from core.models import db_helper, User
-from .dependencies import user_by_id
+from .dependencies import user_by_email, user_by_id, user_by_username
 from .schemas import UserSchema, UserCreate, UserUpdate, UserUpdatePartial
 
 router = APIRouter(prefix="/users", tags=["Users"])
@@ -37,11 +37,31 @@ async def create_user(
 
 
 @router.get(
-    "/{user_id}",
+    "/id/{user_id}",
     response_model=UserSchema,
 )
-async def get_user(
+async def get_user_by_id(
     user: User = Depends(user_by_id),
+):
+    return user
+
+
+@router.get(
+    "/username/{username}",
+    response_model=UserSchema,
+)
+async def get_user_by_username(
+    user: User = Depends(user_by_username),
+):
+    return user
+
+
+@router.get(
+    "/email/{email}",
+    response_model=UserSchema,
+)
+async def get_user_by_email(
+    user: User = Depends(user_by_email),
 ):
     return user
 
@@ -71,6 +91,9 @@ async def update_user_partial(
     user: User = Depends(user_by_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
+    user_update = UserUpdatePartial.model_validate(
+        {key: value for key, value in user_update if value is not None},
+    )
     return await crud.update_user(
         session=session,
         user=user,

@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import crud
 from core.models import db_helper, Category
-from .dependencies import category_by_id
+from .dependencies import category_by_id, category_by_slug
 from .schemas import (
     CategorySchema,
     CategoryCreate,
@@ -42,11 +42,21 @@ async def create_category(
 
 
 @router.get(
-    "/{category_id}",
+    "/id/{category_id}",
     response_model=CategorySchema,
 )
-async def get_category(
+async def get_category_by_id(
     category: Category = Depends(category_by_id),
+):
+    return category
+
+
+@router.get(
+    "/slug/{category_slug}",
+    response_model=CategorySchema,
+)
+async def get_category_by_slug(
+    category: Category = Depends(category_by_slug),
 ):
     return category
 
@@ -93,3 +103,17 @@ async def delete_category(
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ) -> None:
     await crud.delete_category(session=session, category=category)
+
+
+@router.get(
+    "/filter/{collection_id}",
+    response_model=list[CategorySchema],
+)
+async def filter_categories_by_collection(
+    collection_id: int,
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+) -> list[Category]:
+    return await crud.get_categories_by_collection_id(
+        session=session,
+        collection_id=collection_id,
+    )

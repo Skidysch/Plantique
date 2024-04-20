@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from . import crud
 from core.models import db_helper, Collection
-from .dependencies import collection_by_id
+from .dependencies import collection_by_id, collection_by_slug
 from .schemas import (
     CollectionSchema,
     CollectionCreate,
@@ -42,11 +42,21 @@ async def create_collection(
 
 
 @router.get(
-    "/{collection_id}",
+    "/id/{collection_id}",
     response_model=CollectionSchema,
 )
-async def get_collection(
+async def get_collection_by_id(
     collection: Collection = Depends(collection_by_id),
+):
+    return collection
+
+
+@router.get(
+    "/slug/{collection_slug}",
+    response_model=CollectionSchema,
+)
+async def get_collection_by_slug(
+    collection: Collection = Depends(collection_by_slug),
 ):
     return collection
 
