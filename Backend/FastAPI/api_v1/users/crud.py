@@ -82,9 +82,11 @@ async def update_user(
 ) -> User:
     if user_update.password is not None:
         hashed_password = hash_password(user_update.password)
-        setattr(user, 'hashed_password', hashed_password)
+        setattr(user, "hashed_password", hashed_password)
         del user_update.password
-    for key, value in user_update.model_dump(exclude_unset=partial).items():
+    for key, value in user_update.model_dump(
+        exclude_unset=partial,
+    ).items():
         setattr(user, key, value)
 
     await session.commit()

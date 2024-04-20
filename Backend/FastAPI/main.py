@@ -28,22 +28,6 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[origins],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PATCH", "DELETE"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
     allow_headers=["*"],
 )
-
-
-# Token
-# @app.post("/token")
-# async def generate_token(
-#     form_data: security.OAuth2PasswordRequestForm = Depends(),
-#     db: Session = Depends(services.get_db),
-# ):
-#     user = await services.authenticate_user(
-#         email=form_data.username, password=form_data.password, db=db
-#     )
-
-#     if not user:
-#         raise HTTPException(status_code=401, detail="Invalid credentials")
-
-#     return await services.create_token(user)
