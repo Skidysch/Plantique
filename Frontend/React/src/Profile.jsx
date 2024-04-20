@@ -18,8 +18,8 @@ export default function Profile() {
           <img
             className="profile__card__image"
             src={
-              user.profile_picture
-                ? `/${user.profile_picture}`
+              user.profile.profile_picture
+                ? `/${user.profile.profile_picture}`
                 : "/logo.svg"
             }
             alt="Profile picture"
@@ -31,13 +31,15 @@ export default function Profile() {
           </div>
           <div className="profile__card__info">
             <p className="profile__card__email">{`Username: ${user.username}`}</p>
-            <p className="profile__card__email">{`Full name: ${
-              user.full_name ? user.full_name : "Not set"
+            <p className="profile__card__email">{`First name: ${
+              user.profile.first_name ? user.profile.first_name : "Not set"
+            }`}</p>
+            <p className="profile__card__email">{`Last name: ${
+              user.profile.last_name ? user.profile.last_name : "Not set"
             }`}</p>
             <p className="profile__card__email">{`Email: ${user.email}`}</p>
-            <p className="profile__card__gender">{`Gender: ${user.gender}`}</p>
             <p className="profile__card__birth-date">{`Birth date: ${
-              user.birth_date ? user.birth_date : "Not set"
+              user.profile.birth_date ? user.profile.birth_date : "Not set"
             }`}</p>
           </div>
           <div className="profile__card__action-buttons">
@@ -46,7 +48,15 @@ export default function Profile() {
                 className="profile__card__btn__link"
                 to={`/profile/edit/${user.id}`}
               >
-                <Button content={"Edit profile"} />
+                <Button content={"Edit profile info"} />
+              </Link>
+            </div>
+            <div className="profile__card__btn">
+              <Link
+                className="profile__card__btn__link"
+                to={`/profile/edit/password/${user.id}`}
+              >
+                <Button content={"Change password"} />
               </Link>
             </div>
             <div className="profile__card__btn">

@@ -19,12 +19,11 @@ const submitRegistration = async (data) => {
     body: JSON.stringify({
       username: data.username,
       email: data.email,
-      gender: data.gender,
       password: data.password,
     }),
   };
 
-  const response = await fetch("/api/users", requestOptions);
+  const response = await fetch("/api/v1/users", requestOptions);
   const responseData = await response.json();
 
   if (!response.ok) {
@@ -103,21 +102,6 @@ export default function Register() {
               required
               placeholder="Email"
             />
-          </label>
-          <label htmlFor="gender" className="form__label">
-            <select
-              className="form__input"
-              id="gender"
-              defaultValue={""}
-              name="gender"
-              required
-            >
-              <option value="" disabled>
-                Gender
-              </option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
           </label>
           <label htmlFor="password" className="form__label">
             <input

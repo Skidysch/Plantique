@@ -21,6 +21,7 @@ import { categoryLoader } from "./loaders/categories";
 import { loaderCurrentUser } from "./loaders/user";
 import { collectionsLoader } from "./loaders/collections";
 import CollectionsPage from "./CollectionsPage";
+import ProfileEditPassword, { profileEditPasswordAction } from "./components/ProfileEditPassword";
 
 // TODO: learn to manage state with Redux, so I'll be able to optimise forms with redirect on actions.
 
@@ -59,6 +60,11 @@ const router = createBrowserRouter([
             path: "/profile/edit/:userId",
             element: <ProfileEdit />,
             action: profileEditAction,
+          },
+          {
+            path: "/profile/edit/password/:userId",
+            element: <ProfileEditPassword />,
+            action: profileEditPasswordAction,
           },
         ],
       },

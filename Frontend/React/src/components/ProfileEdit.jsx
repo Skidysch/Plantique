@@ -4,21 +4,32 @@ import { Form, useActionData, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 async function submitProfileEdit({ params, formData }) {
+  const convertKeysToSnakeCase = (obj) => {
+    const snakeCaseObj = {};
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        const snakeCaseKey = key.replace(/[A-Z]/g, (match) => `_${match.toLowerCase()}`);
+        snakeCaseObj[snakeCaseKey] = obj[key];
+      }
+    }
+    return snakeCaseObj;
+  };
+
+  const filteredFormData = Object.fromEntries(
+    Object.entries(formData).filter(([_, value]) => value !== "")
+  );
+
+  const apiFormData = convertKeysToSnakeCase(filteredFormData);
+
   const requestOptions = {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      username: formData.username,
-      full_name: formData.fullName,
-      email: formData.email,
-      gender: formData.gender,
-      password: formData.password,
-      birth_date: formData.birthDate,
-      profile_picture: formData.profilePicture,
-    }),
+    body: JSON.stringify(
+      apiFormData
+    ),
   };
 
-  const response = await fetch(`/api/users/${params.userId}`, requestOptions);
+  const response = await fetch(`/api/v1/profiles/${params.userId}`, requestOptions);
   const data = await response.json();
 
   if (!response.ok) {
@@ -30,28 +41,6 @@ async function submitProfileEdit({ params, formData }) {
 
 export async function profileEditAction({ params, request }) {
   const formData = Object.fromEntries(await request.formData());
-
-  let dataEntries = Object.entries(formData);
-
-  dataEntries.forEach(([key, value]) => {
-    if (value === "") {
-      formData[key] = null;
-    }
-  });
-
-  if (formData.password && formData.password.length > 5) {
-    return await submitProfileEdit({ params, formData });
-  } else if (
-    formData.password &&
-    formData.password.length > 0 &&
-    formData.password.length <= 5
-  ) {
-    return {
-      passwordError:
-        "Make sure that passwords match and greater than 5 symbols",
-    };
-  }
-
   return await submitProfileEdit({ params, formData });
 }
 
@@ -91,57 +80,22 @@ export default function ProfileEdit() {
               action={`/profile/edit/${userId}`}
             >
               <div className="form__data">
-                <label htmlFor="username" className="form__label">
+                <label htmlFor="first-name" className="form__label">
                   <input
                     type="text"
-                    id="username"
-                    name="username"
+                    id="first-name"
+                    name="firstName"
                     className="form__input"
-                    placeholder="Username"
+                    placeholder="First name"
                   />
                 </label>
-                {data?.usernameError && (
-                  <p className="form__error">{data.usernameError}</p>
-                )}
-                <label htmlFor="full-name" className="form__label">
+                <label htmlFor="last-name" className="form__label">
                   <input
                     type="text"
-                    id="full-name"
-                    name="fullName"
+                    id="last-name"
+                    name="lastName"
                     className="form__input"
-                    placeholder="Full name"
-                  />
-                </label>
-                <label htmlFor="email" className="form__label">
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="form__input"
-                    placeholder="Email"
-                  />
-                </label>
-                <label htmlFor="gender" className="form__label">
-                  <select
-                    className="form__input"
-                    id="gender"
-                    name="gender"
-                    defaultValue={""}
-                  >
-                    <option value="" disabled>
-                      Gender
-                    </option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                  </select>
-                </label>
-                <label htmlFor="password" className="form__label">
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    className="form__input"
-                    placeholder="Password"
+                    placeholder="Last name"
                   />
                 </label>
                 <label htmlFor="birth-date" className="form__label">
@@ -170,9 +124,6 @@ export default function ProfileEdit() {
                 </label>
                 {data?.errorMessage && (
                   <p className="form__error">{data.errorMessage}</p>
-                )}
-                {data?.passwordError && (
-                  <p className="form__error">{data.passwordError}</p>
                 )}
                 {data?.successMessage && (
                   <p className="form__success">{data.successMessage}</p>
