@@ -5,6 +5,7 @@
   background-repeat: no-repeat;
   border-radius: 32px;
   padding: 20px;
+  padding-top: 120px;
   display: flex;
   position: relative;
 
@@ -73,7 +74,9 @@
 
 .profile__card__action-buttons {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
+  justify-content: center;
 }
 
 @media (max-width: 992px) {

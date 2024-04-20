@@ -64,6 +64,18 @@
   margin-bottom: 20px;
 }
 
+.plant__categories__link {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 5px;
+  margin-left: 5px;
+  transition: opacity .3s ease-in-out;
+}
+
+.plant__categories__link:hover {
+  opacity: .5;
+}
+
 .plant__description {
   text-align: justify;
 }
