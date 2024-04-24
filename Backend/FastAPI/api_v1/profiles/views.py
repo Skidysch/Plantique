@@ -10,6 +10,17 @@ from core.models import db_helper, Profile
 router = APIRouter(prefix="/profiles", tags=["Profiles"])
 
 
+@router.get(
+    "",
+    response_model=ProfileSchema,
+    status_code=status.HTTP_200_OK,
+)
+async def read_profile(
+    profile: Profile = Depends(profile_by_user_id),
+):
+    return profile
+
+
 @router.post(
     "",
     response_model=ProfileSchema,
