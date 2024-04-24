@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
@@ -18,5 +18,5 @@ class Profile(Base, UserRelationMixin):
     last_name: Mapped[str | None] = mapped_column(
         String(40),
     )
-    birth_date: Mapped[datetime | None]
+    birth_date: Mapped[date | None]
     profile_picture: Mapped[str | None]

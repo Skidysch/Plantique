@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from pydantic import BaseModel, ConfigDict
 
@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict
 class ProfileBase(BaseModel):
     first_name: str | None = None
     last_name: str | None = None
-    birth_date: datetime | None = None
+    birth_date: date | None = None
     profile_picture: str | None = None
 
 
