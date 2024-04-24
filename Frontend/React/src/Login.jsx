@@ -1,15 +1,9 @@
 import React, { useContext, useEffect } from "react";
-import {
-  Form,
-  Link,
-  useActionData,
-  useNavigate,
-} from "react-router-dom";
+import { Form, Link, useActionData, useNavigate } from "react-router-dom";
 import Button from "./components/Button";
 
 import "./styles/Auth.css";
 import { UserContext } from "./context/UserContext";
-import { getCurrentUser } from "./api/users";
 
 const submitLogin = async (data) => {
   const requestOptions = {
@@ -28,8 +22,7 @@ const submitLogin = async (data) => {
   } else {
     return {
       successMessage: "Successfuly logged in",
-      token: responseData.access_token,
-      user: await getCurrentUser(responseData.access_token),
+      access_token: responseData.access_token,
     };
   }
 };
@@ -43,13 +36,13 @@ export async function action({ request }) {
 
 export default function Login() {
   const data = useActionData();
-  const { setToken, setUser } = useContext(UserContext);
+  const { setToken } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (data?.successMessage) {
-      setToken(data.token);
-      setUser(data.user);
+    if (data?.access_token) {
+      localStorage.setItem("authToken", data.access_token);
+      setToken(data.access_token)
       setTimeout(() => {
         navigate("/profile");
       }, 1000);

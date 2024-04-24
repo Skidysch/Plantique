@@ -49,7 +49,6 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
-        loader: loaderCurrentUser,
         children: [
           {
             path: "/profile/delete/:userId",

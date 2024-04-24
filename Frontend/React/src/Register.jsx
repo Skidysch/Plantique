@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import {
   Form,
   Link,
-  redirect,
   useActionData,
   useNavigate,
 } from "react-router-dom";
@@ -10,7 +9,6 @@ import Button from "./components/Button";
 import { UserContext } from "./context/UserContext";
 
 import "./styles/Auth.css";
-import { getCurrentUser } from "./api/users";
 
 const submitRegistration = async (data) => {
   const requestOptions = {
@@ -31,8 +29,7 @@ const submitRegistration = async (data) => {
   } else {
     return {
       successMessage: "Registration successful",
-      token: responseData.access_token,
-      user: await getCurrentUser(responseData.access_token),
+      access_token: responseData.access_token,
     };
   }
 };
@@ -61,13 +58,12 @@ export async function action({ request }) {
 
 export default function Register() {
   const data = useActionData();
-  const { setToken, setUser } = useContext(UserContext);
+  const { setToken } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (data?.token) {
-      setToken(data.token);
-      setUser(data.user);
+    if (data?.access_token) {
+      setToken(data.access_token);
       setTimeout(() => {
         navigate("/profile");
       }, 1000);

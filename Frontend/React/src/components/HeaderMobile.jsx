@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Button from "./Button";
-import { Logo, Search } from "./SVG";
+import { Logo } from "./SVG";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { getCurrentUser } from "../api/users";
@@ -27,15 +27,8 @@ export default function HeaderMobile({ scrollOpacity }) {
 
   const activeClass = isActive ? "active" : "";
 
-  const { token, setToken, user, setUser } = useContext(UserContext);
+  const { setToken, user } = useContext(UserContext);
 
-  useEffect(() => {
-    async function fetchUser() {
-      const currentUser = await getCurrentUser();
-      setUser(currentUser);
-    }
-    fetchUser();
-  }, []);
 
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
@@ -90,7 +83,7 @@ export default function HeaderMobile({ scrollOpacity }) {
               <Button content="Shop" btnHeader={true} onClick={toggleActive} />
             </li>
             <li className="header--mobile__nav__item">
-              {token === null ? (
+              {!user ? (
                 <div onClick={toggleActive}>
                   <Link to={"/login"} className="header--mobile__nav__link">
                     <Button content={"Log in"} btnHeader={true} />
@@ -98,7 +91,7 @@ export default function HeaderMobile({ scrollOpacity }) {
                 </div>
               ) : (
                 <Button
-                  content={user.username}
+                  content={user?.username}
                   btnHeader={true}
                   onClick={toggleProfileButton}
                 />

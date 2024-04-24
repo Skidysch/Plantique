@@ -8,7 +8,10 @@ async function submitProfileEdit({ params, formData }) {
     const snakeCaseObj = {};
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        const snakeCaseKey = key.replace(/[A-Z]/g, (match) => `_${match.toLowerCase()}`);
+        const snakeCaseKey = key.replace(
+          /[A-Z]/g,
+          (match) => `_${match.toLowerCase()}`
+        );
         snakeCaseObj[snakeCaseKey] = obj[key];
       }
     }
@@ -24,18 +27,19 @@ async function submitProfileEdit({ params, formData }) {
   const requestOptions = {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(
-      apiFormData
-    ),
+    body: JSON.stringify(apiFormData),
   };
 
-  const response = await fetch(`/api/v1/profiles/${params.userId}`, requestOptions);
+  const response = await fetch(
+    `/api/v1/profiles/${params.userId}`,
+    requestOptions
+  );
   const data = await response.json();
 
   if (!response.ok) {
     return { errorMessage: data.detail };
   } else {
-    return { successMessage: "Profile edited successfully", user: data };
+    return { successMessage: "Profile edited successfully", user_profile: data };
   }
 }
 
@@ -45,7 +49,7 @@ export async function profileEditAction({ params, request }) {
 }
 
 export default function ProfileEdit() {
-  const { setUser } = useContext(UserContext);
+  const {user, setUser } = useContext(UserContext);
   const { userId } = useParams();
   const data = useActionData();
   const navigate = useNavigate();
@@ -56,8 +60,9 @@ export default function ProfileEdit() {
   };
 
   useEffect(() => {
-    if (data?.successMessage) {
-      setUser(data.user);
+    if (data?.user_profile) {
+      setUser({...user, profile: data.user_profile});
+      
       setTimeout(() => {
         navigate("/profile");
       }, 1000);

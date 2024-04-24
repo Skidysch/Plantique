@@ -1,31 +1,23 @@
-import React, { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import Button from "./Button";
 import { Logo, Search } from "./SVG";
 import { UserContext } from "../context/UserContext";
-import { getCurrentUser } from "../api/users";
 
 export default function Header({ scrollOpacity }) {
-  const headerStyle = {
-    backgroundColor: `rgba(0, 50, 0, ${scrollOpacity})`,
-  };
+  const { token, setToken, user } = useContext(UserContext);
 
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
 
-  const { token, setToken, user, setUser } = useContext(UserContext);
-
-  useEffect(() => {
-    async function fetchUser() {
-      const currentUser = await getCurrentUser();
-      setUser(currentUser);
-    }
-    fetchUser();
-  }, []);
+  const headerStyle = {
+    backgroundColor: `rgba(0, 50, 0, ${scrollOpacity})`,
+  };
 
   const handleLogout = () => {
     toggleProfileButton();
+    localStorage.setItem("authToken", null);
     setToken(null);
     navigate("/login");
   };
@@ -40,7 +32,11 @@ export default function Header({ scrollOpacity }) {
       <ul className="header__list">
         <li>
           {pathname === "/" ? (
-            <div onClick={() => {window.scrollTo({ top: 0, behavior: "smooth" })}}>
+            <div
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
               <Button content={<Logo />} btnRound={true} size={60} />
             </div>
           ) : (
@@ -68,7 +64,7 @@ export default function Header({ scrollOpacity }) {
           <Button content="Shop" btnHeader={true} />
         </li>
         <li>
-          {token === null ? (
+          {!user ? (
             <Link to={"/login"}>
               <Button content={"Log in"} btnHeader={true} />
             </Link>
