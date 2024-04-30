@@ -26,16 +26,18 @@ export default function Button(props) {
         (props.btnRound
           ? "btn--round " +
             (props.size === 60
-              ? "btn--60"
+              ? "btn--60 "
               : props.size === 92
-              ? "btn--92"
-              : "btn--172")
-          : "")
+              ? "btn--92 "
+              : "btn--172 ")
+          : "") +
+        (props.disabled ? "disabled " : "")
       }
       type={props.type}
       onClick={props.onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      disabled={props.disabled}
     >
       {props.content}
     </button>

@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PlantLabel from "./PlantLabel";
 import { Link } from "react-router-dom";
 
 export default function FilterCard(props) {
   const [isHovered, setIsHovered] = useState(false);
-
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -32,16 +31,30 @@ export default function FilterCard(props) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="filter-category-card__info" style={isHovered ? glassStyles : { background: "transparent", backdropFilter: "none" }}>
+      <div
+        className="filter-category-card__info"
+        style={
+          isHovered
+            ? glassStyles
+            : { background: "transparent", backdropFilter: "none" }
+        }
+      >
         <Link to={props.link}>
           <h4 className="filter-category-card__title">{props.name}</h4>
         </Link>
         <p className="filter-category-card__description">{props.description}</p>
       </div>
-      <div className="filter-category-card__goods">
-        <PlantLabel title={props.plants[0]?.name} link={props.plants[0]?.link} />
-        <PlantLabel title={props.plants[1]?.name} link={props.plants[1]?.link} />
-      </div>
+      <ul className="filter-category-card__goods">
+        {props.plants.map((plant) => (
+          <li key={plant.id} className="filter-category-card__goods__item">
+            <PlantLabel
+              isHovered={isHovered}
+              title={plant.name}
+              link={plant.link}
+            />
+          </li>
+        ))}
+      </ul>
     </li>
   );
 }

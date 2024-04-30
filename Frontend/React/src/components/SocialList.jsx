@@ -4,6 +4,18 @@ import Button from "./Button";
 export default function SocialList() {
   const instagram = (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="instagram">
+      <defs>
+        <linearGradient
+          id="insta-gradient"
+          gradientTransform="rotate(135) translate(-.2, -.2)"
+        >
+          <stop offset="0%" style={{stopColor: "#4f5bd5"}} />
+          <stop offset="10%" style={{stopColor: "#962fbf"}} />
+          <stop offset="40%" style={{stopColor: "#d62976"}} />
+          <stop offset="70%" style={{stopColor: "#fa7e1e"}} />
+          <stop offset="90%" style={{stopColor: "#feda75"}} />
+        </linearGradient>
+      </defs>
       <g data-name="ig instagram insta photo">
         <path
           id="path-a"

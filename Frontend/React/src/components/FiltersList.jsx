@@ -7,13 +7,18 @@ export default function FiltersList({ collections, setCategories }) {
     <select
       className="dropdown"
       onChange={(e) => {
+
         filterCategoriesByCollection(e.target.value).then((result) => {
           setCategories(result);
         });
       }}
     >
       {collections.map((collection) => (
-        <option key={collection.slug} value={collection.id} className="dropdown__option">
+        <option
+          key={collection.slug}
+          value={collection.id}
+          className="dropdown__option"
+        >
           {collection.name}
         </option>
       ))}
