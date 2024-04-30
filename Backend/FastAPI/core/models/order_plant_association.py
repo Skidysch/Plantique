@@ -20,6 +20,7 @@ class OrderPlantAssociation(Base):
         ),
     )
 
+    id: Mapped[int] = mapped_column(primary_key=True)
     order_id: Mapped[int] = mapped_column(
         ForeignKey("orders.id", ondelete="CASCADE"),
     )

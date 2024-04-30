@@ -20,25 +20,22 @@ class CartPlantAssociation(Base):
         ),
     )
 
+    id: Mapped[int] = mapped_column(primary_key=True)
     cart_id: Mapped[int] = mapped_column(
         ForeignKey("carts.id", ondelete="CASCADE"),
     )
     plant_id: Mapped[int] = mapped_column(
         ForeignKey("plants.id", ondelete="CASCADE"),
     )
-    # Association between PlantCategoryAssociation -> Cart
+    # Association between PlantCartAssociation -> Cart
     cart: Mapped["Cart"] = relationship(
         back_populates="plants_details",
     )
-    # Association between PlantCategoryAssociation -> Plant
+    # Association between PlantCartAssociation -> Plant
     plant: Mapped["Plant"] = relationship(
         back_populates="carts_details",
     )
     quantity: Mapped[int] = mapped_column(
         default=1,
         server_default="1",
-    )
-    unit_price: Mapped[float] = mapped_column(
-        default=0,
-        server_default="0",
     )

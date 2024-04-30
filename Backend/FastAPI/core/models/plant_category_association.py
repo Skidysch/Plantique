@@ -20,6 +20,7 @@ class PlantCategoryAssociation(Base):
         ),
     )
 
+    id: Mapped[int] = mapped_column(primary_key=True)
     plant_id: Mapped[int] = mapped_column(
         ForeignKey("plants.id", ondelete="CASCADE"),
     )
