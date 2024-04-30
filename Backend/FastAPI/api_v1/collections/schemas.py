@@ -2,14 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
-
-class CategoryInCollection(BaseModel):
-    id: int
-    name: str
-    slug: str
-    link: str
-    description: str
-    image_url: str
+from api_v1 import CategoryRelationSchema
 
 
 class CollectionBase(BaseModel):
@@ -24,7 +17,7 @@ class CollectionSchema(CollectionBase):
 
     created_at: datetime
     updated_at: datetime
-    categories: list[CategoryInCollection] = []
+    categories: list[CategoryRelationSchema] = []
     id: int
 
 

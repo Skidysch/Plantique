@@ -3,7 +3,7 @@ from typing import Annotated
 from annotated_types import MaxLen, MinLen
 from pydantic import BaseModel, ConfigDict, EmailStr
 
-from api_v1.carts.schemas import CartUser
+from api_v1 import CartRelationSchema
 from api_v1.profiles.schemas import ProfileSchema
 
 
@@ -17,7 +17,7 @@ class UserSchema(UserBase):
     model_config = ConfigDict(from_attributes=True)
 
     profile: ProfileSchema
-    cart: CartUser
+    cart: CartRelationSchema
 
     is_active: bool
     id: int

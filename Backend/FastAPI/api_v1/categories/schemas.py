@@ -2,19 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
-
-class PlantInCategory(BaseModel):
-    id: int
-    name: str
-    slug: str
-    link: str
-    description: str
-    soil_type: str
-    # TODO: consider ways to store image_url in database
-    image_url: str
-    price: float
-    stock_available: bool = False
-    stock_quantity: int = 0
+from api_v1 import PlantRelationSchema
 
 
 class CollectionInCategory(BaseModel):
@@ -41,7 +29,7 @@ class CategorySchema(CategoryBase):
     created_at: datetime
     updated_at: datetime
     collection: CollectionInCategory | None = None
-    plants: list[PlantInCategory] = []
+    plants: list[PlantRelationSchema] = []
     id: int
 
 
