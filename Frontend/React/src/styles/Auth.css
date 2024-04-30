@@ -74,6 +74,14 @@
   display: block;
 }
 
+.form__input--cart {
+  width: 75px;
+  height: 60px;
+  border-radius: 30px;
+  padding-left: 20px;
+  font-size: 24px;
+}
+
 .form__input--inline {
   width: 30%;
 }
@@ -133,6 +141,14 @@
   text-align: center;
 }
 
+@media (max-width: 1250px) {
+  .form__input--cart {
+    height: 45px;
+    width: 65px;
+    font-size: 20px;
+  }
+}
+
 @media (max-width: 992px) {
   .form {
     padding: 20px;
@@ -164,6 +180,10 @@
     font-size: 13px;
   }
 
+  .form__input--cart {
+    height: 40px;
+  }
+
   .form__btn {
     margin-top: 15px;
   }
@@ -177,5 +197,9 @@
   .register-forgot,
   .login-forgot {
     font-size: 13px;
+  }
+
+  .form__buttons {
+    gap: 5px;
   }
 }

@@ -3,25 +3,28 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from "./App";
+import { UserProvider } from "./context/UserContext";
+import ErrorPage from "./ErrorPage";
 import Index from "./Index";
 import Login, { action as loginAction } from "./Login";
 import Register, { action as registerAction } from "./Register";
-import ErrorPage from "./ErrorPage";
-import { UserProvider } from "./context/UserContext";
 
-import "./styles/index.css";
-import Profile from "./Profile";
+import CategoryPage from "./CategoryPage";
+import CollectionsPage from "./CollectionsPage";
+import PlantPage, { addToPlantAction } from "./PlantPage";
+import CartPage from "./CartPage";
+import ProfilePage from "./ProfilePage";
 import ProfileDelete, { profileDeleteAction } from "./components/ProfileDelete";
 import ProfileEdit, { profileEditAction } from "./components/ProfileEdit";
-import PlantPage from "./PlantPage";
-import CategoryPage from "./CategoryPage";
+import ProfileEditPassword, {
+  profileEditPasswordAction,
+} from "./components/ProfileEditPassword";
 import { rootLoader } from "./loaders/root";
-import { plantLoader } from "./loaders/plants";
 import { categoryLoader } from "./loaders/categories";
-import { loaderCurrentUser } from "./loaders/user";
 import { collectionsLoader } from "./loaders/collections";
-import CollectionsPage from "./CollectionsPage";
-import ProfileEditPassword, { profileEditPasswordAction } from "./components/ProfileEditPassword";
+import { plantLoader } from "./loaders/plants";
+import { cartLoader } from "./loaders/carts";
+import "./styles/index.css";
 
 // TODO: learn to manage state with Redux, so I'll be able to optimise forms with redirect on actions.
 
@@ -48,7 +51,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: <ProfilePage />,
         children: [
           {
             path: "/profile/delete/:userId",
@@ -76,12 +79,18 @@ const router = createBrowserRouter([
         path: "/plants/:plantSlug",
         element: <PlantPage />,
         loader: plantLoader,
+        action: addToPlantAction,
       },
       {
-        path: '/collections',
+        path: "/collections",
         element: <CollectionsPage />,
         loader: collectionsLoader,
-      }
+      },
+      {
+        path: "/cart/:userId",
+        element: <CartPage />,
+        loader: cartLoader,
+      },
     ],
   },
 ]);

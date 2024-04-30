@@ -1,22 +1,25 @@
 from pydantic import BaseModel, ConfigDict
 
-# from api_v1.plants.schemas import Plant
+# from api_v1.categories.schemas import PlantInCategory
+from api_v1 import PlantRelationSchema
+
+
+class CartPlantAssociation(BaseModel):
+    id: int
+    plant: PlantRelationSchema
+    quantity: int
 
 
 class CartBase(BaseModel):
     pass
 
 
-class CartUser(CartBase):
-    id: int
-
-
 class CartSchema(CartBase):
     # ORM mode
     model_config = ConfigDict(from_attributes=True)
-
+    id: int
     user_id: int
-    # plants: list[Plant]
+    plants_details: list[CartPlantAssociation]
 
 
 class CartCreate(CartBase):
@@ -24,4 +27,5 @@ class CartCreate(CartBase):
 
 
 class CartUpdate(CartBase):
-    pass
+    quantity: int | None = None
+    replace: bool | None = None
