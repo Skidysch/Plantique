@@ -304,6 +304,10 @@
   max-height: 172px;
 }
 
+.btn.disabled {
+  opacity: 0.5;
+}
+
 .hero {
   background: url("/hero-bg.jpeg");
   background-size: cover;
@@ -570,20 +574,18 @@
 .filter-category-card {
   position: relative;
   overflow: hidden;
-  /* min-width: 290px;
-  width: calc(100% / 4); */
   flex: 1;
   padding: 10px;
   border-radius: 20px;
   display: flex;
-  min-height: 420px;
+  min-height: 470px;
   flex-direction: column;
   justify-content: space-between;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   transition: flex 0.7s ease-in-out, filter 0.3s ease-in-out;
-  will-change: width;
+  will-change: flex;
   filter: grayscale(70%);
 }
 
@@ -1125,7 +1127,7 @@
 .social__list__link:hover > #instagram,
 .social__list__link:active > #instagram {
   transform: scale(1.2);
-  fill: #8134af;
+  fill: url(#insta-gradient);
 }
 
 .social__list__link:hover > #twitter {
@@ -1276,6 +1278,7 @@
   .filter-category-card,
   .filter-category-card.filter-category-card--hovered {
     width: calc((100% - 20px) / 2);
+    flex: none;
   }
 
   .filter-category-card {
@@ -1954,4 +1957,9 @@
     gap: 10px;
     padding: 0 20px;
   }
+}
+
+.trash-can {
+  fill: #fff;
+  width: 24px;
 }

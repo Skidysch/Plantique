@@ -6,7 +6,7 @@ import { Logo, Search } from "./SVG";
 import { UserContext } from "../context/UserContext";
 
 export default function Header({ scrollOpacity }) {
-  const { token, setToken, user } = useContext(UserContext);
+  const { setToken, user } = useContext(UserContext);
 
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ export default function Header({ scrollOpacity }) {
             </Link>
           ) : (
             <Button
-              content={user.username}
+              content={user?.username}
               btnHeader={true}
               onClick={toggleProfileButton}
             />
@@ -86,7 +86,7 @@ export default function Header({ scrollOpacity }) {
             onClick={toggleProfileButton}
           />
         </Link>
-        <Link to={"/user/cart"}>
+        <Link to={`/cart/${user?.id}`}>
           <Button
             content="Cart"
             btnHeader={true}

@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
 
-import "./styles/Profile.css";
+import "./styles/ProfilePage.css";
 import Button from "./components/Button";
 import { UserContext } from "./context/UserContext";
 
-export default function Profile() {
+export default function ProfilePage() {
   const { user } = useContext(UserContext);
 
   return (

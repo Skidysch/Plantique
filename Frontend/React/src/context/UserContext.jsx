@@ -4,33 +4,34 @@ export const UserContext = createContext();
 
 export const UserProvider = (props) => {
   const [token, setToken] = useState(localStorage.getItem("authToken"));
-  const [user, setUser] = useState(localStorage.getItem("authUser"));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("authUser")));
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUser = async (inputToken) => {
       const requestOptions = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${inputToken}`,
         },
       };
 
       const response = await fetch("/api/v1/jwt/users/current", requestOptions);
-
       if (!response.ok) {
-        setToken(null);
         setUser(null);
+        localStorage.setItem("authUser", null);
+      } else {
+        const user_obj = await response.json();
+        setUser(user_obj);
+        localStorage.setItem("authUser", JSON.stringify(user_obj));
       }
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("authUser", user);
     };
     // await?
-    fetchUser();
-  }, [token, user]);
+    fetchUser(token);
+  }, [token]);
 
   return (
-    <UserContext.Provider value={{token, setToken, user, setUser}}>
+    <UserContext.Provider value={{ token, setToken, user, setUser }}>
       {props.children}
     </UserContext.Provider>
   );

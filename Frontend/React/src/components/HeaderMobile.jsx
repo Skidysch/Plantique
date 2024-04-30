@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Button from "./Button";
 import { Logo } from "./SVG";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import { getCurrentUser } from "../api/users";
 
 export default function HeaderMobile({ scrollOpacity }) {
   const [isActive, setIsActive] = useState(false);
@@ -108,7 +107,7 @@ export default function HeaderMobile({ scrollOpacity }) {
                   onClick={toggleProfileButton}
                 />
               </Link>
-              <Link to={"/user/cart"}>
+              <Link to={`/cart/${user?.id}`}>
                 <Button
                   content="Cart"
                   btnHeader={true}
@@ -119,7 +118,6 @@ export default function HeaderMobile({ scrollOpacity }) {
                 <Button
                   content="Favorite"
                   btnHeader={true}
-                  btnDark={true}
                   onClick={toggleProfileButton}
                 />
               </Link>
