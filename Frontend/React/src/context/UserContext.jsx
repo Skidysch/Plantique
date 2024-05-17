@@ -1,29 +1,20 @@
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { getCurrentUser } from "../api/users";
 
 export const UserContext = createContext();
 
 export const UserProvider = (props) => {
   const [token, setToken] = useState(localStorage.getItem("authToken"));
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("authUser")));
+  const [user, setUser] = useState();
 
   useEffect(() => {
     const fetchUser = async (inputToken) => {
-      const requestOptions = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${inputToken}`,
-        },
-      };
-
-      const response = await fetch("/api/v1/jwt/users/current", requestOptions);
-      if (!response.ok) {
+      
+      if (token === null) {
         setUser(null);
-        localStorage.setItem("authUser", null);
       } else {
-        const user_obj = await response.json();
-        setUser(user_obj);
-        localStorage.setItem("authUser", JSON.stringify(user_obj));
+        const response = await getCurrentUser(inputToken);
+        setUser(response);
       }
     };
     // await?
