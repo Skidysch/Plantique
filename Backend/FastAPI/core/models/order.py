@@ -1,6 +1,8 @@
 from typing import TYPE_CHECKING
+from datetime import datetime
 
-from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy import func
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
 from .mixins import UserRelationMixin
@@ -10,10 +12,22 @@ if TYPE_CHECKING:
 
 
 class Order(Base, UserRelationMixin):
-    _user_id_unique = True
     _user_back_populates = "orders"
 
     plants_details: Mapped[list["OrderPlantAssociation"]] = relationship(
         cascade="all,delete",
         back_populates="order",
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        default=datetime.now,
+        server_default=func.now(),
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        default=datetime.now,
+        server_default=func.now(),
+        onupdate=datetime.now,
+    )
+    paid: Mapped[bool] = mapped_column(
+        default=False,
+        server_default="false",
     )
