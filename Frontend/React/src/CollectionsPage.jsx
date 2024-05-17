@@ -1,14 +1,13 @@
-import React from "react";
-
-import "./styles/CollectionsPage.css";
 import { useLoaderData } from "react-router-dom";
 import IndoorCollection from "./components/IndoorCollection";
+
+import "./styles/CollectionsPage.css";
 
 const CollectionsPage = () => {
   const { collections, categories} = useLoaderData();
 
   const styles = {
-    backgroundImage: `url('/hero-bg.jpeg')`,
+    backgroundImage: `url('/collections-bg.jpg')`,
   };
 
   return (

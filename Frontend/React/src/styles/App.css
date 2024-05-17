@@ -156,7 +156,6 @@
   align-items: center;
   gap: 20px;
   position: relative;
-
 }
 
 .header--mobile__nav__item {
@@ -584,14 +583,12 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: flex 0.7s ease-in-out, filter 0.3s ease-in-out;
+  transition: flex 0.7s ease-in-out;
   will-change: flex;
-  filter: grayscale(70%);
 }
 
 .filter-category-card.filter-category-card--hovered {
   flex: 2.5;
-  filter: grayscale(0);
 }
 
 .filter-category-card__info {
@@ -712,7 +709,6 @@
   font-weight: 800;
   letter-spacing: -6.263px;
   white-space: nowrap;
-
 }
 
 .collection__title--dark {
@@ -1145,6 +1141,23 @@
 .social__list__link:hover > #pinterest {
   transform: scale(1.2);
   fill: #e60023;
+}
+
+.payment {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-left: 12px;
+  padding-right: 12px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 32px;
+  position: relative;
+  color: #fff;
+  font-size: 32px;
+  text-align: center;
 }
 
 @media (max-width: 1250px) {
@@ -1943,6 +1956,10 @@
   .collection__title {
     white-space: normal;
     line-height: 1;
+  }
+
+  .filter-category-card__goods__item:last-child {
+    display: none;
   }
 
   .plants__list {

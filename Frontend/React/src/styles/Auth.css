@@ -75,7 +75,7 @@
 }
 
 .form__input--cart {
-  width: 75px;
+  width: 95px;
   height: 60px;
   border-radius: 30px;
   padding-left: 20px;
@@ -144,7 +144,7 @@
 @media (max-width: 1250px) {
   .form__input--cart {
     height: 45px;
-    width: 65px;
+    width: 85px;
     font-size: 20px;
   }
 }
@@ -163,6 +163,11 @@
 
   .form__input {
     font-size: 15px;
+  }
+
+  .form__input--cart {
+    height: 45px;
+    width: 75px;
   }
 
   .register-forgot,

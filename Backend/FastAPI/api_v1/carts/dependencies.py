@@ -11,7 +11,6 @@ async def cart_by_user_id(
     user_id: Annotated[int, Path],
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ) -> Cart:
-    print(user_id)
     cart = await get_user_cart(
         session=session,
         search_field="user_id",

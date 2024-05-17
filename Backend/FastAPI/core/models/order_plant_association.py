@@ -27,11 +27,11 @@ class OrderPlantAssociation(Base):
     plant_id: Mapped[int] = mapped_column(
         ForeignKey("plants.id", ondelete="CASCADE"),
     )
-    # Association between PlantCategoryAssociation -> Order
+    # Association between PlantOrderAssociation -> Order
     order: Mapped["Order"] = relationship(
         back_populates="plants_details",
     )
-    # Association between PlantCategoryAssociation -> Plant
+    # Association between PlantOrderAssociation -> Plant
     plant: Mapped["Plant"] = relationship(
         back_populates="orders_details",
     )
@@ -43,3 +43,6 @@ class OrderPlantAssociation(Base):
         default=0,
         server_default="0",
     )
+
+    def get_cost(self):
+        return self.quantity * self.unit_price

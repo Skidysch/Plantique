@@ -54,6 +54,11 @@
   margin-bottom: 10px;
 }
 
+.plant__stock {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
 .plant__soil-type {
   margin: 10px 0;
   font-size: 20px;

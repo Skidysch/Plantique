@@ -13,8 +13,6 @@ export default function SwiperPlants({ plants }) {
       modules={[Pagination]}
       spaceBetween={10}
       slidesPerView={1}
-      onSlideChange={() => console.log("slide change")}
-      onSwiper={(swiper) => console.log(swiper)}
       pagination={{ clickable: true, dynamicBullets: true }}
       rewind={true}
       breakpoints={{
@@ -27,7 +25,7 @@ export default function SwiperPlants({ plants }) {
         },
       }}
     >
-      {plants.map((item, index) => (
+      {plants?.map((item, index) => (
         <SwiperSlide key={index}>
           <PlantCard {...item} />
         </SwiperSlide>

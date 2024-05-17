@@ -26,7 +26,7 @@ export default function Index() {
   return (
     <div>
       <Hero
-        plantsCounter={plants.length}
+        plantsCounter={plants?.length}
         scrollToCollection={scrollToElement}
       />
       <Purpose />
