@@ -2,27 +2,22 @@ import React, { useContext, useEffect, useState } from "react";
 import Button from "./Button";
 import { Form, useActionData, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import instance from "../api/axios";
 
 async function submitProfileEditPassword({ params, formData }) {
+  const requestOptions = JSON.stringify({
+    password: formData.password,
+  });
 
-  const requestOptions = {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      password: formData.password,
-    }),
-  };
-
-  const response = await fetch(
-    `/api/v1/users/${params.userId}`,
+  const response = await instance.patch(
+    `/users/${params.userId}`,
     requestOptions
   );
-  const data = await response.json();
 
-  if (!response.ok) {
-    return { errorMessage: data.detail };
+  if (response.statusText !== "OK") {
+    return { errorMessage: response.data.detail };
   } else {
-    return { successMessage: "Password changed successfully", user: data };
+    return { successMessage: "Password changed successfully", user: response.data };
   }
 }
 

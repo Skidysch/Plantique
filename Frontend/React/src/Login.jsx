@@ -4,20 +4,23 @@ import Button from "./components/Button";
 
 import "./styles/Auth.css";
 import { UserContext } from "./context/UserContext";
+import instance from "./api/axios";
 
 const submitLogin = async (data) => {
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: JSON.stringify(
-      `grant_type=&username=${data.username}&password=${data.password}&scope=&client_id=&client_secret=`
-    ),
-  };
+  const requestOptions = JSON.stringify(
+    `grant_type=&username=${data.username}&password=${data.password}&scope=&client_id=&client_secret=`
+  );
 
-  const response = await fetch("/api/v1/jwt/login", requestOptions);
-  const responseData = await response.json();
+  const response = await instance.post(
+    "/jwt/login",
+    requestOptions,
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }
+  );
+  const responseData = await response.data;
 
-  if (!response.ok) {
+  if (response.status !== 200) {
     return { errorMessage: responseData.detail };
   } else {
     return {
@@ -42,7 +45,7 @@ export default function Login() {
   useEffect(() => {
     if (data?.access_token) {
       localStorage.setItem("authToken", data.access_token);
-      setToken(data.access_token)
+      setToken(data.access_token);
       setTimeout(() => {
         navigate("/profile");
       }, 1000);

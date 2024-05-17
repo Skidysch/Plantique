@@ -1,13 +1,19 @@
 import { useState } from "react";
 import Button from "./Button";
 import { Form, Link } from "react-router-dom";
+import instance from "../api/axios";
 
 const CartItem = ({ value, item, setTotalItems, setTotalPrice }) => {
   const [quantity, setQuantity] = useState(value);
 
   const handleChangeQuantity = async (associationId, value, replace) => {
     if (replace) {
-      value = parseInt(value) > 0 ? value : 1;
+      value =
+        parseInt(value) <= 0
+          ? 1
+          : parseInt(value) >= item.plant.stock_quantity
+          ? item.plant.stock_quantity
+          : value;
       setTotalItems(
         (prevState) => parseInt(prevState) + parseInt(value - quantity)
       );
@@ -21,15 +27,9 @@ const CartItem = ({ value, item, setTotalItems, setTotalPrice }) => {
       setTotalPrice((prevState) => prevState + item.plant.price * value);
     }
 
-    const requestOptions = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ quantity: value, replace: replace }),
-    };
+    const requestData = JSON.stringify({ quantity: value, replace: replace });
 
-    await fetch(`/api/v1/carts/update/${associationId}`, requestOptions);
+    await instance.patch(`/carts/update/${associationId}`, requestData);
   };
 
   return (
@@ -69,6 +69,7 @@ const CartItem = ({ value, item, setTotalItems, setTotalPrice }) => {
               content="+"
               btnDark={true}
               btnRound={true}
+              disabled={quantity >= item.plant.stock_quantity}
             />
           </div>
         </Form>

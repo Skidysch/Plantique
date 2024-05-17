@@ -1,14 +1,18 @@
+import instance from "./axios";
+
+
 export async function getCurrentUser(
-  token = localStorage.getItem("authToken"),
+  token,
 ) {
   const requestOptions = {
-    method: "GET",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await fetch("/api/v1/jwt/users/current", requestOptions);
-  const data = await response.json();
-  return data;
+  try {
+    const response = await instance.get("/jwt/users/current", requestOptions);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 }

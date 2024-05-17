@@ -4,22 +4,20 @@ import Button from "./components/Button";
 
 import "./styles/PlantPage.css";
 import { UserContext } from "./context/UserContext";
+import instance from "./api/axios";
 
 const submitForm = async (data) => {
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+  const requestData = {
     body: JSON.stringify({ quantity: data.quantity }),
   };
 
-  const response = await fetch(
-    `/api/v1/carts/id/${data.userId}/add/${data.plantId}`,
-    requestOptions
+  const response = await instance.post(
+    `/carts/id/${data.userId}/add/${data.plantId}`,
+    requestData
   );
-  const responseData = await response.json();
 
-  if (!response.ok) {
-    return { errorMessage: responseData.detail };
+  if (response.statusText !== "OK") {
+    return { errorMessage: response.data.detail };
   } else {
     return {
       successMessage: "Plant successfully added to cart",
@@ -38,11 +36,20 @@ export default function PlantPage() {
   const plant = useLoaderData();
   const data = useActionData();
   const { user } = useContext(UserContext);
-  console.log(user.id);
   const [quantity, setQuantity] = useState(1);
 
   const styles = {
     backgroundImage: `url(${plant?.image_url})`,
+  };
+
+  const handleChangeQuantity = (value) => {
+    value =
+      parseInt(value) <= 0
+        ? 1
+        : parseInt(value) >= plant.stock_quantity
+        ? plant.stock_quantity
+        : value;
+    setQuantity(value);
   };
 
   return (
@@ -56,7 +63,8 @@ export default function PlantPage() {
         </div>
         <div className="plant__right">
           <h1 className="plant__title">{plant?.name}</h1>
-          <p className="plant__price">$ {plant?.price}</p>
+          <p className="plant__price">Price: ${plant?.price}</p>
+          <p className="plant__stock">In stock: {plant?.stock_quantity} pcs.</p>
           <Form
             className="form form--invisible"
             method="post"
@@ -70,7 +78,7 @@ export default function PlantPage() {
                   name="quantity"
                   id="quantity"
                   value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
+                  onChange={(e) => handleChangeQuantity(e.target.value)}
                   placeholder="Quantity"
                 />
               </label>

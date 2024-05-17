@@ -1,35 +1,26 @@
 import { useContext, useEffect } from "react";
-import {
-  Form,
-  Link,
-  useActionData,
-  useNavigate,
-} from "react-router-dom";
+import { Form, Link, useActionData, useNavigate } from "react-router-dom";
 import Button from "./components/Button";
 import { UserContext } from "./context/UserContext";
 
 import "./styles/Auth.css";
+import instance from "./api/axios";
 
 const submitRegistration = async (data) => {
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      username: data.username,
-      email: data.email,
-      password: data.password,
-    }),
-  };
+  const requestData = JSON.stringify({
+    username: data.username,
+    email: data.email,
+    password: data.password,
+  });
 
-  const response = await fetch("/api/v1/users", requestOptions);
-  const responseData = await response.json();
+  const response = await instance.post("/users", requestData);
 
-  if (!response.ok) {
-    return { errorMessage: responseData.detail };
+  if (response.statusText !== "OK") {
+    return { errorMessage: response.data.detail };
   } else {
     return {
       successMessage: "Registration successful",
-      access_token: responseData.access_token,
+      access_token: response.data.access_token,
     };
   }
 };

@@ -1,12 +1,6 @@
-export async function getCart(userId) {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+import instance from "./axios";
 
-  const response = await fetch(`/api/v1/carts/id/${userId}`, requestOptions)
-  const data = await response.json();
+export async function getCart(userId) {
+  const { data } = await instance.get(`/carts/id/${userId}`);
   return data;
 }

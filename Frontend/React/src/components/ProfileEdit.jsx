@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Button from "./Button";
 import { Form, useActionData, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import instance from "../api/axios";
 
 async function submitProfileEdit({ params, formData }) {
   const convertKeysToSnakeCase = (obj) => {
@@ -24,22 +25,17 @@ async function submitProfileEdit({ params, formData }) {
 
   const apiFormData = convertKeysToSnakeCase(filteredFormData);
 
-  const requestOptions = {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(apiFormData),
-  };
+  const requestOptions = JSON.stringify(apiFormData)
 
-  const response = await fetch(
-    `/api/v1/profiles/${params.userId}`,
+  const response = await instance.patch(
+    `/profiles/${params.userId}`,
     requestOptions
   );
-  const data = await response.json();
 
-  if (!response.ok) {
-    return { errorMessage: data.detail };
+  if (response.statusText !== "OK") {
+    return { errorMessage: response.data.detail };
   } else {
-    return { successMessage: "Profile edited successfully", user_profile: data };
+    return { successMessage: "Profile edited successfully", user_profile: response.data };
   }
 }
 

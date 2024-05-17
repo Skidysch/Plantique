@@ -2,14 +2,10 @@ import React, { useContext, useEffect } from "react";
 import Button from "./Button";
 import { Form, useActionData, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import instance from "../api/axios";
 
 async function submitProfileDelete({ params }) {
-  const requestOptions = {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-  };
-
-  const response = await fetch(`/api/users/${params.userId}`, requestOptions);
+  const response = await instance.delete(`/users/${params.userId}`);
   const data = await response.json();
   console.log(data);
 
