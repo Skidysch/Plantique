@@ -12,7 +12,7 @@ import Register, { action as registerAction } from "./Register";
 import CategoryPage from "./CategoryPage";
 import CollectionsPage from "./CollectionsPage";
 import PlantPage, { addToPlantAction } from "./PlantPage";
-import CartPage from "./CartPage";
+import CartPage, { createOrderAction } from "./CartPage";
 import ProfilePage from "./ProfilePage";
 import ProfileDelete, { profileDeleteAction } from "./components/ProfileDelete";
 import ProfileEdit, { profileEditAction } from "./components/ProfileEdit";
@@ -25,6 +25,9 @@ import { collectionsLoader } from "./loaders/collections";
 import { plantLoader } from "./loaders/plants";
 import { cartLoader } from "./loaders/carts";
 import "./styles/index.css";
+import PaymentResultPage from "./PaymentResultPage";
+import PaymentSuccess from "./components/PaymentSuccess";
+import PaymentCancel from "./components/PaymentCancel";
 
 // TODO: learn to manage state with Redux, so I'll be able to optimise forms with redirect on actions.
 
@@ -90,7 +93,23 @@ const router = createBrowserRouter([
         path: "/cart/:userId",
         element: <CartPage />,
         loader: cartLoader,
+        action: createOrderAction,
       },
+      {
+        path: "/payment",
+        element: <PaymentResultPage />,
+        children: [
+          {
+            path: "/payment/success",
+            element: <PaymentSuccess />,
+          },
+          {
+            path: "/payment/cancel",
+            element: <PaymentCancel />,
+          },
+        ],
+      },
+      
     ],
   },
 ]);

@@ -1,13 +1,49 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { Form, useActionData, useLoaderData } from "react-router-dom";
+import instance from "./api/axios";
+import { loadStripe } from "@stripe/stripe-js";
 
 import CartItem from "./components/CartItem";
 import Button from "./components/Button";
 import { TrashCan } from "./components/SVG";
 import "./styles/CartPage.css";
 
+const stripePromise = loadStripe(process.env.STRIPE_PUBLISH);
+
+const submitCreateOrder = async (data) => {
+  const requestOptions = { cart: JSON.parse(data.cart) };
+
+  const response = await instance.post("/orders/create", requestOptions);
+  if (response.status === 201) {
+    try {
+      const stripeResponse = await instance.post(
+        `/payment/process/${response.data.order_id}`
+      );
+      const { stripe_session_id } = stripeResponse.data;
+
+      // Redirect to Stripe
+      const stripe = await stripePromise;
+      await stripe.redirectToCheckout({ sessionId: stripe_session_id });
+      return null;
+
+    } catch (error) {
+      console.log("Error creating checkout session: ", error);
+    }
+  } else {
+    return { errorMessage: "Error occured while creating your order" };
+  }
+};
+
+export const createOrderAction = async ({ request }) => {
+  const formData = await request.formData();
+  const orderData = Object.fromEntries(formData);
+
+  return await submitCreateOrder(orderData);
+};
+
 const CartPage = () => {
   const cart = useLoaderData();
+  const data = useActionData();
   const [cartItems, setCartItems] = useState(cart.plants_details);
   const [totalItems, setTotalItems] = useState(
     cart.plants_details.reduce((acc, item) => acc + item.quantity, 0)
@@ -20,10 +56,14 @@ const CartPage = () => {
   );
 
   const handleDeleteItem = async (associationId) => {
-    const deletedItem = cartItems.filter(item => item.id === associationId)[0]
+    const deletedItem = cartItems.filter(
+      (item) => item.id === associationId
+    )[0];
 
-    setTotalItems((prevState) => prevState - deletedItem.quantity)
-    setTotalPrice((prevState) => prevState - deletedItem.plant.price * deletedItem.quantity)
+    setTotalItems((prevState) => prevState - deletedItem.quantity);
+    setTotalPrice(
+      (prevState) => prevState - deletedItem.plant.price * deletedItem.quantity
+    );
     setCartItems((prevState) =>
       prevState.filter((item) => item.id !== associationId)
     );
@@ -72,7 +112,21 @@ const CartPage = () => {
             <p className="cart__inner__body__result__total-price">
               Total price: ${totalPrice}
             </p>
-            <Button content="Order" />
+            <Form action={`/cart/${cart?.user_id}`} method="post">
+              <label htmlFor="cart">
+                <input
+                  className="form__input"
+                  type="hidden"
+                  name="cart"
+                  id="cart"
+                  value={JSON.stringify(cart)}
+                />
+              </label>
+              <Button content="Order" />
+            </Form>
+            {data?.errorMessage && (
+              <p className="form__error">{data.errorMessage}</p>
+            )}
           </div>
         </div>
       </div>
