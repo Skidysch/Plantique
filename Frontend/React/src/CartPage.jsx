@@ -8,7 +8,7 @@ import Button from "./components/Button";
 import { TrashCan } from "./components/SVG";
 import "./styles/CartPage.css";
 
-const stripePromise = loadStripe(process.env.STRIPE_PUBLISH);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISH);
 
 const submitCreateOrder = async (data) => {
   const requestOptions = { cart: JSON.parse(data.cart) };
