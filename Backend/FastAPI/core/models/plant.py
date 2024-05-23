@@ -4,12 +4,16 @@ from datetime import datetime
 from sqlalchemy import func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .base import Base
+from FastAPI.core.models.base import Base
 
 if TYPE_CHECKING:
-    from .category import Category
-    from .cart_plant_association import CartPlantAssociation
-    from .order_plant_association import OrderPlantAssociation
+    from FastAPI.core.models.category import Category
+    from FastAPI.core.models.cart_plant_association import (
+        CartPlantAssociation,
+    )
+    from FastAPI.core.models.order_plant_association import (
+        OrderPlantAssociation,
+    )
 
 
 class Plant(Base):
@@ -18,7 +22,6 @@ class Plant(Base):
     link: Mapped[str]
     description: Mapped[str]
     soil_type: Mapped[str]
-    # TODO: consider ways to store image_url in database
     image_url: Mapped[str]
     price: Mapped[float]
     stock_available: Mapped[bool] = mapped_column(

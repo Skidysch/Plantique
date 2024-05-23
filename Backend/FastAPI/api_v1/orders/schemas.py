@@ -1,8 +1,8 @@
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict
 
-from api_v1.carts.schemas import CartSchema
-from api_v1 import PlantRelationSchema, UserRelationSchema
+from FastAPI.api_v1.carts.schemas import CartSchema
+from FastAPI.api_v1 import PlantRelationSchema, UserRelationSchema
 
 
 class OrderPlantAssociationSchema(BaseModel):

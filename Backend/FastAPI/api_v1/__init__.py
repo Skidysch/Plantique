@@ -8,23 +8,23 @@ __all__ = (
 
 from fastapi import APIRouter
 
-from .relation_schemas import (
+from FastAPI.api_v1.relation_schemas import (
     CategoryRelationSchema,
     PlantRelationSchema,
     CartRelationSchema,
-    UserRelationSchema
+    UserRelationSchema,
 )
 
 # from .db_migration.script import router as migration_router
-from auth.views import router as auth_router
-from .carts.views import router as carts_router
-from .categories.views import router as categories_router
-from .collections.views import router as collections_router
-from .plants.views import router as plants_router
-from .profiles.views import router as profiles_router
-from .users.views import router as users_router
-from payment.views import router as payment_router
-from .orders.views import router as orders_router
+from FastAPI.auth.views import router as auth_router
+from FastAPI.api_v1.carts.views import router as carts_router
+from FastAPI.api_v1.categories.views import router as categories_router
+from FastAPI.api_v1.collections.views import router as collections_router
+from FastAPI.api_v1.plants.views import router as plants_router
+from FastAPI.api_v1.profiles.views import router as profiles_router
+from FastAPI.api_v1.users.views import router as users_router
+from FastAPI.payment.views import router as payment_router
+from FastAPI.api_v1.orders.views import router as orders_router
 
 router = APIRouter()
 # router.include_router(migration_router)

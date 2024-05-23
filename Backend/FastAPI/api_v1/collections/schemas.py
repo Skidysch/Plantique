@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
-from api_v1 import CategoryRelationSchema
+from FastAPI.api_v1 import CategoryRelationSchema
 
 
 class CollectionBase(BaseModel):

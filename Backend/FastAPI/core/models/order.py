@@ -4,11 +4,13 @@ from datetime import datetime
 from sqlalchemy import func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .base import Base
-from .mixins import UserRelationMixin
+from FastAPI.core.models.base import Base
+from FastAPI.core.models.mixins import UserRelationMixin
 
 if TYPE_CHECKING:
-    from .order_plant_association import OrderPlantAssociation
+    from FastAPI.core.models.order_plant_association import (
+        OrderPlantAssociation,
+    )
 
 
 class Order(Base, UserRelationMixin):

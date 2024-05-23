@@ -6,8 +6,8 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 import stripe
 
-from api_v1.orders.dependencies import order_by_id
-from core.models import db_helper, Order
+from FastAPI.api_v1.orders.dependencies import order_by_id
+from FastAPI.core.models import db_helper, Order
 
 
 router = APIRouter(
@@ -32,8 +32,8 @@ async def payment_process(
         session_data: dict[str, Any] = {
             "client_reference_id": order.id,
             "mode": "payment",
-            "success_url": "http://localhost:5173/payment/success",
-            "cancel_url": "http://localhost:5173/payment/cancel",
+            "success_url": "http://localhost/payment/success",
+            "cancel_url": "http://localhost/payment/cancel",
             "line_items": [],
         }
 

@@ -5,10 +5,10 @@ from fastapi.security import OAuth2PasswordBearer
 from jwt.exceptions import InvalidTokenError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from . import utils as auth_utils
-from core.models import User
-from core.models import db_helper
-from api_v1.users.crud import get_user
+from FastAPI.auth import utils as auth_utils
+from FastAPI.core.models import User
+from FastAPI.core.models import db_helper
+from FastAPI.api_v1.users.crud import get_user
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl="/api/v1/jwt/login",
@@ -55,11 +55,10 @@ async def get_current_token_payload(
         payload = auth_utils.decode_jwt(
             token=token,
         )
-    except InvalidTokenError as e:
+    except InvalidTokenError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            # TODO: delete e for production
-            detail=f"Invalid token: {e}",
+            detail="Invalid token",
         )
     return payload
 

@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from . import crud
-from .dependencies import cart_by_user_id, cart_by_association_id
-from .schemas import CartSchema, CartUpdate
-from core.models import Cart, db_helper
+from FastAPI.api_v1.carts import crud
+from FastAPI.api_v1.carts.dependencies import cart_by_user_id, cart_by_association_id
+from FastAPI.api_v1.carts.schemas import CartSchema, CartUpdate
+from FastAPI.core.models import Cart, db_helper
 
 router = APIRouter(prefix="/carts", tags=["Carts"])
 

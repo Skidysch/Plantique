@@ -7,9 +7,9 @@ from .dependencies import (
     get_current_auth_user_for_refresh,
     validate_auth_user,
 )
-from .schemas import TokenInfo
-from core.models import User
-from api_v1.users.schemas import UserSchema
+from FastAPI.auth.schemas import TokenInfo
+from FastAPI.core.models import User
+from FastAPI.api_v1.users.schemas import UserSchema
 
 http_bearer = HTTPBearer(auto_error=False)
 router = APIRouter(

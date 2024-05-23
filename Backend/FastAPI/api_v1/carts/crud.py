@@ -3,8 +3,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from .schemas import CartUpdate
-from core.models import Cart, CartPlantAssociation
+from FastAPI.api_v1.carts.schemas import CartUpdate
+from FastAPI.core.models import Cart, CartPlantAssociation
 
 
 async def get_user_cart(

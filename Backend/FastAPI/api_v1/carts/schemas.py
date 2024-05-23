@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 
-from api_v1 import PlantRelationSchema
+from FastAPI.api_v1 import PlantRelationSchema
 
 
 class CartPlantAssociationSchema(BaseModel):

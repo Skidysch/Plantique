@@ -3,12 +3,16 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
 
-from .schemas import UserCreate, UserUpdate, UserUpdatePartial
-from api_v1.carts.crud import create_user_cart
-from api_v1.profiles.crud import create_user_profile
-from api_v1.profiles.schemas import ProfileCreate
-from auth.utils import hash_password
-from core.models import User
+from FastAPI.api_v1.users.schemas import (
+    UserCreate,
+    UserUpdate,
+    UserUpdatePartial,
+)
+from FastAPI.api_v1.carts.crud import create_user_cart
+from FastAPI.api_v1.profiles.crud import create_user_profile
+from FastAPI.api_v1.profiles.schemas import ProfileCreate
+from FastAPI.auth.utils import hash_password
+from FastAPI.core.models import User
 
 
 async def get_users(

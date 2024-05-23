@@ -1,5 +1,3 @@
-__all__ = (
-    "CategorySchema",
-)
+__all__ = ("CategorySchema",)
 
-from .schemas import CategorySchema
+from FastAPI.api_v1.categories.schemas import CategorySchema

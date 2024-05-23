@@ -3,8 +3,8 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, Path, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .crud import get_user_cart
-from core.models import Cart, db_helper
+from FastAPI.api_v1.carts.crud import get_user_cart
+from FastAPI.core.models import Cart, db_helper
 
 
 async def cart_by_user_id(

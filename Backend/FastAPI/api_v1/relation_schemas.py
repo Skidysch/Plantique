@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from api_v1.profiles.schemas import ProfileSchema
+from FastAPI.api_v1.profiles.schemas import ProfileSchema
 
 
 class PlantRelationSchema(BaseModel):
@@ -10,7 +10,6 @@ class PlantRelationSchema(BaseModel):
     link: str
     description: str
     soil_type: str
-    # TODO: consider ways to store image_url in database
     image_url: str
     price: float
     stock_available: bool = False

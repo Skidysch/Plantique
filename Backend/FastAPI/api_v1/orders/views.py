@@ -4,9 +4,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from .dependencies import order_by_id
 
 
-from . import crud
-from api_v1.orders.schemas import OrderCreate, OrderSchema
-from core.models import db_helper, Order
+from FastAPI.api_v1.orders import crud
+from FastAPI.api_v1.orders.schemas import OrderCreate, OrderSchema
+from FastAPI.core.models import db_helper, Order
 
 
 router = APIRouter(prefix="/orders", tags=["Orders"])

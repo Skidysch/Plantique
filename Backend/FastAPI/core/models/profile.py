@@ -3,9 +3,8 @@ from datetime import date
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from .mixins import UserRelationMixin
-
-from .base import Base
+from FastAPI.core.models.base import Base
+from FastAPI.core.models.mixins import UserRelationMixin
 
 
 class Profile(Base, UserRelationMixin):

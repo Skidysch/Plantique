@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession,
 )
 
-from ..settings import settings
+from FastAPI.core.settings import settings
 
 
 class DatabaseHelper:
@@ -56,10 +56,14 @@ class DatabaseHelper:
 
 
 db_helper = DatabaseHelper(
-    url=settings.db.url,
+    url=settings.db.docker_url,
     echo=settings.db.echo,
 )
 
-db_helper_sqlite = DatabaseHelper(
-    url="sqlite+aiosqlite:///C:\\MySheat\\Coding\\Projects\\Plantique\\Backend\\FastAPI\\api_v1\\db_migration\\plantique.db",
+# db_helper_sqlite = DatabaseHelper(
+#     url=settings.db.sqlite_url,
+# )
+
+db_helper_local = DatabaseHelper(
+    url=settings.db.url,
 )

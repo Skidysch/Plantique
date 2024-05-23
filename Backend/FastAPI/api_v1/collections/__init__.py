@@ -1,5 +1,3 @@
-__all__ = (
-    "CollectionSchema",
-)
+__all__ = ("CollectionSchema",)
 
-from .schemas import CollectionSchema
+from FastAPI.api_v1.collections.schemas import CollectionSchema

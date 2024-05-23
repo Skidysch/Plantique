@@ -2,12 +2,12 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from .schemas import (
+from FastAPI.api_v1.collections.schemas import (
     CollectionCreate,
     CollectionUpdate,
     CollectionUpdatePartial,
 )
-from core.models import Collection
+from FastAPI.core.models import Collection
 
 
 async def get_collections(
@@ -49,10 +49,13 @@ async def create_collection(
     session: AsyncSession,
     collection_in: CollectionCreate,
 ) -> Collection:
-    collection = Collection(**collection_in.model_dump(), categories=[],)
+    collection = Collection(
+        **collection_in.model_dump(),
+        categories=[],
+    )
     session.add(collection)
     await session.commit()
-    await session.refresh(collection, ['categories'])
+    await session.refresh(collection, ["categories"])
 
     return collection
 

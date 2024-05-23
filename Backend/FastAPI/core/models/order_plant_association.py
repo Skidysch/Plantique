@@ -3,11 +3,11 @@ from typing import TYPE_CHECKING
 from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .base import Base
+from FastAPI.core.models.base import Base
 
 if TYPE_CHECKING:
-    from .plant import Plant
-    from .order import Order
+    from FastAPI.core.models.plant import Plant
+    from FastAPI.core.models.order import Order
 
 
 class OrderPlantAssociation(Base):

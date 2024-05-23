@@ -2,8 +2,12 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload, selectinload
 
-from .schemas import CategoryCreate, CategoryUpdate, CategoryUpdatePartial
-from core.models import Category
+from FastAPI.api_v1.categories.schemas import (
+    CategoryCreate,
+    CategoryUpdate,
+    CategoryUpdatePartial,
+)
+from FastAPI.core.models import Category
 
 
 async def get_categories(

@@ -2,8 +2,12 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from .schemas import PlantCreate, PlantUpdate, PlantUpdatePartial
-from core.models import Plant, Category
+from FastAPI.api_v1.plants.schemas import (
+    PlantCreate,
+    PlantUpdate,
+    PlantUpdatePartial,
+)
+from FastAPI.core.models import Plant, Category
 
 
 async def get_plants(

@@ -3,8 +3,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api_v1 import router as router_v1
-from core.settings import settings
+from FastAPI.api_v1 import router as router_v1
+from FastAPI.core.settings import settings
 
 
 @asynccontextmanager
@@ -21,6 +21,7 @@ app = FastAPI(lifespan=lifespan)
 app.include_router(router_v1, prefix=settings.api_v1_prefix)
 
 origins = [
+    "http://localhost",
     "http://localhost:5173",
 ]
 

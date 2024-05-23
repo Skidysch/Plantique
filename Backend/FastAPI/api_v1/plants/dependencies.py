@@ -3,8 +3,8 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, Path, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from . import crud
-from core.models import db_helper, Plant
+from FastAPI.api_v1.plants import crud
+from FastAPI.core.models import db_helper, Plant
 
 
 async def plant_by_id(

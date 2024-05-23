@@ -1,10 +1,13 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from . import crud
-from core.models import db_helper, Collection
-from .dependencies import collection_by_id, collection_by_slug
-from .schemas import (
+from FastAPI.api_v1.collections import crud
+from FastAPI.core.models import db_helper, Collection
+from FastAPI.api_v1.collections.dependencies import (
+    collection_by_id,
+    collection_by_slug,
+)
+from FastAPI.api_v1.collections.schemas import (
     CollectionSchema,
     CollectionCreate,
     CollectionUpdate,

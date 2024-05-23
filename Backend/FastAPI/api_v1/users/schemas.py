@@ -3,8 +3,8 @@ from typing import Annotated
 from annotated_types import MaxLen, MinLen
 from pydantic import BaseModel, ConfigDict, EmailStr
 
-from api_v1 import CartRelationSchema
-from api_v1.profiles.schemas import ProfileSchema
+from FastAPI.api_v1 import CartRelationSchema
+from FastAPI.api_v1.profiles.schemas import ProfileSchema
 
 
 class UserBase(BaseModel):

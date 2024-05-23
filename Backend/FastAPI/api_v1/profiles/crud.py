@@ -1,18 +1,19 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .schemas import ProfileCreate, ProfileUpdate, ProfileUpdatePartial
-from core.models import Profile
+from FastAPI.api_v1.profiles.schemas import (
+    ProfileCreate,
+    ProfileUpdate,
+    ProfileUpdatePartial,
+)
+from FastAPI.core.models import Profile
 
 
 async def get_user_profile(
     session: AsyncSession,
     user_id: int,
 ) -> Profile | None:
-    query = (
-        select(Profile)
-        .where(Profile.user_id == user_id)
-    )
+    query = select(Profile).where(Profile.user_id == user_id)
     profile: Profile | None = await session.scalar(query)
     return profile
 

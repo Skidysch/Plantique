@@ -1,10 +1,18 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from . import crud
-from core.models import db_helper, Plant
-from .dependencies import plant_by_id, plant_by_slug
-from .schemas import PlantSchema, PlantCreate, PlantUpdate, PlantUpdatePartial
+from FastAPI.api_v1.plants import crud
+from FastAPI.core.models import db_helper, Plant
+from FastAPI.api_v1.plants.dependencies import (
+    plant_by_id,
+    plant_by_slug,
+)
+from FastAPI.api_v1.plants.schemas import (
+    PlantSchema,
+    PlantCreate,
+    PlantUpdate,
+    PlantUpdatePartial,
+)
 
 router = APIRouter(prefix="/plants", tags=["Plants"])
 

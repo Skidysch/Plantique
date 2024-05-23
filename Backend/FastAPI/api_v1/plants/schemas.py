@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
-from api_v1 import CategoryRelationSchema
+from FastAPI.api_v1 import CategoryRelationSchema
 
 
 class PlantBase(BaseModel):
@@ -11,7 +11,6 @@ class PlantBase(BaseModel):
     link: str
     description: str
     soil_type: str
-    # TODO: consider ways to store image_url in database
     image_url: str
     price: float
     stock_available: bool = False

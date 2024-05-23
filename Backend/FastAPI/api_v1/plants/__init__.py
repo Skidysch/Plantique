@@ -1,5 +1,3 @@
-__all__ = (
-    "PlantSchema",
-)
+__all__ = ("PlantSchema",)
 
-from .schemas import PlantSchema
+from FastAPI.api_v1.plants.schemas import PlantSchema

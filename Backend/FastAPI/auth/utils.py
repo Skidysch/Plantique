@@ -6,8 +6,8 @@ import bcrypt
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 
-from core.models import User
-from core.settings import settings
+from FastAPI.core.models import User
+from FastAPI.core.settings import settings
 
 
 oauth2_scheme = OAuth2PasswordBearer(

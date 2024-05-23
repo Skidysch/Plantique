@@ -2,8 +2,14 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
 
-from .schemas import OrderCreate
-from core.models import Order, OrderPlantAssociation, User
+from FastAPI.api_v1.orders.schemas import OrderCreate
+from FastAPI.api_v1.carts.dependencies import cart_by_user_id
+from FastAPI.core.models import (
+    Cart,
+    Order,
+    OrderPlantAssociation,
+    User,
+)
 
 
 async def get_orders(
@@ -30,6 +36,10 @@ async def create_order(
     order_in: OrderCreate,
     session: AsyncSession,
 ):
+    cart: Cart = await cart_by_user_id(
+        user_id=order_in.cart.user_id,
+        session=session,
+    )
     order = Order(user_id=order_in.cart.user_id)
     session.add(order)
     await session.commit()
@@ -44,6 +54,8 @@ async def create_order(
         session.add(association)
         await session.commit()
 
+    await cart.clear(session=session)
+
     return {"order_id": order.id}
 
 
@@ -55,7 +67,9 @@ async def get_order(
         select(Order)
         .where(Order.id == order_id)
         .options(
-            selectinload(Order.plants_details).joinedload(OrderPlantAssociation.plant),
+            selectinload(Order.plants_details).joinedload(
+                OrderPlantAssociation.plant,
+            ),
             joinedload(Order.user).joinedload(User.profile),
             joinedload(Order.user).joinedload(User.cart),
         )

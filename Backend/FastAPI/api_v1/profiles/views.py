@@ -1,10 +1,14 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .dependencies import profile_by_user_id
-from .schemas import ProfileCreate, ProfileSchema, ProfileUpdatePartial
-from api_v1.profiles import crud
-from core.models import db_helper, Profile
+from FastAPI.api_v1.profiles.dependencies import profile_by_user_id
+from FastAPI.api_v1.profiles.schemas import (
+    ProfileCreate,
+    ProfileSchema,
+    ProfileUpdatePartial,
+)
+from FastAPI.api_v1.profiles import crud
+from FastAPI.core.models import db_helper, Profile
 
 
 router = APIRouter(prefix="/profiles", tags=["Profiles"])
@@ -56,7 +60,7 @@ async def update_profile_partial(
     "/{user_id}",
     status_code=status.HTTP_204_NO_CONTENT,
 )
-async def delete_user(
+async def delete_profile(
     profile: Profile = Depends(profile_by_user_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ) -> None:

@@ -3,12 +3,12 @@ from typing import TYPE_CHECKING
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .base import Base
+from FastAPI.core.models.base import Base
 
 if TYPE_CHECKING:
-    from .profile import Profile
-    from .cart import Cart
-    from .order import Order
+    from FastAPI.core.models.profile import Profile
+    from FastAPI.core.models.cart import Cart
+    from FastAPI.core.models.order import Order
 
 
 class User(Base):

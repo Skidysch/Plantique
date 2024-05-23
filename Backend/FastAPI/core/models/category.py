@@ -4,11 +4,11 @@ from datetime import datetime
 from sqlalchemy import ForeignKey, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .base import Base
+from FastAPI.core.models.base import Base
 
 if TYPE_CHECKING:
-    from .collection import Collection
-    from .plant import Plant
+    from FastAPI.core.models.collection import Collection
+    from FastAPI.core.models.plant import Plant
 
 
 class Category(Base):
@@ -18,7 +18,6 @@ class Category(Base):
     slug: Mapped[str]
     link: Mapped[str]
     description: Mapped[str]
-    # TODO: consider ways to store image_url in database
     image_url: Mapped[str]
     created_at: Mapped[datetime] = mapped_column(
         default=datetime.now,

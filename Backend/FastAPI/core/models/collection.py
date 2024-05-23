@@ -4,10 +4,10 @@ from datetime import datetime
 from sqlalchemy import func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .base import Base
+from FastAPI.core.models.base import Base
 
 if TYPE_CHECKING:
-    from .category import Category
+    from FastAPI.core.models.category import Category
 
 
 class Collection(Base):
