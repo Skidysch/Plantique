@@ -3,18 +3,15 @@ from pathlib import Path
 
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
-from dotenv import load_dotenv
 
 # Backend folder path
-load_dotenv()
 BASE_DIR = Path(__file__).parent.parent.parent
 
 
 class DbSettings(BaseModel):
-    url: str = (
-        "postgresql+asyncpg://"
-        "postgres:43231323:Postgres:2311345@localhost:5432/PlantiqueDB"
-    )
+    url: str = os.getenv("DB_URL") or ""
+    sqlite_url: str = os.getenv("DB_SQLITE_URL") or ""
+    docker_url: str = os.environ.get("DB_DOCKER_URL") or ""
     # Only debug mode could be set for True!
     echo: bool = False
 
