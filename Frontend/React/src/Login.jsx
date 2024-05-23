@@ -7,25 +7,21 @@ import { UserContext } from "./context/UserContext";
 import instance from "./api/axios";
 
 const submitLogin = async (data) => {
-  const requestOptions = JSON.stringify(
+  const requestData = JSON.stringify(
     `grant_type=&username=${data.username}&password=${data.password}&scope=&client_id=&client_secret=`
   );
 
-  const response = await instance.post(
-    "/jwt/login",
-    requestOptions,
-    {
+  try {
+    const res = await instance.post("/jwt/login", requestData, {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    }
-  );
-  const responseData = await response.data;
-
-  if (response.status !== 200) {
-    return { errorMessage: responseData.detail };
-  } else {
+    });
     return {
-      successMessage: "Successfuly logged in",
-      access_token: responseData.access_token,
+      successMessage: "Successfully logged in",
+      accessToken: res.data.access_token,
+    };
+  } catch (err) {
+    return {
+      errorMessage: err.response?.data?.detail,
     };
   }
 };
@@ -34,7 +30,20 @@ export async function action({ request }) {
   const formData = await request.formData();
   const loginData = Object.fromEntries(formData);
 
-  return await submitLogin(loginData);
+  const result = await submitLogin(loginData);
+
+  if (result.errorMessage) {
+    return {
+      status: "error",
+      errorMessage: result.errorMessage,
+    };
+  } else {
+    return {
+      status: "success",
+      successMessage: result.successMessage,
+      accessToken: result.accessToken,
+    };
+  }
 }
 
 export default function Login() {
@@ -43,9 +52,9 @@ export default function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (data?.access_token) {
-      localStorage.setItem("authToken", data.access_token);
-      setToken(data.access_token);
+    if (data?.status === "success") {
+      localStorage.setItem("authToken", data.accessToken);
+      setToken(data.accessToken);
       setTimeout(() => {
         navigate("/profile");
       }, 1000);
@@ -82,8 +91,8 @@ export default function Login() {
           {data?.errorMessage && (
             <p className="form__error">{data.errorMessage}</p>
           )}
-          <div className="form__btn" type="submit">
-            <Button content={"Log in"} btnDark={true} />
+          <div className="form__btn">
+            <Button content={"Log in"} type="submit" btnDark={true} />
           </div>
         </div>
         <div className="register-forgot">

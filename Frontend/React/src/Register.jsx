@@ -13,14 +13,30 @@ const submitRegistration = async (data) => {
     password: data.password,
   });
 
-  const response = await instance.post("/users", requestData);
+  try {
+    const registrationRes = await instance.post("/users", requestData, {
+      headers: { "Content-Type": "application/json" },
+    });
 
-  if (response.statusText !== "OK") {
-    return { errorMessage: response.data.detail };
-  } else {
+    if (registrationRes.status !== 201) {
+      throw new Error("User registration failed");
+    }
+
+    const loginData = JSON.stringify(
+      `grant_type=&username=${data.username}&password=${data.password}&scope=&client_id=&client_secret=`
+    );
+
+    const loginRes = await instance.post("/jwt/login", loginData, {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
+
     return {
       successMessage: "Registration successful",
-      access_token: response.data.access_token,
+      accessToken: loginRes?.data.access_token,
+    };
+  } catch (err) {
+    return {
+      errorMessage: err.response?.data?.detail,
     };
   }
 };
@@ -38,7 +54,20 @@ export async function action({ request }) {
     registerData.password === registerData.passwordRepeat &&
     registerData.password.length > 5
   ) {
-    return await submitRegistration(registerData);
+    const result = await submitRegistration(registerData);
+
+    if (result.errorMessage) {
+      return {
+        status: "error",
+        errorMessage: result.errorMessage,
+      };
+    } else {
+      return {
+        status: "success",
+        successMessage: result.successMessage,
+        accessToken: result.accessToken,
+      };
+    }
   } else {
     return {
       passwordError:
@@ -53,8 +82,9 @@ export default function Register() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (data?.access_token) {
-      setToken(data.access_token);
+    if (data?.status === "success") {
+      localStorage.setItem("authToken", data.accessToken);
+      setToken(data.accessToken);
       setTimeout(() => {
         navigate("/profile");
       }, 1000);
@@ -110,17 +140,17 @@ export default function Register() {
               placeholder="Repeat password"
             />
           </label>
-          {data?.errorMessage && (
-            <p className="form__error">{data.errorMessage}</p>
-          )}
           {data?.passwordError && (
             <p className="form__error">{data.passwordError}</p>
+          )}
+          {data?.errorMessage && (
+            <p className="form__error">{data.errorMessage}</p>
           )}
           {data?.successMessage && (
             <p className="form__success">{data.successMessage}</p>
           )}
-          <div className="form__btn" type="submit">
-            <Button content={"Sign in"} btnDark={true} />
+          <div className="form__btn">
+            <Button content={"Sign in"} type="submit" btnDark={true} />
           </div>
         </div>
         <div className="register-forgot">
