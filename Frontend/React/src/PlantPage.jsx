@@ -7,9 +7,7 @@ import { UserContext } from "./context/UserContext";
 import instance from "./api/axios";
 
 const submitForm = async (data) => {
-  const requestData = {
-    body: JSON.stringify({ quantity: data.quantity }),
-  };
+  const requestData = JSON.stringify({ quantity: data.quantity });
 
   const response = await instance.post(
     `/carts/id/${data.userId}/add/${data.plantId}`,

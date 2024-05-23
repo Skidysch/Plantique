@@ -42,6 +42,7 @@ export const createOrderAction = async ({ request }) => {
 };
 
 const CartPage = () => {
+  // TODO: Figure out why last item deletion brokes total numbers.
   const cart = useLoaderData();
   const data = useActionData();
   const [cartItems, setCartItems] = useState(cart.plants_details);

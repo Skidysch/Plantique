@@ -29,8 +29,6 @@ import PaymentResultPage from "./PaymentResultPage";
 import PaymentSuccess from "./components/PaymentSuccess";
 import PaymentCancel from "./components/PaymentCancel";
 
-// TODO: learn to manage state with Redux, so I'll be able to optimise forms with redirect on actions.
-
 const router = createBrowserRouter([
   {
     path: "/",

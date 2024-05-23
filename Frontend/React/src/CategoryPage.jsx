@@ -1,7 +1,6 @@
-import React from "react";
 import { useLoaderData } from "react-router-dom";
 
-import "./styles/categoryPage.css";
+import "./styles/CategoryPage.css";
 import PlantCard from "./components/PlantCard";
 
 export default function CategoryPage() {

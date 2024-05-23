@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 export default function FilterCollections({ collections }) {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
-    filterCategoriesByCollection(collections[0].id).then((result) =>
+    filterCategoriesByCollection(collections[0]?.id).then((result) =>
       setCategories(result)
     );
   }, []);
